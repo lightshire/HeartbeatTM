@@ -1,0 +1,163 @@
+body {
+	background: url('../images/heartbeat-wider.png') no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center;
+	overflow: hidden;
+}
+
+a {
+	text-decoration: none;
+}
+
+.out-container {
+	margin: auto;
+	width: 100%;
+	min-height: 1110px;
+	background: url('../images/heart-overlay.png') no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: 1400px;
+}
+
+.header-maincontainer {
+	height: 30%;
+}
+
+.header-container {
+	width: 80%;
+	margin: 0 auto;
+	height: auto;
+}
+
+.header-left {
+	float: left;
+	margin: 10px 0;
+}
+
+.header-right {
+	float: right;
+	margin: 10px 0;
+}
+
+#logo {
+	width: 230px;
+}
+
+#pby-freedom {
+	display: block;
+	margin: 10px 0;
+	width: 100%;
+}
+
+.socialicons {
+	background: url('../images/connect-buttons.png') no-repeat;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	margin: 0 5px;
+}
+
+#social-fb {background-position: -41px top;}
+#social-yt {background-position: -82px top;}
+#social-mail {background-position: -124px top;}
+
+
+.content-maincontainer {
+	margin: 0;
+}
+
+.content-container {
+	margin: 0;
+	text-align: center;
+}
+
+.heartbeat {
+	display: inline-block;
+	margin: 10% 38% 0%;
+	width: 400px;
+	height: 400px;
+}
+
+.circle {
+  	border-radius: 50%;
+	width: 100%;
+	height: 100%; 
+    background: #bf2e2e; 
+    animation:beat 0.8s infinite;
+    -webkit-animation:beat 0.8s infinite; /* Safari and Chrome */
+}
+
+.heart {
+	position: relative;
+	top: -265px;
+	left: 100px;
+	width: 200px;
+	height: 200px;
+}
+
+@keyframes beat {
+0%   {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+25%  {transform: scale(1,1); -ms-transform: scale(1,1); -webkit-transform: scale(1,1); }
+50%  {transform: scale(0.8,0.8);-ms-transform: scale(0.8,0.8);-webkit-transform: scale(0.8,0.8);}
+75%  {transform: scale(1,);-ms-transform: scale(1,);-webkit-transform: scale(1,);}
+100% {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+}
+
+@-webkit-keyframes beat /* Safari and Chrome */ {
+0%   {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+25%  {transform: scale(1,1); -ms-transform: scale(1,1); -webkit-transform: scale(1,1); }
+50%  {transform: scale(0.8,0.8);-ms-transform: scale(0.8,0.8);-webkit-transform: scale(0.8,0.8);}
+75%  {transform: scale(1,);-ms-transform: scale(1,);-webkit-transform: scale(1,);}
+100% {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+}
+
+
+#getappbtn {
+	background: url('../images/chrome-logo.png') no-repeat;
+	background-color: #cb3737;
+	background-position: 15px 9px;
+	background-size: 43px;
+	border: none;
+	width: 355px;
+	border-radius: 7px;
+	text-indent: 40px;
+	text-transform: uppercase;
+	color: #eaeaea;
+	font-family: 'Montserrat';
+	font-size: 18px;
+	padding: 20px 15px;
+	text-shadow: -1px -2px 2px #777;
+}
+
+#page-text {
+	margin-top: -125px;
+}
+
+#page-text p {
+	color: #fff;
+	margin: 25px auto;
+	width: 520px;
+	font-size: 24px;
+	font-family: 'Raleway';
+}
+
+#ravengwapo{
+	width: 50%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top :0;
+	border-right: 1px solid green;
+	z-index: 99999;
+}
+
+#ravengwapopramis{
+	width: 100%;
+	height: 50%;
+	position: fixed;
+	left: 0;
+	top :0;
+	border-bottom: 1px solid green;
+	z-index: 99999;
+}
