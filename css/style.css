@@ -4,6 +4,7 @@ body {
 	background-attachment: fixed;
 	background-position: center;
 	overflow: hidden;
+	margin: 0;
 }
 
 a {
@@ -13,11 +14,11 @@ a {
 .out-container {
 	margin: auto;
 	width: 100%;
-	min-height: 1110px;
+	min-height: 1200px;
 	background: url('../images/heart-overlay.png') no-repeat;
 	background-position: center;
 	background-attachment: fixed;
-	background-size: 1400px;
+	background-size: 100%;
 }
 
 .header-maincontainer {
@@ -70,13 +71,27 @@ a {
 .content-container {
 	margin: 0;
 	text-align: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.content-center {
+	text-align: center;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 490px;
+	width: 505px;
 }
 
 .heartbeat {
-	display: inline-block;
-	margin: 10% 38% 0%;
-	width: 400px;
-	height: 400px;
+	width: 300px;
+	height: 300px;
+	margin: auto;
 }
 
 .circle {
@@ -90,10 +105,10 @@ a {
 
 .heart {
 	position: relative;
-	top: -265px;
-	left: 100px;
-	width: 200px;
-	height: 200px;
+	top: -204px;
+	left: 75px;
+	width: 150px;
+	height: 150px;
 }
 
 @keyframes beat {
@@ -128,10 +143,6 @@ a {
 	font-size: 18px;
 	padding: 20px 15px;
 	text-shadow: -1px -2px 2px #777;
-}
-
-#page-text {
-	margin-top: -125px;
 }
 
 #page-text p {
