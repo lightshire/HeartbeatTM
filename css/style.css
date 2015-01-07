@@ -23,6 +23,8 @@ a {
 
 .header-maincontainer {
 	height: 30%;
+	z-index: 99999999999999;
+	position: relative;
 }
 
 .header-container {
