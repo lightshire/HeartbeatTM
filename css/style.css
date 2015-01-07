@@ -135,6 +135,7 @@ a {
 	background-color: #cb3737;
 	background-position: 15px 9px;
 	background-size: 43px;
+	cursor: pointer;
 	border: none;
 	width: 355px;
 	border-radius: 7px;
