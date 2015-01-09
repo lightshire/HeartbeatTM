@@ -196,7 +196,7 @@ a {
 }
 
 #intro-logo {
-	width: 200px;
+	/*width: 200px;*/
 }
 
 .intro-header-right {
@@ -206,12 +206,12 @@ a {
 }
 
 #intro-poweredby-freedom {
-	width: 125px;
+	/*width: 125px;*/
 }
 
 .intro-content-maincontainer {
 	color: #d73d32;
-	padding-bottom: 120px;
+	padding-bottom: 55px;
 }
 
 .intro-content-top {
@@ -223,6 +223,10 @@ a {
 .intro-content-top p {
 	font-family: 'ProximaNova-Regular';
 	margin: auto;
+}
+
+.intro-content-top strong {
+	font-family: 'ProximaNova-Bold';
 }
 
 .intro-content-top p:nth-of-type(1) {
@@ -254,8 +258,9 @@ a {
 
 .features-txt p {
 	font-family: 'ProximaNova-Regular';
+	font-size: 14px;	
 	margin: auto;
-	padding: 15px 0;
+	padding: 15px 30px;	
 }
 
 .getcontent-maincontainer {
@@ -331,8 +336,14 @@ a {
 	margin: 8px 0;
 }
 
+.footer-container {
+	padding: 30px 0;
+}
+
 .footer-container p {
 	font-family: 'ProximaNova-Regular';
+	font-size: 14px;
+	color: #616161;
 }
 
 /*Intro Page END*/
