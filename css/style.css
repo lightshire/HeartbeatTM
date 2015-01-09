@@ -232,6 +232,7 @@ a {
 .intro-content-top p:nth-of-type(1) {
 	font-family: 'ProximaNova-Bold';
 	font-size: 55px;
+	margin-bottom: 10px;
 }
 
 .intro-content-mid {
