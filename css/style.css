@@ -1,9 +1,20 @@
+@font-face {
+	font-family: ProximaNova-Regular;
+	src: url("fonts/ProximaNova-Regular.otf") format("opentype");
+}
+
+@font-face {
+	font-family: ProximaNova-Bold;
+	src: url("fonts/ProximaNova-Bold.otf") format("opentype");
+}
+
 body {
 	background: url('../images/heartbeat-wider.png') no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
 	background-position: center;
 	overflow: hidden;
+	background-color: #fff;
 	margin: 0;
 }
 
@@ -155,6 +166,177 @@ a {
 	font-size: 24px;
 	font-family: 'Raleway';
 }
+
+/*Intro Page START*/
+
+.intro-out-container {
+	width: 100%;
+}
+
+.intro-main-container {
+	width: 1025px;
+	margin: auto;
+}
+
+.intro-header-maincontainer {
+	border-bottom: 1px solid #d73d32;
+}
+
+.intro-header-container {
+	width: 1025px;
+/*	width: 100%;*/
+	margin: 0 auto;
+	height: auto;
+}
+
+.intro-header-left {
+	display: inline-block;
+	margin: 10px 0;
+	width: 82%;
+}
+
+#intro-logo {
+	width: 200px;
+}
+
+.intro-header-right {
+	display: inline-block;
+	margin: 10px 0;
+	width: 15%;
+}
+
+#intro-poweredby-freedom {
+	width: 125px;
+}
+
+.intro-content-maincontainer {
+	color: #d73d32;
+	padding-bottom: 120px;
+}
+
+.intro-content-top {
+	text-align: center;
+	width: 100%;
+	padding: 55px 0;
+}
+
+.intro-content-top p {
+	font-family: 'ProximaNova-Regular';
+	margin: auto;
+}
+
+.intro-content-top p:nth-of-type(1) {
+	font-family: 'ProximaNova-Bold';
+	font-size: 55px;
+}
+
+.intro-content-mid {
+	text-align: center;
+	width: 100%;
+}
+
+.features-container {
+	display: inline-block;
+	width: 30%;
+	height: 200px;
+	padding: 10px;
+	vertical-align: top;
+}
+
+.features-img {
+	margin: auto;
+}
+
+.features-txt {
+	text-align: center;
+	width: 100%;
+}
+
+.features-txt p {
+	font-family: 'ProximaNova-Regular';
+	margin: auto;
+	padding: 15px 0;
+}
+
+.getcontent-maincontainer {
+	color: #fff;
+	font-family: 'ProximaNova-Bold';
+	width: 100%;
+	background: #d73d32;
+	padding: 25px 0;
+}
+
+.intro-content-bottom {
+	text-align: center;
+	width: 100%;
+}
+
+.intro-content-bottom div {
+	display: inline-block;
+}
+
+.content-get p {
+	font-size: 25px;
+}
+
+.content-get span {
+	font-family: 'ProximaNova-Regular';
+}
+
+.content-getbtn {
+	border: 3px solid #fff;
+	border-radius: 50px;
+	width: 175px;
+	margin-left: 25px;
+	cursor: pointer;
+} 
+
+.content-getbtn img, .content-getbtn p {
+	display: inline-block;
+	font-size: 20px;
+	margin: 7px 0;
+	color: #fff;
+}
+
+#heart {
+	vertical-align: middle;
+}
+
+.footer-maincontainer {
+	width: 100%;
+	color: #616161;
+}
+
+.getcontent-container, .footer-container {
+	width: 1025px;
+	text-align: center;
+	margin: auto;
+}
+
+.intro-content-mid div:nth-of-type(n+6) {
+	display: none;
+}
+
+#showmorebtn {
+	border: 3px solid #d73d32;
+	border-radius: 50px;
+	width: 150px;
+	margin: auto;
+	cursor: pointer;
+} 
+
+#showmorebtn p {
+	font-family: 'ProximaNova-Bold';
+	font-size: 20px;
+	margin: 8px 0;
+}
+
+.footer-container p {
+	font-family: 'ProximaNova-Regular';
+}
+
+/*Intro Page END*/
+
 
 #ravengwapo{
 	width: 50%;
