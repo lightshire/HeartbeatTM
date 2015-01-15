@@ -15,6 +15,7 @@ body {
 	background-position: center;
 	overflow: hidden;
 	background-color: #fff;
+	font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif;
 	margin: 0;
 }
 
@@ -248,9 +249,51 @@ a {
 	vertical-align: top;
 }
 
+/*Begin Sugoi*/
+
 .features-img {
-	margin: auto;
+	width: 302px;
+	height: 162px;
+	overflow: hidden;
 }
+
+.caption {
+	color: #fff;
+	font-family: 'ProximaNova-Bold', Arial, Helvetica, sans-serif;
+	width: 302px;
+	height: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: rgba(0,0,0,0.8);
+	z-index: 2;
+	font-weight: 300;
+	transition: all .5s;
+	cursor: pointer;
+}
+
+.caption a {
+	color: #ffffff;
+}
+
+.caption i {
+	margin-right: 10px;
+}
+
+.caption-trans {
+  transform: translateY(162px);
+}
+
+.features-img:hover .img-hover {
+  opacity: .8;
+  -webkit-transform: translateY(-50%) translateY(0px);  
+  transform: translateY(-50%) translateY(0px);
+}
+.features-img:hover .caption-trans {
+  -webkit-transform: translateY(-37px);  
+  transform: translateY(-37px);
+}
+
+/*End Sugoi*/
 
 .features-txt {
 	text-align: center;
