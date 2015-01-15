@@ -280,6 +280,7 @@ a {
 }
 
 .caption-trans {
+  -webkit-transform: translateY(162px);	
   transform: translateY(162px);
 }
 
