@@ -1,0 +1,267 @@
+/* iPhone 5 landscape */
+@media (min-width: 568px) and (max-width: 599px) {
+	#logo {
+		width: 180px;
+	}
+
+	#pby-freedom {
+		width: 85%;
+	}
+
+	.socialicons {
+		width: 20px;
+		height: 20px;
+		margin: 0 4px;
+		background-size: 123px;
+	}
+
+	#social-fb {
+		background-position: -34px top;
+	}
+
+	#social-yt {
+		background-position: -68px top;
+	}
+
+	#social-mail {
+		background-position: -103px top;
+	}
+
+	.out-container {
+		min-height: 950px;
+	}
+
+	.heartbeat {
+		width: 150px;
+		height: 150px;
+		margin: 6% 36.5% 0%;
+	}
+
+	.heart {
+		top: -104px;
+		left: 39px;
+		width: 75px;
+		height: 75px;
+	}
+
+	#page-text p {
+		margin: 5px auto;
+		width: 405px;
+		font-size: 18px;
+	}
+
+	#getappbtn {
+		background-size: 30px;
+		width: 285px;
+		font-size: 15px;
+		padding: 15px 15px;
+	}
+}
+
+/* Android (Nexus 4) landscape */
+@media (min-width: 600px) and (max-width: 666px) {
+	#logo {
+		width: 180px;
+	}
+
+	#pby-freedom {
+		width: 85%;
+	}
+
+	.socialicons {
+		width: 20px;
+		height: 20px;
+		margin: 0 4px;
+		background-size: 123px;
+	}
+
+	#social-fb {
+		background-position: -34px top;
+	}
+
+	#social-yt {
+		background-position: -68px top;
+	}
+
+	#social-mail {
+		background-position: -103px top;
+	}
+
+	.out-container {
+		min-height: 950px;
+	}
+
+	.heartbeat {
+		width: 200px;
+		height: 200px;
+		margin: 10% 33% 0%;
+	}
+
+	.heart {
+		top: -136px;
+		left: 51px;
+		width: 100px;
+		height: 100px;
+	}
+
+	#page-text p {
+		margin: 5px auto;
+		width: 405px;
+		font-size: 18px;
+	}
+
+	#getappbtn {
+		background-size: 30px;
+		width: 285px;
+		font-size: 15px;
+		padding: 15px 15px;
+	}
+}
+
+/* iPhone 6 landscape */
+@media (min-width: 667px) and (max-width: 735px) {
+	.out-container {
+		min-height: 950px;
+	}
+
+	.heartbeat {
+		width: 200px;
+		height: 200px;
+		margin: 6% 35% 0%;
+	}
+
+	.heart {
+		position: relative;
+		top: -138px;
+		left: 51px;
+		width: 100px;
+		height: 100px;
+	}
+
+	#page-text p {
+		margin: 5px auto;
+		width: 405px;
+		font-size: 18px;
+	}
+
+	#getappbtn {
+		background-size: 30px;
+		width: 285px;
+		font-size: 15px;
+		padding: 15px 15px;
+	}
+}
+
+/* iPhone 6 Plump landscape */
+@media (min-width: 736px) and (max-width: 767px) {
+	.out-container {
+		min-height: 950px;
+	}
+
+	.heartbeat {
+		width: 250px;
+		height: 250px;
+		margin: 5% 33% 0%;
+	}
+
+	.heart {
+		position: relative;
+		top: -163px;
+		left: 77px;
+		width: 100px;
+		height: 100px;
+	}
+
+	#page-text p {
+		margin: 5px auto;
+		width: 405px;
+		font-size: 18px;
+	}
+
+	#getappbtn {
+		background-size: 30px;
+		width: 285px;
+		font-size: 15px;
+		padding: 15px 15px;
+	}
+}
+
+/* iPad portrait */
+@media (min-width: 768px) and (max-width: 1023px) {
+	.out-container {
+		min-height: 950px;
+	}
+
+	.heartbeat {
+		width: 250px;
+		height: 250px;
+		margin: 45% 33.5% 0%;
+	}
+
+	.heart {
+		position: relative;
+		top: -163px;
+		left: 77px;
+		width: 100px;
+		height: 100px;
+	}
+
+	#page-text p {
+		margin: 0px auto 10px;
+	}
+}
+
+/* iPad landscape */
+@media only screen and (min-width: 1024px) and (max-width: 1024px) {
+
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+	.header-maincontainer {
+		height: 30%;
+	}
+
+	.header-container {
+		width: 80%;
+	}
+
+	#logo {
+		width: 230px;
+	}
+
+	.socialicons {
+		width: 30px;
+		height: 30px;
+	}
+
+	.heartbeat {
+		width: 300px;
+		height: 300px;
+		margin: auto;
+	}
+
+	.heart {
+		top: -204px;
+		left: 75px;
+		width: 150px;
+		height: 150px;
+	}
+
+	#getappbtn {
+		background-position: 15px 9px;
+		background-size: 43px;
+		width: 355px;
+		border-radius: 7px;
+		text-indent: 40px;
+		font-size: 18px;
+		padding: 20px 15px;
+		text-shadow: -1px -2px 2px #777;
+	}
+
+	#page-text p {
+		margin: 25px auto;
+		width: 520px;
+		font-size: 24px;
+	}
+}
