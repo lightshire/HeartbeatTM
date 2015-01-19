@@ -28,7 +28,10 @@
     </head>
     <body>
         <div id="app-container">
-            <iframe id="frame" src="http://freedom-heartbeat.meteor.com"></iframe>
+            <iframe id="frame"></iframe>
         </div>
+        <script type="text/javscript">
+            document.getElementById('iframe').src = 'http://freedom-heartbeat.meteor.com/videoId/' + location.hash.slice(1);
+        </script>
     </body>
 </html>
