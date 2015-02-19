@@ -5,7 +5,9 @@ $(function() {
     var videoId = window.htbt.util.getVideoId(window.location.href),
         getCommentatorsUrl = window.htbt.config.backend +
             '/get_comment_authors?video_id=' + videoId,
-        pickButton;
+        pickButton,
+        elements = [],
+        highlighted;
 
     $.getJSON(getCommentatorsUrl, handleCommentators);
 
@@ -22,20 +24,23 @@ $(function() {
     function displayCommentators(commentators) {
         pickButton = $('<button id="pick-one"></button>')
             .attr('class', 'pure-button pure-button-primary')
-            .html('Lets pick one!');
+            .html('Pick a winner!');
 
         $('#commentators').append($('<div id="header"></div>')
-            .html('<span id="taunt">You have got ' + commentators.length + ' commentators</span>')
-            .append(pickButton));
+            .html('<span id="taunt">' + commentators.length + ' people left a comment</span>')
+            .append(pickButton)
+            .append($('<br/><br/>')));
 
         $('#pick-one').on('click', function() {
-            toggleSlotMachine(commentators);
+            toggleSlotMachine(elements);
         });
 
         _.each(commentators, function(commentator) {
-            $('#commentators').append($('<div></div>')
+            var element = $('<div></div>')
                 .addClass('commentator')
-                .html(commentator));
+                .html(commentator);
+            elements.push(element);
+            $('#commentators').append(element);
         });
     }
 
@@ -50,13 +55,19 @@ $(function() {
             showName(i, easeOffBy - 1);
         }
 
-        function showName(n, lastIdx) {
+        function showName (n, lastIdx) {
             setTimeout(function nextName() {
-                $('#name').html(_.sample(commentators));
+                var sample = _.sample(commentators);
+                $('#name').html(sample.html());
+
+                if (highlighted) {
+                    highlighted.removeClass('highlight');
+                }
+                highlighted = sample.addClass('highlight');
 
                 if (n === lastIdx) {
                     $('#winner-taunt').css('display', 'inherit');
-                    pickButton.html('Pick again!');
+                    pickButton.html('Pick another winner!');
                     pickButton.show();
                 }
             }, (i*i));
