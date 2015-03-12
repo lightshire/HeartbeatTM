@@ -51,14 +51,14 @@ body {
     background: rgb(66, 184, 221);
     /* this is a light blue */
 }
-.loader, .loader:before, .loader:after {
+.spinner, .spinner:before, .spinner:after {
     border-radius: 50%;
 }
-.loader:before, .loader:after {
+.spinner:before, .spinner:after {
     position: absolute;
     content: '';
 }
-.loader:before {
+.spinner:before {
     width: 5.2em;
     height: 10.2em;
     background: #FFF;
@@ -70,7 +70,7 @@ body {
     -webkit-animation: load2 2s infinite ease 1.5s;
     animation: load2 2s infinite ease 1.5s;
 }
-.loader {
+.spinner {
     font-size: 11px;
     text-indent: -99999em;
     margin: 5em auto;
@@ -79,7 +79,7 @@ body {
     height: 10em;
     box-shadow: inset 0 0 0 1em grey;
 }
-.loader:after {
+.spinner:after {
     width: 5.2em;
     height: 10.2em;
     background: #FFF;
@@ -111,7 +111,10 @@ body {
         transform: rotate(360deg);
     }
 }
-
 .highlight {
-    background : white;
+    background: white;
 }
+.spinner-text {
+    text-align: center;
+}
+
