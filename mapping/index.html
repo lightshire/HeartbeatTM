@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>heartbeat.tm - Pick a winner!</title>
+    <link rel="stylesheet" href="../../bower_components/pure/pure-min.css">
+    <link rel="stylesheet" href="../../bower_components/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+
+    <script type="text/javascript" src="../../bower_components/lodash/lodash.min.js"></script>
+    <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../../bower_components/react/react.js"></script>
+    <script src="../../bower_components/react/JSXTransformer.js"></script>
+    <script type="text/javascript" src="../../bower_components/toastr/toastr.min.js"></script>
+
+    <script type="text/javascript" src="../../js/init.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/util.js"></script>
+
+<script type="text/jsx">
+/** @jsx React.DOM **/
+(function (htbt, Twitch, React) {
+    'use strict';
+
+    var Game_Box = React.createClass({
+        render: function () {
+            return (
+            <li className='feature_box'>
+                <a href={this.props.box.a}>
+                    <h1>{this.props.box.gameName}</h1>
+                    <img/>
+                </a>
+            </li>
+        );}
+    });
+
+    var Game_Box_Container = React.createClass({
+        render: function () {
+            var rows = this.props.boxes.map(function(box){
+                return <Game_Box key={box.gameName} box={box} />
+            });
+            return (
+            <div className='feature_container'>
+                <ul>
+                {rows}
+                </ul>
+            </div>
+            );
+        }
+    })
+
+    var boxes = [{
+        gameName: 'Twitch',
+        a: 'twitch'
+    }, {
+        gameName: 'Youtube',
+        a: 'youtube'
+    }, {
+        gameName: 'Hitbox',
+        a: 'hitbox'
+    }];
+ 
+    React.render(<Game_Box_Container boxes={boxes} />,
+        document.getElementById('container'));
+
+
+})(window.htbt = window.htbt || {}, window.Twitch, window.React);
+</script>
+</body>
+
+</html>
