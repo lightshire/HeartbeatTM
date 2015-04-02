@@ -1,7 +1,10 @@
 body {
 	padding: 20px;
+	font-family: Raleway;
 }
 
-.twitch-connect {
-	cursor: pointer;
+.twitch_username {
+	width:100%;
+	color:purple;
+	margin: 0 auto;
 }
