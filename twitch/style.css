@@ -6,5 +6,8 @@ body {
 .twitch_username {
 	width:100%;
 	color:purple;
-	margin: 0 auto;
+	margin:auto;
+}
+.twitch_username:first-letter {
+    text-transform:capitalize;
 }
