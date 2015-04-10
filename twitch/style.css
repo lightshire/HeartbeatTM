@@ -1,0 +1,13 @@
+body {
+	padding: 20px;
+	font-family: Raleway;
+}
+
+.twitch_username {
+	width:100%;
+	color:purple;
+	margin:auto;
+}
+.twitch_username:first-letter {
+    text-transform:capitalize;
+}
