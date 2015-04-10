@@ -116,7 +116,7 @@
 
         componentDidMount : function () {
             $.ajax({
-                url: 'http://localhost:8001/twitch/mapping',
+                url: htbt.config.backend + '/twitch/mapping',
                 type: 'GET',
                 data: {
                     token: Twitch.getToken()
@@ -133,7 +133,7 @@
         save : function(e){
             e.preventDefault();
             $.ajax({
-                url: 'http://localhost:8001/twitch/mapping',
+                url: htbt.config.backend + '/twitch/mapping',
                 type: 'PUT',
                 data: {
                     accounts: this.state,
