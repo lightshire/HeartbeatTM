@@ -41,13 +41,13 @@
 	  		var that = this;
 
 	  		$.ajax({ 
-	  			url: htbt.config.backend + '/tag/popularity_factor',
-			   	type: 'PUT',
-			   	data: {
-			   		tag_name: this.props.rowData.tag_name,
-			   		popularity_factor: value
-			   	}
-			})
+		  			url: htbt.config.backend + '/tag/popularity_factor',
+				   	type: 'PUT',
+				   	data: {
+				   		tag_name: this.props.rowData.tag_name,
+				   		popularity_factor: value
+				   	}
+				})
 				.success(function () {
                     toastr.success('Change saved!');
                     that.setState({data: value});

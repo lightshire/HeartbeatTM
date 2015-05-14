@@ -1,10 +1,11 @@
 (function(htbt, React, toastr){
 	var InlineEditCell = React.createClass({
-		getInitialState: function(){
-	      	return { 
-				data: this.props.data
-			};
-	    },
+		getInitialState: function () {
+		    return {
+		        data: this.props.data
+		    };
+		},
+
 		render: function(){
 	    	return (
 	    		<div className='inline_edit_cell' onDoubleClick={this.show_edit}>
@@ -37,31 +38,35 @@
 	  		this.hide_edit();
 	  	},
 
-	  	save_value: function(value){
-	  		var that = this;
+	  	save_value: function (value) {
+	        var that = this;
 
-	  		$.ajax({ 
-	  			url: htbt.config.backend + '/tag/popularity_factor',
-			   	type: 'PUT',
-			   	data: {
-			   		tag_name: this.props.rowData.tag_name,
-			   		popularity_factor: value
-			   	}
-			})
-				.success(function () {
-                    toastr.success('Change saved!');
-                    that.setState({data: value});
-                    that.hide_edit();
-                })
-                .fail(function () {
-                    toastr.error('Something went wrong.');
-                });
-	  	},
+	        $.ajax({
+	                url: htbt.config.backend + '/tag/popularity_factor',
+	                type: 'PUT',
+	                data: {
+	                    tag_name: this.props.rowData.tag_name,
+	                    popularity_factor: value
+	                }
+	            })
+	            .success(function () {
+	                toastr.success('Change saved!');
+	                that.setState({
+	                    data: value
+	                });
+	                that.hide_edit();
+	            })
+	            .fail(function () {
+	                toastr.error('Something went wrong.');
+	            });
+	    },
 
-	  	hide_edit: function(){
-	  		React.findDOMNode(this.refs.txt).style.display = 'none';
-	  		React.findDOMNode(this.refs.lbl).style.display = 'block';
-	  	}
+	    hide_edit: function () {
+	        React.findDOMNode(this.refs.txt)
+	            .style.display = 'none';
+	        React.findDOMNode(this.refs.lbl)
+	            .style.display = 'block';
+	    }
 	});
 
 	var GridContainer = React.createClass({
