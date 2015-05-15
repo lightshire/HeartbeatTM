@@ -1,0 +1,68 @@
+p {
+    color: #212121;
+}
+
+.container {
+    padding-top: 40px;
+}
+
+.title {
+    margin-bottom: 40px;
+}
+
+.card {
+    cursor: pointer;
+    height: 284px;
+}
+
+.user_img {
+    margin-top: -6px;
+}
+
+.user_thumb {
+    height: 100px;
+    width: 100px;
+    padding: 10px;
+    position: relative;
+    bottom: 50px;
+    background-color: #fff;
+}
+
+.user_info {
+    position: relative;
+    bottom: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.user_info .row .s12 {
+    font-size: 18px;
+    color: #212121;
+    white-space: nowrap;
+    width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.user_info .row .s6 {
+    color: #212121;
+}
+
+.user_info .row .s4 small {
+    color: #212121;
+}
+
+.user_info .row .s4 small span {
+    color: #2e7d32;
+}
+
+.user_info .row .s2 .badge {
+    color: white;
+    background-color: #ef5350;
+}
+
+.offline_streamer {
+    opacity: 0.4;
+}
+
