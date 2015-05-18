@@ -12,11 +12,7 @@ p {
 
 .card {
     cursor: pointer;
-    height: 284px;
-}
-
-.user_img {
-    margin-top: -6px;
+    background: #19191F;
 }
 
 .user_thumb {
@@ -24,8 +20,8 @@ p {
     width: 100px;
     padding: 10px;
     position: relative;
-    bottom: 50px;
-    background-color: #fff;
+    bottom: 54px;
+    background-color: #19191F;
 }
 
 .user_info {
@@ -35,7 +31,33 @@ p {
     padding-right: 10px;
 }
 
-.user_info .row .s12 {
+.user_info .row .status {
+    color: #E8E8E8;
+    font-size: 18px;
+}
+
+.user_info .row .info {
+    color: #E8E8E8;
+}
+
+.user_info .row .info .indic {
+    padding: 4px;
+    background-color: #388e3c;
+    border-radius: 2px 2px 2px 2px;
+}
+
+.user_info .row .info .indico {
+    padding: 4px;
+    background-color: #d32f2f;
+    border-radius: 2px 2px 2px 2px;
+}
+
+.user_info .row .info .lang {
+    padding: 4px;
+    background-color: #1565c0;
+    border-radius: 2px 2px 2px 2px;
+}
+/*.user_info .row .s12 {
     font-size: 18px;
     color: #212121;
     white-space: nowrap;
@@ -61,6 +83,7 @@ p {
     color: white;
     background-color: #ef5350;
 }
+*/
 
 .offline_streamer {
     opacity: 0.4;
