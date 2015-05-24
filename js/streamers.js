@@ -7,15 +7,10 @@
             return {streamers:[]};
         },
         getStreamers: function() {  
-            var xmlHttp = new XMLHttpRequest(),
-                self = this;
-            xmlHttp.open('GET', 'http://www.you1tube.com/twitch/get_streamers', false);
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.status==200) {
-                    self.setState({streamers:JSON.parse(xmlHttp.responseText)});
-                }
-            }
-            xmlHttp.send(null);
+            var self = this;
+            $.get('http://www.you1tube.com/twitch/get_streamers').done(function(data) {
+                self.setState({streamers:data});
+            });
         },
         componentWillMount: function() {
             this.getStreamers();
