@@ -1,69 +1,74 @@
 @font-face {
-	font-family: ProximaNova-Regular;
-	src: url("../css/fonts/ProximaNova-Regular.otf") format("opentype");
+    font-family: ProximaNova-Regular;
+    src: url("../css/fonts/ProximaNova-Regular.otf") format("opentype");
 }
 
 @font-face {
-	font-family: ProximaNova-Bold;
-	src: url("../css/fonts/ProximaNova-Bold.otf") format("opentype");
+    font-family: ProximaNova-Bold;
+    src: url("../css/fonts/ProximaNova-Bold.otf") format("opentype");
 }
 
 body {
-
-	margin:  10px;
-	padding:  0;
-	font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif;
+    margin: 10px;
+    padding: 0;
+    font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif;
 }
+
 h1 {
-	width: 100%;
-	text-align: center !important;
+    width: 100%;
+    text-align: center !important;
 }
 
 .clr {
-
-	clear: both;
-
+    clear: both;
 }
 
 #wrapper {
-	width: 95%;
-	margin: 0 auto;
-	border: 1px solid #ccc;
-	border-radius: 8px;
+    width: 95%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
-
 
 .box-info {
-	width: 40%;
-	min-height : 150px;
-	float: left;
-	margin: 5%;
-	
+    width: 40%;
+    min-height: 150px;
+    float: left;
+    margin-left: 5%;
+    margin-right: 5%;
 }
-	
-	#total-played-song {
-		width : 100%;
-		min-height : 100px;
-		background : #ccc;
-	}
 
-	#top-ten-played-song {
-		width : 100%;
-		min-height : 100px;
-		background : #ccc;
-	}
+#total-played-song {
+    width: 100%;
+    min-height: 100px;
+    background: #ccc;
+}
 
+#top-ten-played-song {
+    width: 100%;
+    min-height: 100px;
+    background: #ccc;
+}
 
 .google-visualization-table-table {
-	font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif !important;
+    font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif !important;
 }
 
 .keen-metric {
-	font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif !important;
+    font-family: 'ProximaNova-Regular', Arial, Helvetica, sans-serif !important;
+    height: 200px;
+    margin-top: 50px;
+}
+
+.keen-metric-value {
+    line-height: 150px !important;
 }
 
 @media screen and (max-width: 767px) {
     .box-info {
-		width: 90%;	
-	}
+        width: 90%;
+    }
 }
+
