@@ -52,7 +52,7 @@
     function drawn_area() {
         var played_per_day = new Keen.Query('count', {
                 eventCollection: 'played_track',
-                timeframe: 'previous_7_days',
+                timeframe: 'previous_40_days',
                 interval: 'daily'
             }),
             req_area = new Keen.Dataviz()
