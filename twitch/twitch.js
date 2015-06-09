@@ -3,92 +3,158 @@
     'use strict';
 
     var GameDiablo3 = React.createClass({
-        getInitialState: function(){
-            return {
+        getData: function(){
+            return  this.props.data || {
                 'battleNet' : '',
+                'tag': '',
                 'region' : '',
-                'tag' : '',
-                'heroId' : ''
-            }
+                'heroId': ''
+            };
         },
         render: function(){
-        return(
-            <fieldset className='game_fieldbox'>
-                <legend>Diablo 3</legend>
-                <div className='pure-control-group'>
-                <label>Battle Net Name</label>
-                <input onChange={this.onCharName} type='text'/>
+            var diablo = this.getData();
 
-                <label>Battle Net Tag</label>
-                <input onChange={this.onCharTag} type='text'/>
+            return(
+                <fieldset className='game_fieldbox'>
+                    <legend>Diablo 3</legend>
+                    <div className='pure-control-group'>
+                    <label>Battle Net Name</label>
+                    <input onChange={this.onCharName} type='text' value={diablo.battleNet} />
 
-                <label>Region</label>
-                <select onChange={this.onRegionChange}>
-                    <option value="us">US</option>
-                    <option value="eu">EU</option>
-                    <option value="tw">TW</option>
-                    <option value="kr">KR</option>
-                    <option value="cn">CN</option>
-                </select>
+                    <label>Battle Net Tag</label>
+                    <input onChange={this.onCharTag} type='text' value={diablo.tag} />
 
-                <label>Default Hero Id</label>
-                <input onChange={this.onCharId} type='text'/>
-                </div>
-            </fieldset>
+                    <label>Region</label>
+                    <select onChange={this.onRegionChange} value={diablo.region}>
+                        <option value="us">US</option>
+                        <option value="eu">EU</option>
+                        <option value="tw">TW</option>
+                        <option value="kr">KR</option>
+                        <option value="cn">CN</option>
+                    </select>
+
+                    <label>Default Hero Id</label>
+                    <input onChange={this.onCharId} type='text' value={diablo.heroId}/>
+                    </div>
+                </fieldset>
             );
         },
         onCharName : function(e){
-            this.setState({battleNet : e.target.value})
-            this.updateParent();
+            var diablo = this.getData();
+
+            diablo.battleNet = e.target.value;
+            this.updateParent(diablo);
         },
         onCharTag : function(e){
-            this.setState({tag : e.target.value})
-            this.updateParent();
+            var diablo = this.getData();
+            
+            diablo.tag = e.target.value;
+            this.updateParent(diablo);
         },
         onCharId : function(e){
-            this.setState({heroId : e.target.value})
-            this.updateParent();
+            var diablo = this.getData();
+            
+            diablo.heroId = e.target.value;
+            this.updateParent(diablo);
         },
         onRegionChange : function(e){
-            this.setState({region : e.target.value})
-            this.updateParent();
+            var diablo = this.getData();
+            
+            diablo.region = e.target.value;
+            this.updateParent(diablo);
         },
-        updateParent : function(){
-            this.props.handleChange('diablo3' , { 'battleNet' : this.state.battleNet, 'tag' : this.state.tag, 'region' : this.state.region, 'heroId' : this.state.heroId});
+        updateParent : function(diablo){
+            this.props.handleChange('diablo3' , diablo);
         }
-    })
+    });
 
     var GameDota2 = React.createClass({
-        getInitialState: function(){
-            return {
+        getData: function(){
+            return  this.props.data || {
                 'steam' : ''
-            }
+            };
         },
         render: function(){
-        return(
-            <fieldset className='game_fieldbox'>
-                <legend>Dota 2</legend>
-                <div className='pure-control-group'>
-                <label>Steam Id</label>
-                <input onChange={this.onSteamIdChange} type='text'/>
-                </div>
-            </fieldset>
+            var dota = this.getData();
+
+            return(
+                <fieldset className='game_fieldbox'>
+                    <legend>Dota 2</legend>
+                    <div className='pure-control-group'>
+                    <label>Steam Id</label>
+                    <input onChange={this.onSteamIdChange} type='text' value={dota.steam}/>
+                    </div>
+                </fieldset>
             );
         },
         onSteamIdChange : function(e){
-            this.setState({steam : e.target.value})
-            this.updateParent();
+            var dota = this.getData();
+
+            dota.steam = e.target.value;
+            this.updateParent(dota);
         },
-        updateParent : function(){
-            this.props.handleChange('dota2' , { 'steam' : this.state.steam});
+        updateParent : function(dota){
+            this.props.handleChange('dota2' , dota);
         }
     })
+
+    var GameLoL = React.createClass({
+        getData: function(){
+            return this.props.data || {
+                'summoner_name' : '',
+                'summoner_region': ''
+            };
+        },
+        render: function() {
+            var lol = this.getData();
+
+            return(
+                <fieldset className='game_fieldbox'>
+                    <legend>League of Legends</legend>
+                    <div className='pure-control-group'>
+                        <label>Summoner</label>
+                        <input onChange={this.onCharName} type='text' value={lol.summoner_name}/>
+
+                        <label>Region</label>
+                        <select onChange={this.onRegionChange} value={lol.summoner_region}>
+                            <option value="na">North America</option>
+                            <option value="euw">Europe West</option>
+                            <option value="eune">Europe Nordic & East</option>
+                            <option value="br">Brazil</option>
+                            <option value="tr">Turkey</option>
+                            <option value="br">Brazil</option>
+                            <option value="ru">Russia</option>
+                            <option value="lan">Latin America North</option>
+                            <option value="las">Latin America South</option>
+                            <option value="oce">Oceania</option>
+                        </select>
+                    </div>
+                </fieldset>
+            );
+        },
+        onCharName : function(e){
+            var lol = this.getData();
+
+            lol.summoner_name = e.target.value;
+            this.updateParent(lol);
+        },
+        onRegionChange : function(e){
+            var lol = this.getData();
+
+            lol.summoner_region = e.target.value;
+            this.updateParent(lol);
+        },
+        updateParent : function(lol){
+            this.props.handleChange('league_of_legends' , lol);
+        }
+    });
 
     var GameForm = React.createClass({
         getInitialState: function(){
             return {
                 'diablo3' : {},
-                'dota2' : {}
+                'dota2' : {},
+                'league_of_legends' : {}
             }
         },
 
@@ -103,8 +169,9 @@
             return(
             <form className='pure-form pure-form-aligned'>
                 <h1 className='twitch_username'>{this.props.twitchUsername}</h1>
-                <GameDiablo3 handleChange={this.handleChange}/>
-                <GameDota2 handleChange={this.handleChange}/>
+                <GameDiablo3 handleChange={this.handleChange} data={this.state.diablo3}/>
+                <GameDota2 handleChange={this.handleChange} data={this.state.dota2}/>
+                <GameLoL handleChange={this.handleChange} data={this.state.league_of_legends}/>
                 <button className='pure-button pure-button-primary' onClick={this.save}>Submit</button>
             </form>
             );
@@ -114,7 +181,7 @@
             this.setState(_.object([[fName,value]]));
         },
 
-        componentDidMount : function () {
+        componentDidMount: function () {
             $.ajax({
                 url: htbt.config.backend + '/twitch/mapping',
                 type: 'GET',
@@ -123,11 +190,25 @@
                 },
                 success: function (data) {
                     this.props.twitchUsername = data.twitchUsername;
+
+                    if (!data.accounts) {
+                        return;
+                    }
+
                     this.setState({
-                        'diablo3' : data.accounts.diablo3
+                        'dota2': data.accounts.dota2
                     });
+
+                    this.setState({
+                        'diablo3': data.accounts.diablo3
+                    });
+
+                    this.setState({
+                        'league_of_legends': data.accounts.league_of_legends
+                    });
+
                 }.bind(this)
-            }); 
+            });
         },
 
         save : function(e){
