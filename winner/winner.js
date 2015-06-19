@@ -6,6 +6,7 @@ $(function () {
         getCommentatorsUrl = window.htbt.config.backend +
         '/get_comment_authors?video_id=' + videoId,
         pickButton,
+        winnerCount,
         elements = [],
         highlighted;
 
@@ -51,11 +52,15 @@ $(function () {
     function displayCommentators(commentators) {
         pickButton = $('<button id="pick-one"></button>')
             .attr('class', 'pure-button pure-button-primary')
-            .html('Pick a winner!');
+            .html('Go!');
+
+        winnerCount = $('<input id="pick-more" value="1" type="number" min="1" max="'+commentators.length+'" />')
 
         $('#commentators')
             .append($('<div id="header"></div>')
-                .html('<span id="taunt">' + commentators.length + ' people left a comment</span>')
+                .html('<span class="taunt">' + commentators.length + ' people left a comment</span> <span class="taunt">Pick </span>')
+                .append(winnerCount)
+                .append('<span class="taunt"> winner(s)!</span>')
                 .append(pickButton)
                 .append($('<br/><br/>')));
 
@@ -89,19 +94,35 @@ $(function () {
 
         function showName(n, lastIdx) {
             setTimeout(function nextName() {
-                var sample = _.sample(commentators);
-                $('#name')
-                    .html(sample.html());
+                var samples = _.sample(commentators, +$('#pick-more').val());
 
-                if (highlighted) {
-                    highlighted.removeClass('highlight');
+
+                $('#name')
+                    .html(samples[0].html());
+
+                if (n === lastIdx) {
+                    $('#name')
+                        .html(
+                            samples.map(function (a) {
+                                return a.html() + '<br/>';
+                            })
+                        );
                 }
-                highlighted = sample.addClass('highlight');
+
+                highlighted && highlighted.forEach(function (a) {
+                    a.removeClass('highlight');
+                });
+
+                samples.forEach(function (a) {
+                    a.addClass('highlight');
+                });
+
+                highlighted = samples;
 
                 if (n === lastIdx) {
                     $('#winner-taunt')
                         .css('display', 'inherit');
-                    pickButton.html('Pick another winner!');
+                    pickButton.html('Pick again!');
                     pickButton.show();
                 }
             }, (i * i));

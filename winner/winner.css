@@ -9,6 +9,9 @@ body {
 #taunt {
     font-size: 20px;
 }
+#taunt {
+    font-size: 20px;
+}
 #commentators button {
     margin-left: 10px;
 }
@@ -26,7 +29,7 @@ body {
     text-align: center;
 }
 #name {
-    font-size: 30px;
+    font-size: 20px;
     margin-bottom: 10px;
     text-align: center;
 }
@@ -118,3 +121,7 @@ body {
     text-align: center;
 }
 
+
+#pick-more{
+    width: 50px;
+}
