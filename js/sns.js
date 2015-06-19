@@ -82,16 +82,15 @@
                     $.ajax({
                         type: "POST",
                         url: htbt.config.backend_2 + '/save_usernames',
-                        data: data,
-                        success: function () {
-                            $.get(htbt.config.backend_2 + '/save_twitch_streamers').done(function (result) {
-                                if (result) {
-                                    $('#loader').attr('style', 'display:none');
-                                    $('#confirm').attr('style', 'display:');
-                                }
-                            });
-                        }
+                        data: data
+                    })
+                    .done(function() {
+                        $.get(htbt.config.backend_2 + '/save_streamers').done(function (results){
+                            $('#loader').attr('style', 'display:none');
+                            $('#confirm').attr('style', 'display:');
+                        });
                     });
+                    
                 }
 
             });
