@@ -91,6 +91,11 @@ body {
 	color: white;
 }
 
+#wrap-content #sidebar ul#list-game-name li.active {
+	background:  #03a9f9;
+	color: white;
+}
+
 #wrap-content #content {
 	float: left;
 	width: 60%;
@@ -112,6 +117,10 @@ body {
 #wrap-content #content .field input[type="text"]{
 	width: 65%;
 	height: 25px
+}
+#wrap-content #content .field select {
+	width: 66%;
+  	height: 32px;
 }
 
 .submit-button {
