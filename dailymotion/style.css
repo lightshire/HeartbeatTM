@@ -12,6 +12,30 @@ body {
 	z-index: -1;
 }
 
+#loading {
+	text-align: center;
+	margin-top: 100px;
+}
+
+#loading button {
+	background-color:#cc0404;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #ab1919;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+
+#loading button:hover {
+	background-color:#ff0000;
+}
 
 #clr {
 	clear: both;

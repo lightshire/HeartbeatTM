@@ -6,6 +6,7 @@
 
     htbt.config.google_api_key = 'AIzaSyDBNUJQG9PXcGKkmgT4TWtXXQrCychOodI';
     htbt.config.extension_id = 'iwbv72elcu5o8zog635dvppt905xxkq';
+    htbt.config.dailymotion_api_key = 'fb0e94b9cd1d6ca3c69f';
 
     if (htbt.env === 'dev') {
         htbt.config.backend = 'https://www.you1tube.dev'
