@@ -1,0 +1,19 @@
+.title {
+	margin-top: 50px;
+}
+
+#platforms {
+	margin-top: 50px;
+}
+
+#footer {
+	margin-top: 100px;
+}
+
+#footer small a {
+	color: #222;
+}
+
+#preloader, #confirm-msg {
+	margin-top: 150px;
+}
