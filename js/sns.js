@@ -81,16 +81,16 @@
                     $('#loader').attr('style', 'display:');
                     $.ajax({
                         type: "POST",
-                        url: htbt.config.backend_2 + '/save_usernames',
+                        url: htbt.config.backend + '/save_usernames',
                         data: data
                     })
                     .done(function() {
-                        $.get(htbt.config.backend_2 + '/save_streamers').done(function (results){
+                        $.get(htbt.config.backend + '/save_streamers').done(function (results){
                             $('#loader').attr('style', 'display:none');
                             $('#confirm').attr('style', 'display:');
                         });
                     });
-                    
+
                 }
 
             });
