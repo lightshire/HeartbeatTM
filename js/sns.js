@@ -46,17 +46,17 @@
             $("#submit_usernames").bind('click', function() {
                 var ctr = 0,
                     data = {
-                            0: {
+                            twitch: {
                                 indic: 'twitch',
                                 username: $('#twitch_username').val(),
                                 favorites: ''
                             },
-                            1: {
+                            hitbox: {
                                 indic: 'hitbox',
                                 username: $('#hitbox_username').val(),
                                 favorites: ''
                             },
-                            2: {
+                            dailymotion: {
                                 indic: 'dailymotion',
                                 username: $('#dailymotion_username').val(),
                                 favorites: ''
@@ -85,10 +85,14 @@
                         data: data
                     })
                     .done(function() {
-                        $.get(htbt.config.backend + '/save_streamers').done(function (results){
+                        $.ajax({
+                            type: "POST",
+                            url: htbt.config.backend + '/save_streamers'
+                        })
+                        .done(function (results){
                             $('#loader').attr('style', 'display:none');
                             $('#confirm').attr('style', 'display:');
-                        });
+                        })
                     });
 
                 }
