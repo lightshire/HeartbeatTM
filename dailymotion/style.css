@@ -123,9 +123,15 @@ body {
 #wrap-content #content {
 	float: left;
 	width: 60%;
-	padding: 20px;
+	padding-left: 20px;
 }
 
+#wrap-content #content h1 {
+	padding: 10px 25px;
+  	margin: 0;
+  	font-size: 22px;
+}
+  
 #wrap-content #content .field {
 	height: 40px;
 	padding-bottom: 10px;
@@ -163,7 +169,6 @@ body {
 .submit-button:hover {
 	box-shadow: 1px 4px 2px #cccccc;
 }
-
 
 @keyframes beat {
 0%   {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}

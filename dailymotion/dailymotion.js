@@ -17,16 +17,13 @@
         showLogin : function(){
             DM.login(function(response)
             {
-                if (response.session)
-                {
-                
-                   //alert('s ss ' + response.session.access_token);
+                if (response.session) {
+                   htbt.config.dailymotion_data = response.session;
 
                    React.render(React.createElement(Content), document.getElementById('container'));
                 }
-                else
-                {
-                    alert('err ' + JSON.stringify(response));
+                else {
+                    return;
                 }
             });
         },
@@ -54,13 +51,45 @@
                     <div id='wrap-content'>
                         <Sidebar />
                         <div id='content'>
-                            <LOL handleChange={this.handleChange} data={this.state.league_of_legends}/>
+                            <h1 className='dailymotion_username'>{this.props.dailymotionUsername}</h1>
+                            <LOL handleChange={this.handleChange} data={this.state}/>
                         </div>
                         <div id='clr'></div>
                     </div>
                 </div>  
             )
-        }
+        },
+
+        componentDidMount: function () {
+            $.ajax({
+                url: htbt.config.backend + '/game/mapping',
+                type: 'GET',
+                data: {
+                    token: htbt.config.dailymotion_data.access_token,
+                    platformName: 'dailymotionUsername'
+                },
+                success: function (data) {
+                    this.props.dailymotionUsername = data.dailymotionUsername;
+                    console.log(' accounts ' + JSON.stringify(data));
+                    if (!data.accounts) {
+                        return;
+                    }
+
+                    this.setState({
+                        'dota2': data.accounts.dota2
+                    });
+
+                    this.setState({
+                        'diablo3': data.accounts.diablo3
+                    });
+
+                    this.setState({
+                        'league_of_legends': data.accounts.league_of_legends
+                    });
+
+                }.bind(this)
+            });
+        },
     });
 
     var Sidebar = React.createClass({
@@ -89,7 +118,7 @@
 
     var LOL = React.createClass({
         getData: function(){
-            return this.props.data || {
+            return this.props.data.league_of_legends || {
                 'summoner_name' : '',
                 'summoner_region': ''
             };
@@ -110,23 +139,22 @@
         updateParent : function(lol){
             this.props.handleChange('league_of_legends' , lol);
         },
-    /*
-        save : function (){
-            var lol = this.getData();
-            //alert('config.dailymotion_client_id ' + htbt.config.dailymotion_api_key + ' Region ' + lol.summoner_region + ' htbt.config.backend ' + htbt.config.backend);
-        },*/
-        save : function(e){
+        
+        save : function(e){   
             e.preventDefault();
             $.ajax({
-                url: htbt.config.backend + '/twitch/mapping',
+                url: htbt.config.backend + '/game/mapping',
                 type: 'PUT',
                 data: {
-                    accounts: this.state,
-                    token: Twitch.getToken()
+                    accounts: this.props.data,
+                    token: htbt.config.dailymotion_data.access_token,
+                    platformName: 'dailymotionUsername'
                 },
+
                 success: function () {
                     toastr.success('Changes saved!');
                 },
+
                 error: function () {
                     toastr.success('Something went wrong.');
                 }
@@ -169,19 +197,17 @@
 
         componentDidMount: function () {
             DM.init({
-                apiKey: htbt.config.dailymotion_api_key,
-                status: true, // check login status
-                cookie: true // enable cookies to allow the server to access the session
-            },
-            DM.getLoginStatus(function(response)
-            {
-                if (response.session)
-                {
-                    this.setState({
-                        isLoggedIn: true
-                    });
-                }
-            })
+                    apiKey: htbt.config.dailymotion_api_key,
+                    status: true, // check login status
+                    cookie: true // enable cookies to allow the server to access the session
+                },
+                DM.getLoginStatus(function(response) {
+                    if (response.session) {
+                        this.setState({
+                            isLoggedIn: true
+                        });
+                    }
+                })
             );        
         },
 
