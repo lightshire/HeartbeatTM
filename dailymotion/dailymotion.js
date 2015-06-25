@@ -66,7 +66,7 @@
                 type: 'GET',
                 data: {
                     token: htbt.config.dailymotion_data.access_token,
-                    platformName: 'dailymotionUsername'
+                    platform_key_name: 'dailymotionUsername'
                 },
                 success: function (data) {
                     this.props.dailymotionUsername = data.dailymotionUsername;
@@ -148,7 +148,7 @@
                 data: {
                     accounts: this.props.data,
                     token: htbt.config.dailymotion_data.access_token,
-                    platformName: 'dailymotionUsername'
+                    platform_key_name: 'dailymotionUsername'
                 },
 
                 success: function () {

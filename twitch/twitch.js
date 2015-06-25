@@ -187,7 +187,7 @@
                 type: 'GET',
                 data: {
                     token: Twitch.getToken(),
-                    platformName: 'twitchUsername'
+                    platform_key_name: 'twitchUsername'
                 },
                 success: function (data) {
                     this.props.twitchUsername = data.twitchUsername;
@@ -220,7 +220,7 @@
                 data: {
                     accounts: this.state,
                     token: Twitch.getToken(),
-                    platformName: 'twitchUsername'
+                    platform_key_name: 'twitchUsername'
                 },
                 success: function () {
                     toastr.success('Changes saved!');
