@@ -64,7 +64,7 @@
                     $('#loader').attr('style', 'display:');
                     $.ajax({
                         type: "POST",
-                        url: 'http://localhost/save_usernames',
+                        url:  htbt.config.backend + '/save_usernames',
                         data: {
                             un: $('#twitch_username').val() + ', ' +
                                 $('#hitbox_username').val() + ', ' +
@@ -76,7 +76,7 @@
                     .done(function() {
                         $.ajax({
                             type: "POST",
-                            url: 'http://localhost/save_streamers'
+                            url:  htbt.config.backend + '/save_streamers'
                         })
                         .done(function (results){
                             $('#loader').attr('style', 'display:none');
