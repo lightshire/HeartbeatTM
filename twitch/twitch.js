@@ -183,10 +183,11 @@
 
         componentDidMount: function () {
             $.ajax({
-                url: htbt.config.backend + '/twitch/mapping',
+                url: htbt.config.backend + '/game/mapping',
                 type: 'GET',
                 data: {
-                    token: Twitch.getToken()
+                    token: Twitch.getToken(),
+                    platform_key_name: 'twitchUsername'
                 },
                 success: function (data) {
                     this.props.twitchUsername = data.twitchUsername;
@@ -214,11 +215,12 @@
         save : function(e){
             e.preventDefault();
             $.ajax({
-                url: htbt.config.backend + '/twitch/mapping',
+                url: htbt.config.backend + '/game/mapping',
                 type: 'PUT',
                 data: {
                     accounts: this.state,
-                    token: Twitch.getToken()
+                    token: Twitch.getToken(),
+                    platform_key_name: 'twitchUsername'
                 },
                 success: function () {
                     toastr.success('Changes saved!');
@@ -271,8 +273,7 @@
         }
     }); 
 
-    React.render(React.createElement(Container),
-        document.getElementById('container'));
+    React.render(React.createElement(Container),document.getElementById('container'));
 
 })(window.htbt = window.htbt || {}, window.Twitch, window.React);
 
