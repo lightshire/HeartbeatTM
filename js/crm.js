@@ -41,7 +41,7 @@
                     channel_id: channel.id,
                     video_id: video_id,
                     page: page,
-                    search: search ? search : '', 
+                    search: search || '',
                     limit: 20
                 },
                 
@@ -577,7 +577,6 @@
             }
 
             channel = data.items[0];
-            channel.id = 'UCxMsgwldMZiuFTD6jjv32yQ';
 
             React.render(
                 <htbt.crm.Channel data={channel} />,
