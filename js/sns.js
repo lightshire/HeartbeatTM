@@ -66,11 +66,9 @@
                         type: "POST",
                         url:  htbt.config.backend + '/save_usernames',
                         data: {
-                            un: $('#twitch_username').val() + ', ' +
-                                $('#hitbox_username').val() + ', ' +
-                                $('#dailymotion_username').val(),
-                            pf: 'twitch, hitbox, dailymotion'
-
+                            twitch: $('#twitch_username').val(),
+                            hitbox: $('#hitbox_username').val(),
+                            dailymotion: $('#dailymotion_username').val()
                         }
                     })
                     .done(function() {
