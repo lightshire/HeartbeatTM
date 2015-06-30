@@ -1,0 +1,187 @@
+body {
+	font-family: Raleway;
+}
+
+#head-bg {
+	height: 76px;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #e62117;
+	z-index: -1;
+}
+
+#loading {
+	text-align: center;
+	margin-top: 100px;
+}
+
+#loading button {
+	background-color:#cc0404;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #ab1919;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+
+#loading button:hover {
+	background-color:#ff0000;
+}
+
+#clr {
+	clear: both;
+}
+
+#wrapper {
+	width: 960px;
+	margin: 0 auto;
+}
+
+#header {
+	height: 76px;
+	width: 100%;
+	background: #e62117;
+}
+
+#header-content {
+	height: 50px;
+	margin-top: 13px;
+	float: left;
+}
+
+#header-content img {
+	float: left;
+	height: 100%;
+	padding-left: 15px;
+	cursor: pointer;
+	animation: beat 0.8s infinite;
+  	-webkit-animation: beat 0.8s infinite;
+	
+}
+
+
+#header-content p {
+	float: left;
+	padding: 0px 0px 0px 15px;
+	margin : 0;
+	color: white;
+	font-size: 25px;
+	line-height: 50px;
+}
+#header-content p span {
+	display: inline;
+}
+
+#wrap-content {
+	width: 80%;
+	margin: 0 auto;
+	padding-top: 50px;
+}
+
+#wrap-content #sidebar {
+	width: 30%;
+	float: left;
+}
+
+#wrap-content #sidebar ul#list-game-name {
+	list-style: none;
+	width: 100%;
+	margin:0;
+	padding: 0;
+}
+
+#wrap-content #sidebar ul#list-game-name li {
+	height: 40px;
+	border-bottom: 1px solid #cccccc;
+	color: #03a9f4;
+	line-height: 40px;
+	cursor: pointer;
+	transition-duration : 200ms;
+	-webkit-transition-duration : 200ms;
+	padding-left: 8px;
+}
+
+#wrap-content #sidebar ul#list-game-name li:hover {
+	background:  #03a9f4;
+	color: white;
+}
+
+#wrap-content #sidebar ul#list-game-name li.active {
+	background:  #03a9f9;
+	color: white;
+}
+
+#wrap-content #content {
+	float: left;
+	width: 60%;
+	padding-left: 20px;
+}
+
+#wrap-content #content h1 {
+	padding: 10px 25px;
+  	margin: 0;
+  	font-size: 22px;
+}
+  
+#wrap-content #content .field {
+	height: 40px;
+	padding-bottom: 10px;
+	padding-left: 25px;.
+	width: 100%;
+}
+
+#wrap-content #content .field .left-label{
+	width: 30%;
+	float: left;
+}
+
+#wrap-content #content .field input[type="text"]{
+	width: 65%;
+	height: 25px
+}
+#wrap-content #content .field select {
+	width: 66%;
+  	height: 32px;
+}
+
+.submit-button {
+	float: right;
+	background: #03a9f4;
+	border-radius : 5px;
+	box-shadow: 1px 2px 2px #cccccc;
+	width: 100px;
+	height: 30px;
+	border-color: transparent;
+	color: white;
+	transition-duration : 200ms;
+	-webkit-transition-duration : 200ms;
+}
+
+.submit-button:hover {
+	box-shadow: 1px 4px 2px #cccccc;
+}
+
+@keyframes beat {
+0%   {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+25%  {transform: scale(1,1); -ms-transform: scale(1,1); -webkit-transform: scale(1,1); }
+50%  {transform: scale(0.8,0.8);-ms-transform: scale(0.8,0.8);-webkit-transform: scale(0.8,0.8);}
+75%  {transform: scale(1,);-ms-transform: scale(1,);-webkit-transform: scale(1,);}
+100% {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+}
+
+@-webkit-keyframes beat /* Safari and Chrome */ {
+0%   {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+25%  {transform: scale(1,1); -ms-transform: scale(1,1); -webkit-transform: scale(1,1); }
+50%  {transform: scale(0.8,0.8);-ms-transform: scale(0.8,0.8);-webkit-transform: scale(0.8,0.8);}
+75%  {transform: scale(1,);-ms-transform: scale(1,);-webkit-transform: scale(1,);}
+100% {transform: scale(0.7,0.7);-ms-transform: scale(0.7,0.7);-webkit-transform: scale(0.7,0.7);}
+}
