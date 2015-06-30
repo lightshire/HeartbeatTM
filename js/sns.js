@@ -44,24 +44,7 @@
         },
         componentDidMount: function() {
             $("#submit_usernames").bind('click', function() {
-                var ctr = 0,
-                    data = {
-                            twitch: {
-                                indic: 'twitch',
-                                username: $('#twitch_username').val(),
-                                favorites: ''
-                            },
-                            hitbox: {
-                                indic: 'hitbox',
-                                username: $('#hitbox_username').val(),
-                                favorites: ''
-                            },
-                            dailymotion: {
-                                indic: 'dailymotion',
-                                username: $('#dailymotion_username').val(),
-                                favorites: ''
-                            }
-                        };
+                var ctr = 0;
                 $.each($('.fields'), function(i, a) {
                     if (!a.value) {
                         a.className = 'fields validate invalid';
@@ -81,13 +64,17 @@
                     $('#loader').attr('style', 'display:');
                     $.ajax({
                         type: "POST",
-                        url: htbt.config.backend + '/save_usernames',
-                        data: data
+                        url:  htbt.config.backend + '/save_usernames',
+                        data: {
+                            twitch: $('#twitch_username').val(),
+                            hitbox: $('#hitbox_username').val(),
+                            dailymotion: $('#dailymotion_username').val()
+                        }
                     })
                     .done(function() {
                         $.ajax({
                             type: "POST",
-                            url: htbt.config.backend + '/save_streamers'
+                            url:  htbt.config.backend + '/save_streamers'
                         })
                         .done(function (results){
                             $('#loader').attr('style', 'display:none');
