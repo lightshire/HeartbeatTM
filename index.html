@@ -73,10 +73,7 @@
 			});
 
 			document.getElementById('getappbtn').onclick = function () {
-				console.log('hallo');
-				console.log(typeof(chrome));
-				if (typeof(chrome) !== 'undefined') {
-					console.log('hi hi hi');
+				if (typeof(chrome) !== 'undefined' && chrome.webstore) {
 					chrome.webstore.install();
 				}
 				else {
