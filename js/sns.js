@@ -43,7 +43,8 @@
                         </div>);
         },
         componentDidMount: function() {
-            var data = {};
+            var data = {},
+                ctr = 0;
 
             $("#submit_usernames").bind('click', function() {
 
@@ -54,23 +55,29 @@
                     if (a.value) {
                         data[a.id] = a.value;
                     }
+                    else {
+                        ctr++;
+                        a.className = 'fields validate invalid';
+                    }
                 });
 
-                $.ajax({
-                    type: "POST",
-                    url:  htbt.config.backend + '/save_usernames',
-                    data
-                })
-                .done(function() {
+                if (ctr < 3) {
                     $.ajax({
                         type: "POST",
-                        url:  htbt.config.backend + '/save_streamers'
+                        url:  'http://localhost/save_usernames',
+                        data
                     })
-                    .done(function (results){
-                        $('#loader').attr('style', 'display:none');
-                        $('#confirm').attr('style', 'display:');
+                    .done(function() {
+                        $.ajax({
+                            type: "POST",
+                            url:  htbt.config.backend + '/save_streamers'
+                        })
+                        .done(function (results){
+                            $('#loader').attr('style', 'display:none');
+                            $('#confirm').attr('style', 'display:');
+                        });
                     });
-                });
+                }
 
             });
         }
@@ -110,6 +117,10 @@
         },
         componentDidMount: function () {
             $("#go_back").bind('click', function() {
+                $.each($('.fields'), function(i, a) {
+                    a.value = '';
+                    a.className = 'fields validate';
+                });
                 $('#platforms').attr('style', 'display:');
                 $('#confirm').attr('style', 'display:none');
             });
