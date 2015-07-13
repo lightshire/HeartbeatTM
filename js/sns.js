@@ -58,13 +58,13 @@
 
                 $.ajax({
                     type: "POST",
-                    url:  'http://localhost/save_usernames',
+                    url:  htbt.config.backend + '/save_usernames',
                     data
                 })
                 .done(function() {
                     $.ajax({
                         type: "POST",
-                        url:  'http://localhost/save_streamers'
+                        url:  htbt.config.backend + '/save_streamers'
                     })
                     .done(function (results){
                         $('#loader').attr('style', 'display:none');
