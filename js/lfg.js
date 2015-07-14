@@ -1,14 +1,15 @@
 (function (htbt) {
     'use strict';
 
-    var session,
+    var email,
+        session,
+        categories,
         channel = {},
-        active_video,
-        on_video = false,
-        already_checked = false,
+        no_profile = true,
+        match_binded = false,
 
         get_id = function (e, tok) {
-            return e.id.split(tok)[0];
+            return e.split(tok)[0];
         },
 
         suc_cb = function (data) {
@@ -21,9 +22,299 @@
             toastr.error(err.responseText || 'An unexpected error occured');
         },
 
+        /*Matchmaking Functions*/
+
+        get_users = function (page, search, search_by) {
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + '/lfg/users',
+
+                data: {
+                    channel_id: channel.id,
+                    limit: 10,
+                    page: page,
+                    search: search,
+                    by_name: search_by
+                },
+
+                success: function (data) {
+                    React.render(
+                        <htbt.lfg.Matchmaking data={data}/>,
+                        $('#matchmaking')[0]
+                    );
+
+                    if (search) {
+                        React.render(
+                            <a href="#!" className="view-all">View all</a>,
+                            $('.match-view-all')[0]
+                        );
+
+                        $('#matchmaking .view-all')
+                            .click(function () {
+                                get_users(1, null, 0);
+                                $('#search')[0].value = '';
+                            });
+                    }
+
+                    if (!match_binded) {
+                        $('#matchmaking-pagination')
+                            .bootpag({
+                                total: ~~(data.total / data.limit),
+                                page: page,
+                                maxVisible: 10,
+                                leaps: false,
+                                firstLastUse: true 
+                            })
+                            .on('page', function (event, num) {
+                                get_users(num, search, search_by);
+                            });
+
+                        $('#search-match')
+                            .submit(function (event) {
+                                var search_input = $('#search')[0].value,
+                                    search_by_input = $('#by-name')[0].checked ? 1 : 0;
+
+                                event.preventDefault();
+
+                                if (search_input && search_input !== ' ') {
+                                    get_users(1, search_input, search_by_input);
+                                }
+                            });
+
+                        bind_favorite_buttons();
+                        match_binded = true;
+                    }
+                },
+
+                error: function () {
+                    React.render(
+                        <htbt.lfg.Error data="No users found."/>,
+                        $('#matchmaking')[0]
+                    );
+                }
+            });
+        },
+
+        mark_as_favorite = function (id) {
+            $.ajax({
+                type: 'POST',
+                url: htbt.config.backend + '/lfg/favorite',
+
+                data: {
+                    youtube_id: channel.id,
+                    favorite: id
+                },
+
+                success: function () {},
+                error: err_cb
+            });
+        },
+
+        /*End of matchmaking functions*/
+
+        /*User Functions*/
+
+        get_categories = function () {
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + '/lfg/categories',
+
+                success: function (data) {
+                    categories = data;
+                    get_user(channel.id);
+                },
+
+                error: err_cb
+            });
+        },
+
+        get_user = function (youtube_id) {
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + '/lfg/user',
+
+                data: {
+                    channel_id: channel.id,
+                    youtube_id: youtube_id
+                },
+
+                success: render_details,
+
+                error: function (err) {
+                    var data = {categories: categories};
+
+                    if (youtube_id === channel.id) {
+                        $.ajax({
+                            type: 'GET',
+                            url: 'http://api.accounts.freedom.tm/user',
+
+                            headers: {'ACCESS-TOKEN': session},
+
+                            success: function (e) {
+                                email = e.email;
+                            },
+
+                            error: function () {}
+                        });
+
+                        React.render(
+                            <htbt.lfg.Profile data={data}/>,
+                            $('#profile')[0]
+                        );
+
+                        $('#pro-a').trigger('click');
+                        bind_profile_buttons();
+                        return;
+                    }
+
+                    err_cb(err);
+                }
+            });
+        },
+
+        render_details = function (data) {
+            if (data.youtube_id === channel.id) {
+                no_profile = false;
+                data.categories = categories;
+
+                data.about_me = data.about_me.replace('<br/>', '\r\n');
+
+                React.render(
+                    <htbt.lfg.Profile data={data}/>,
+                    $('#profile')[0]
+                );
+
+                bind_profile_buttons();
+                return;
+            }
+
+            React.render(
+                <htbt.lfg.View data={data}/>,
+                $('#matchmaking')[0]
+            );
+
+            $('.view-all')
+                .click(function () {
+                    get_users(1);
+                });
+
+            bind_favorite_buttons();
+        },
+
+        bind_profile_buttons = function () {
+            $('#save-profile')
+                .click(function () {
+                    var data,
+                        interests = $('.interests'),
+                        about = $('#about')[0].value;
+
+                    if (!about || about === ' ') {
+                        $('#about_label').addClass('err-input');
+                        $('#about').addClass('err-input');
+
+                        $('#about').keyup(function () {
+                            if (this.value && this.value !== ' ') {
+                                $('#about_label').removeClass('err-input');
+                                $('#about').removeClass('err-input');
+                            }
+                        });
+
+                        err_cb({responseText: 'Please fill out about me field.'});
+
+                        return;
+                    }
+
+                    if (!interests.is(':checked')) {
+                        $('#interests-title').addClass('err-input');
+
+                        $('.interests').click(function () {
+                            $('#interests-title').removeClass('err-input');
+                        })
+
+                        err_cb({responseText: 'Please select/check your interests.'});
+
+                        return;
+                    }
+
+                    interests = _(interests)
+                        .map(function (e) {
+                            if (e.checked) {
+                                return e.getAttribute('data');
+                            }
+                        })
+                        .filter(function (e) {
+                            if (e) {
+                                return e;
+                            }
+                        })
+                        .value()
+                        .join(',');
+
+                    data = {
+                        email: email,
+                        about_me: about,
+                        interests: interests,
+                        youtube_id: channel.id,
+                        twitch_id: $('#twitch_id')[0].value || ' ',
+                        hitbox_id: $('#hitbox_id')[0].value || ' ',
+                        is_looking: $('#looking')[0].checked ? 'Yes' : 'No' 
+                    };
+
+                    if (no_profile) {
+                        return register(data);
+                    }
+
+                    update_user(data);
+                });
+        },
+
+        bind_favorite_buttons = function () {
+            $('.favorite').click(function () {
+                var id = get_id(this.id, '_fave');
+
+                if (this.classList.contains('active')) {
+                    this.className = 'favorite material-icons';
+                }
+                else {
+                    this.className = 'active favorite material-icons';
+                }
+
+                mark_as_favorite(id);
+            });
+        },
+
+        update_user = function (data) {
+            $.ajax({
+                type: 'PUT',
+                url: htbt.config.backend + '/lfg/user',
+                data: data,
+                success: suc_cb,
+                error: err_cb
+            });
+        },
+
+        register = function (data) {
+            $.ajax({
+                type: 'POST',
+                url: htbt.config.backend + '/lfg/user',
+                data: data,
+                success: function () {
+                    window.location.reload();
+                },
+                error: err_cb
+            });
+        },
+
+        /*End of user functions*/
+
         /*Login functions*/
 
         is_signed_in = function () {
+            React.render(
+                <htbt.lfg.Loader />,
+                $('#matchmaking')[0]
+            );
+
             session = document.cookie.split('; ');
 
             _(session)
@@ -41,6 +332,7 @@
                     $('#login-cont')[0]
                 );
 
+                $('#matchmaking .center-align')[0].style.display = 'none';
                 return;
             }
 
@@ -48,9 +340,7 @@
                 type: 'GET',
                 url: 'http://api.accounts.freedom.tm/user/google_access_token',
 
-                headers: {
-                    'ACCESS-TOKEN': session
-                },
+                headers: {'ACCESS-TOKEN': session},
 
                 success: get_channel,
 
@@ -59,6 +349,8 @@
                         <htbt.lfg.Login />,
                         $('#login-cont')[0]
                     );
+
+                    $('#matchmaking .center-align')[0].style.display = 'none';
                 }
             });
         },
@@ -73,9 +365,7 @@
                     mine: true
                 },
 
-                headers: {
-                    'Authorization': 'Bearer ' + data.google_access_token
-                },
+                headers: {'Authorization': 'Bearer ' + data.google_access_token},
 
                 success: start,
                 error: err_cb
@@ -83,6 +373,8 @@
         },
 
         start = function (data) {
+            var profile = window.location.href.split('#profile?id=')[1];
+
             if (!data.items.length) {
                 return err_cb();
             }
@@ -105,9 +397,7 @@
                         type: 'POST',
                         url: 'http://api.accounts.freedom.tm/auth/logout',
 
-                        headers: {
-                            'ACCESS-TOKEN': session
-                        },
+                        headers: {'ACCESS-TOKEN': session},
 
                         success: function () {
                             location.reload();
@@ -116,6 +406,14 @@
                         error: err_cb
                     });
                 });
+
+            get_categories();
+
+            if (profile) {
+                return get_user(profile);
+            }
+
+            get_users(1);
         };
 
         /*End of login functions*/
