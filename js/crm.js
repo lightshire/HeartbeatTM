@@ -34,7 +34,7 @@
             );
 
             $('#commenters .search-container #all-commenters')[0].style.display = search ? '' : 'none';
-            $('#commenters .search-container')[0].value = search ? search : '';
+            $('#commenters .search-container')[0].value = search;
 
             $.ajax({
                 type: 'GET',
