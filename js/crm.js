@@ -160,6 +160,7 @@
 
                 success: function () {
                     get_commenters(1, null, id);
+                    get_stats();
                 },
 
                 error: function (err) {
@@ -485,6 +486,15 @@
                     legend: { position: 'none' }
                 },
                 chart;
+
+            if (data && !data.length) {
+                React.render(
+                    <htbt.crm.Error data="No data found" />,
+                    $('#stats_chart')[0]
+                );
+
+                return;
+            }
 
             chart = new google.visualization.LineChart($('#stats_chart')[0]);
 
