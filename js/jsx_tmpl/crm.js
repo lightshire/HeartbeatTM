@@ -99,38 +99,10 @@
                             </div>
                         </li>
                     );
-                }).commit(),
-
-                all_commenters = this.props.data.search 
-                    ?   <div>
-                            <a id="all-commenters">All Commenters</a>
-                        </div>
-                    :   '',
-
-                search_form = (
-                    <form id="search_commenter">
-                        <div className="row">
-                            <div className="input-field col s8">{all_commenters}</div>
-                            <div className="input-field col s4">
-                                <i className="mdi-action-search prefix"></i>
-                                
-                                <input 
-                                    id="icon_search" 
-                                    className="validate" 
-                                    type="text"
-                                    defaultValue={this.props.data.search}/>
-                                
-                                <label 
-                                    className={this.props.data.search ? 'active' : ''} 
-                                    htmlFor="icon_search">Search</label>
-                            </div>
-                        </div>
-                    </form>
-                );
+                }).commit();
 
                 return (
                     <div>
-                        {search_form}
                         <ul className="collapsible" data-collapsible="accordion">
                             {commenters}
                         </ul>
@@ -138,6 +110,34 @@
                             <p id="commenters-pagination"></p>
                         </center>
                     </div>
+                );
+            }
+        }),
+
+        Search: React.createClass({
+            render: function () {
+                return (
+                    <form id="search_commenter">
+                        <div className="row">
+                            <div className="input-field col s8">
+                                <div>
+                                    <a id="all-commenters">All Commenters</a>
+                                </div>
+                            </div>
+                            <div className="input-field col s4">
+                                <i className="mdi-action-search prefix"></i>
+                                
+                                <input 
+                                    id="icon_search"
+                                    className="validate" 
+                                    type="text" />
+                                
+                                <label 
+                                    className="active" 
+                                    htmlFor="icon_search">Search</label>
+                            </div>
+                        </div>
+                    </form>
                 );
             }
         }),

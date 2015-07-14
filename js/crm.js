@@ -26,12 +26,15 @@
         get_commenters = function (page, search, video_id) {
             var container = on_video 
                 ? $('#videos')[0]
-                : $('#commenters')[0];
+                : $('#commenters .com-container')[0];
 
             React.render(
                 <htbt.crm.Loader />,
                 container
             );
+
+            $('#commenters .search-container #all-commenters')[0].style.display = search ? '' : 'none';
+            $('#commenters .search-container')[0].value = search ? search : '';
 
             $.ajax({
                 type: 'GET',
@@ -138,7 +141,7 @@
         cache_comments = function (id, latest) {
             var container = on_video 
                 ? $('#videos')[0] 
-                : $('#commenters')[0];
+                : $('#commenters .container')[0];
 
             React.render(
                 <div>
@@ -190,7 +193,7 @@
             if (!on_video) {
                 React.render(
                     <htbt.crm.Commenter data={data} />,
-                    $('#commenters')[0]
+                    $('#commenters .com-container')[0]
                 );
 
                 bind_commenters(data, page);
@@ -599,6 +602,11 @@
             React.render(
                 <htbt.crm.Logout />,
                 $('#login-cont')[0]
+            );
+
+            React.render(
+                <htbt.crm.Search />,
+                $('#commenters .search-container')[0]
             );
 
             $('#logout')
