@@ -433,11 +433,14 @@
             $('#comment_timespan').change(function () {
                 get_comments_stats(this.value);
             });
-
-            get_comments_stats('7days');
         },
 
         get_comments_stats = function (duration) {
+            React.render(
+                <htbt.crm.Loader />,
+                $('#stats_chart')[0]
+            );
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/comments',
@@ -469,7 +472,7 @@
                         }
                     },
                     hAxis: { 
-                        maxValue: '500',
+                        maxValue: '150',
                         textStyle: {
                             fontSize: 12
                         }
@@ -487,16 +490,12 @@
 
             data = _(data)
                 .map(function (e) {
-                    return [e.published_at, +e.count]
+                    return [e.published_at, e.count]
                 }).value();
 
             data.unshift(['Dates', 'Comments']);
             data = google.visualization.arrayToDataTable(data);
-
-            setTimeout(function () {
-                chart.draw(data, options);
-            }, 2000);
-
+            chart.draw(data, options);
         },
 
         /*Listeners*/
@@ -505,6 +504,10 @@
             $('.tab')
                 .click(function () {
                     on_video = this.id === 'v_tab' ? true : false;
+
+                    if (this.id === 's_tab') {
+                        get_comments_stats($('#comment_timespan')[0].value);
+                    }
                 });
         },
 
@@ -549,7 +552,7 @@
                         $('#login-cont')[0]
                     );
                 }
-            });
+        });
         },
 
         get_channel = function (data) {
@@ -602,7 +605,9 @@
                             location.reload();
                         },
 
-                        error: err_cb
+                        error: function () {
+                            location.reload();
+                        }
                     });
                 });
 
