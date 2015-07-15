@@ -126,15 +126,11 @@
                             </div>
                             <div className="input-field col s4">
                                 <i className="mdi-action-search prefix"></i>
-                                
-                                <input 
+                                <input
                                     id="icon_search"
-                                    className="validate" 
+                                    className="validate"
                                     type="text" />
-                                
-                                <label 
-                                    className="active" 
-                                    htmlFor="icon_search">Search</label>
+                                <label htmlFor="icon_search">Search</label>
                             </div>
                         </div>
                     </form>
@@ -224,7 +220,25 @@
                                 <i className="material-icons left">play_for_work</i>
                                 Update commenters
                             </a>
-
+                        </div>
+                        <div className="col s12 search-container">
+                            <form id="search_commenter">
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <div>
+                                            <a id="all-commenters">All Commenters</a>
+                                        </div>
+                                    </div>
+                                    <div className="input-field col s4">
+                                        <i className="mdi-action-search prefix"></i>
+                                        <input
+                                            id="icon_search"
+                                            className="validate"
+                                            type="text" />
+                                        <label htmlFor="icon_search">Search</label>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 );

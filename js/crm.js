@@ -25,7 +25,7 @@
 
         get_commenters = function (page, search, video_id) {
             var container = on_video 
-                ? $('#videos')[0]
+                ? $('#videos .com-container')[0]
                 : $('#commenters .com-container')[0];
 
             React.render(
@@ -34,7 +34,6 @@
             );
 
             $('#commenters .search-container #all-commenters')[0].style.display = search ? '' : 'none';
-            $('#commenters .search-container')[0].value = search;
 
             $.ajax({
                 type: 'GET',
@@ -59,14 +58,18 @@
                         if (search) {
                             React.render(
                                 <div className="center-align">
-                                    <htbt.crm.Error data={'No results found. Returning to commenters.'} />
+                                    <htbt.crm.Error data={'No results found.'} />
                                 </div>,
                                 container
                             );
 
-                            setTimeout(function () {
-                                get_commenters(1, null, video_id);
-                            }, 3000);
+                            $('#videos .search-container #all-commenters')[0].style.display = search ? '' : 'none';
+
+                            $('#videos #all-commenters')
+                                .click(function () {
+                                    $('#videos #icon_search')[0].value = '';
+                                    get_commenters(1, null, video_id);
+                                });
 
                             return;
                         }
@@ -78,15 +81,16 @@
                         if (search) {
                             React.render(
                                 <div className="center-align">
-                                    <htbt.crm.Error data={'No results found. Returning to commenters.'} />
+                                    <htbt.crm.Error data={'No results found.'} />
                                 </div>,
                                 container
                             );
 
-                            setTimeout(function () {
-                                get_commenters(1, null, video_id);
-                            }, 3000);
-
+                            $('#commenters #all-commenters')
+                                .click(function () {
+                                    $('#commenters #icon_search')[0].value = '';
+                                    get_commenters(1);
+                                });
 
                             return;
                         }
@@ -223,12 +227,16 @@
                     }
 
                     React.render(
-                        <div>
-                            <htbt.crm.ActiveVideo data={active_video}/>
-                            <htbt.crm.Commenter data={data} />
-                        </div>,
-                        $('#videos')[0]
+                        <htbt.crm.ActiveVideo data={active_video}/>,
+                        $('#videos .active-container')[0]
                     );
+
+                    React.render(
+                        <htbt.crm.Commenter data={data} />,
+                        $('#videos .com-container')[0]
+                    );
+
+                    $('#videos .search-container #all-commenters')[0].style.display = data.search ? '' : 'none';
 
                     $('#back-to-videos')
                         .click(function () {
@@ -267,6 +275,7 @@
                 });
 
             $(container + ' #search_commenter')
+                .unbind('submit')
                 .submit(function (e) {
                     e.preventDefault();
                     get_commenters(1, $(container + ' #icon_search').val(), data.video_id);
@@ -324,10 +333,11 @@
                 $(container + ' #all-commenters')
                     .click(function () {
                         if (on_video) {
-                            get_commenters(1, null, null);
+                            return get_commenters(1, null, data.video_id);
                         }
 
-                        get_commenters(1, null, data.video_id);
+                        $(container + ' #icon_search')[0].value = '';
+                        get_commenters(1, null, null);
                     });
             }
         },
@@ -351,7 +361,7 @@
         get_videos = function (page) {
             React.render(
                 <htbt.crm.Loader />,
-                $('#videos')[0]
+                $('#videos .com-container')[0]
             );
 
             $.ajax({
@@ -371,7 +381,7 @@
         render_videos = function (data) {
             React.render(
                 <htbt.crm.Videos data={data} />,
-                $('#videos')[0]
+                $('#videos .com-container')[0]
             );
 
             $('.prev')
@@ -396,7 +406,7 @@
                             <htbt.crm.Retrieving />
                             <htbt.crm.Loader />
                         </div>,
-                        $('#videos')[0]
+                        $('#videos .com-container')[0]
                     );
 
                     get_commenters(1, null, id);
