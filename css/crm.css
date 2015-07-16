@@ -1,3 +1,12 @@
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
 #crm_container .channel_pic {
 	height: 50px; 
 	display: inline-block;
@@ -101,6 +110,30 @@ textarea.materialize-textarea {
 
 #videos .card .card-image img {
 	height: 100%;
+	position: absolute;
+}
+
+#videos .sync-vid {
+	z-index: 9;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	color: #fff !important;
+	transition: 0.5s;
+}
+
+#videos .rotating {
+    -webkit-animation: rotating 2s linear infinite;
+}
+
+#videos .sync-vid.active,
+#videos .sync-vid:hover {
+	color: #00b0ff !important;
+}
+
+#videos .sync-vid.done {
+	color: #43a047 !important;
+	font-weight: bold;
 }
 
 #videos .card:hover, 
@@ -134,6 +167,10 @@ textarea.materialize-textarea {
 
 #back-to-videos {
 	transition: 0.5s;
+}
+
+#retrieve-all-vids {
+	display: none;
 }
 
 #back-to-videos:hover {

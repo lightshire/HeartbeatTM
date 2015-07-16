@@ -144,6 +144,10 @@
                     return (
                         <div className="col s3">
                             <div className="card small blue-grey lighten-1">
+                                <i
+                                    id={e.id + '_sync'}
+                                    className="material-icons pull-right sync-vid" 
+                                    title="Sync commenters">loop</i>
                                 <div id={e.id + '_video'} className="video card-image">
                                     <img src={e.thumbnail} />
                                 </div>

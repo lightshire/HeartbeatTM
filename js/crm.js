@@ -4,6 +4,9 @@
     var session,
         channel = {},
         active_video,
+        ret_total = 0,
+        ret_current = 0,
+        all_videos = [],
         on_video = false,
         already_checked = false,
 
@@ -121,7 +124,8 @@
 
                         $('#retrieve-all')
                             .click(function () {
-                                cache_comments(null, null);
+                                get_videos(null, true);
+                                $('#v_tab a').trigger('click');
                             });
 
                         $('#retrieve-certain')
@@ -240,6 +244,10 @@
 
                     $('#back-to-videos')
                         .click(function () {
+                            React.render(
+                                <div></div>,
+                                $('#videos .active-container')[0]
+                            );
                             get_videos();
                         });
 
@@ -358,7 +366,72 @@
 
         /*Videos tab functions*/
 
-        get_videos = function (page) {
+        get_all_videos = function (data) {
+            all_videos = all_videos.concat(data.items);
+
+            if (data.nextPageToken) {
+                return get_videos(data.nextPageToken, true);
+            }
+
+            render_videos({items: all_videos});
+        },
+
+        retrieve_all = function () {
+            var i = 0,
+                async = 0,
+
+                retriever = function () {
+                    if (!all_videos[i]) {
+                        return window.location.reload();
+                    }
+
+                    async = all_videos[i].length;
+
+                    _(all_videos[i++])
+                        .forEach(function (e) {
+                            var id = e.id.split('_sync')[0];
+
+                            $.ajax({
+                                type: 'POST',
+                                url: htbt.config.backend + '/crm/cache_comments',
+
+                                data: {
+                                    channel_id: channel.id,
+                                    video_id: id
+                                },
+
+                                success: function () {
+                                    $('#retrieve-all-vids .current')[0].textContent = ++ret_current;
+                                    e.classList.remove('rotating', 'active');
+                                    e.classList.add('done');
+                                    e.textContent = 'done';
+
+                                    if (!--async) {
+                                        retriever();
+                                    }
+                                },
+
+                                error: function () {}
+                            });
+                        })
+                        .commit();
+                };
+
+            ret_current = 0;
+            $('#retrieve-all-vids .current')[0].textContent = ret_current;
+            $('#retrieve-all-vids .total')[0].textContent = all_videos.length;
+            
+            _($('.sync-vid'))
+                .forEach(function (e) {
+                    e.classList.add('rotating', 'active');
+                })
+                .commit();
+            
+            all_videos = _.chunk($('.sync-vid'), 10);
+            retriever();
+        },
+
+        get_videos = function (page, get_all) {
             React.render(
                 <htbt.crm.Loader />,
                 $('#videos .com-container')[0]
@@ -373,7 +446,15 @@
                     next_page: page
                 },
 
-                success: render_videos,
+                success: function (data) {
+                    if (get_all) {
+                        get_all_videos(data);
+                        return;
+                    }
+
+                    render_videos(data);
+                },
+
                 error: err_cb
             });
         },
@@ -393,6 +474,47 @@
                 .click(function () {
                     get_videos(data.nextPageToken);
                 });
+
+
+            if (all_videos.length) {
+                retrieve_all();
+            }
+            else {
+                $('.sync-vid')
+                    .click(function () {
+                        var id = this.id.split('_sync')[0],
+                            self = this;
+
+                        if (ret_total === ret_current) {
+                            ret_current = ret_total = 0;
+                            $('#retrieve-all-vids .current')[0].textContent = ret_current;
+                        }
+
+                        $('#retrieve-all-vids .total')[0].textContent = ++ret_total;
+                        self.classList.remove('done');
+                        self.textContent = 'loop';
+                        this.classList.add('rotating', 'active');
+
+                        $.ajax({
+                            type: 'POST',
+                            url: htbt.config.backend + '/crm/cache_comments',
+
+                            data: {
+                                channel_id: channel.id,
+                                video_id: id
+                            },
+
+                            success: function () {
+                                $('#retrieve-all-vids .current')[0].textContent = ++ret_current;
+                                self.classList.remove('rotating', 'active');
+                                self.classList.add('done');
+                                self.textContent = 'done';
+                            },
+
+                            error: err_cb
+                        });
+                    });
+            }
 
             $('.video')
                 .click(function () {
@@ -432,7 +554,13 @@
                 },
 
                 success: render_stats,
-                error: err_cb
+                
+                error: function () {
+                    React.render(
+                        <htbt.crm.Error data="No data found" />,
+                        $('#stats')[0]
+                    );
+                }
             });
         },
 
@@ -465,7 +593,13 @@
                 },
 
                 success: render_stats_chart,
-                error: err_cb
+                
+                error: function () {
+                    React.render(
+                        <htbt.crm.Error data="No data found" />,
+                        $('#stats_chart')[0]
+                    );
+                }
             });
         },
 
@@ -486,7 +620,7 @@
                         }
                     },
                     hAxis: { 
-                        maxValue: '150',
+                        maxValue: '100',
                         textStyle: {
                             fontSize: 12
                         }
@@ -528,7 +662,9 @@
                 .click(function () {
                     on_video = this.id === 'v_tab' ? true : false;
 
-                    if (this.id === 's_tab') {
+                    $('#retrieve-all-vids')[0].style.display = on_video ? 'inline-block' : 'none';
+
+                    if (this.id === 's_tab' && $('#comment_timespan')[0]) {
                         get_comments_stats($('#comment_timespan')[0].value);
                     }
                 });
@@ -637,6 +773,11 @@
                             location.reload();
                         }
                     });
+                });
+
+            $('#retrieve-all-vids .btn-small')
+                .click(function () {
+                    get_videos(null, true);
                 });
 
             get_commenters(1, null, null);
