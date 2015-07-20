@@ -51,11 +51,7 @@
                 },
                 
                 success: function (data) {
-                    render_commenters(data, page);
-                },
-
-                error: function (err) {
-                    if (video_id && !already_checked) {
+                    if (video_id && !already_checked && !data.commenters.length) {
                         already_checked = true;
 
                         if (search) {
@@ -80,7 +76,7 @@
                         return cache_comments(video_id, null);
                     }
 
-                    if (err.status === 404) {
+                    if (!data.commenters.length) {
                         if (search) {
                             React.render(
                                 <div className="center-align">
@@ -141,8 +137,10 @@
                         return;
                     }
 
-                    err_cb(err);
-                }
+                    render_commenters(data, page);
+                },
+
+                error: err_cb,
             });
         },
 
