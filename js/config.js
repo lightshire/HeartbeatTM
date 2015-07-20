@@ -5,7 +5,7 @@
     htbt.config = {};
 
     htbt.config.google_api_key = 'AIzaSyDBNUJQG9PXcGKkmgT4TWtXXQrCychOodI';
-    htbt.config.extension_id = 'ejhmzlu5zwlldjajydsc6ijmoiqq1pw';
+    htbt.config.extension_id = 'aailiojlhjbichheofhdpcongebcgcgm';
     htbt.config.dailymotion_api_key = 'fb0e94b9cd1d6ca3c69f';
     htbt.config.dailymotion_data = {};
     //htbt.config.backend = 'https://localhost:4433'
