@@ -1,0 +1,26 @@
+#hb-logo {
+	position: relative;
+	width: 30px;
+	top: 3px;
+	margin-right: 10px;
+}
+
+#fields {
+	margin-top: 30px;
+}
+
+#loader, #confirm {
+	margin-top: 250px;
+}
+
+#dota2-name, #lol-name, #hearthstone-name, #hots-name, #diablo3-name, #csgo-name, #wow-name, #minecraft-name {
+	position: relative;
+	top: 10px;
+}
+
+#dota2-logo, #lol-logo, #hearthstone-logo, #hots-logo, #diablo3-logo, #csgo-logo, #wow-logo, #minecraft-logo {
+	position: relative;
+	width: 20px;
+	top: 4px;
+	margin-right: 5px;
+}
