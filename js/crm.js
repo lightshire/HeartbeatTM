@@ -21,7 +21,7 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.responseText || 'An unexpected error occured');
+            toastr.error(err.responseText.message || 'An unexpected error occured');
         },
 
         /*Commenters tab functions*/
