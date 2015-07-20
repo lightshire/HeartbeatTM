@@ -40,7 +40,12 @@
                 success: function (data) {
                     React.render(
                         <htbt.lfg.Matchmaking data={data}/>,
-                        $('#matchmaking')[0]
+                        $('#matchmaking .match-container')[0]
+                    );
+
+                    React.render(
+                        <htbt.lfg.Search data={data}/>,
+                        $('#matchmaking .search-container')[0]
                     );
 
                     if (search) {
@@ -89,8 +94,21 @@
                 error: function () {
                     React.render(
                         <htbt.lfg.Error data="No users found."/>,
-                        $('#matchmaking')[0]
+                        $('#matchmaking .match-container')[0]
                     );
+
+                    if (search) {
+                        React.render(
+                            <a href="#!" className="view-all">View all</a>,
+                            $('.match-view-all')[0]
+                        );
+
+                        $('#matchmaking .view-all')
+                            .click(function () {
+                                get_users(1, null, 0);
+                                $('#search')[0].value = '';
+                            });
+                    }
                 }
             });
         },
@@ -190,7 +208,7 @@
 
             React.render(
                 <htbt.lfg.View data={data}/>,
-                $('#matchmaking')[0]
+                $('#matchmaking .match-container')[0]
             );
 
             $('.view-all')
@@ -312,7 +330,7 @@
         is_signed_in = function () {
             React.render(
                 <htbt.lfg.Loader />,
-                $('#matchmaking')[0]
+                $('#matchmaking .match-container')[0]
             );
 
             session = document.cookie.split('; ');

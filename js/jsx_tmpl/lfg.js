@@ -70,6 +70,30 @@
             }
         }),
 
+        Search: React.createClass({
+            render: function () {
+                return (
+                    <form id="search-match" className="col s12">
+                        <div className="row">
+                            <div className="match-view-all col s2">&nbsp;</div>
+                            <div className="input-field col s4 offset-s6">
+                                <i className="material-icons prefix">search</i>
+                                <input id="search" type="text" className="validate" placeholder="Search"/>
+                                <label htmlFor="search" className="active">Search</label>
+
+                                <div className="search-by-container">
+                                    <input id="by-name" className="with-gap" name="search-by" type="radio" defaultChecked/>
+                                    <label htmlFor="by-name" className="search-by">By name</label>
+                                    <input id="by-interest" className="with-gap" name="search-by" type="radio"/>
+                                    <label htmlFor="by-interest" className="search-by">By interest</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                );
+            }
+        }),
+
         Matchmaking: React.createClass({
             render: function () {
                 var users = _(this.props.data.users)
@@ -101,23 +125,6 @@
 
                 return (
                     <div className="row">
-                        <form id="search-match" className="col s12">
-                            <div className="row">
-                                <div className="match-view-all col s2">&nbsp;</div>
-                                <div className="input-field col s4 offset-s6">
-                                    <i className="material-icons prefix">search</i>
-                                    <input id="search" type="text" className="validate" placeholder="Search"/>
-                                    <label htmlFor="search" className="active">Search</label>
-
-                                    <div className="search-by-container">
-                                        <input id="by-name" className="with-gap" name="search-by" type="radio" defaultChecked/>
-                                        <label htmlFor="by-name" className="search-by">By name</label>
-                                        <input id="by-interest" className="with-gap" name="search-by" type="radio"/>
-                                        <label htmlFor="by-interest" className="search-by">By interest</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                         <ul className="collection">{users}</ul>
 
                         <center>
