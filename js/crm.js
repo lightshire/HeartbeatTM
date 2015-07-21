@@ -21,7 +21,7 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.responseText.message || 'An unexpected error occured');
+            toastr.error(err.responseText || 'An unexpected error occured');
         },
 
         /*Commenters tab functions*/
@@ -146,7 +146,7 @@
 
         cache_comments = function (id, latest) {
             var container = on_video 
-                ? $('#videos')[0] 
+                ? $('#videos .com-container')[0] 
                 : $('#commenters .container')[0];
 
             React.render(
@@ -206,59 +206,61 @@
                 return;
             }
 
-            $.ajax({
-                type: 'GET',
-                url: 'https://www.googleapis.com/youtube/v3/videos',
+            if (active_video) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://www.googleapis.com/youtube/v3/videos',
 
-                data: {
-                    id: active_video.id,
-                    key: htbt.config.google_api_key,
-                    part: 'statistics'
-                },
+                    data: {
+                        id: active_video.id,
+                        key: htbt.config.google_api_key,
+                        part: 'statistics'
+                    },
 
-                success: function (result) {
-                    if (!result.items.length) {
-                        active_video.statistics.viewCount = 0;
-                        active_video.statistics.commentCount = 0;
-                        active_video.statistics.likeCount = 0;
-                        active_video.statistics.dislikeCount = 0;
-                    }
+                    success: function (result) {
+                        if (!result.items.length) {
+                            active_video.statistics.viewCount = 0;
+                            active_video.statistics.commentCount = 0;
+                            active_video.statistics.likeCount = 0;
+                            active_video.statistics.dislikeCount = 0;
+                        }
 
-                    if (result.items[0].statistics) {
-                        active_video.statistics = result.items[0].statistics;
-                    }
+                        if (result.items[0].statistics) {
+                            active_video.statistics = result.items[0].statistics;
+                        }
 
-                    React.render(
-                        <htbt.crm.ActiveVideo data={active_video}/>,
-                        $('#videos .active-container')[0]
-                    );
+                        React.render(
+                            <htbt.crm.ActiveVideo data={active_video}/>,
+                            $('#videos .active-container')[0]
+                        );
 
-                    React.render(
-                        <htbt.crm.Commenter data={data} />,
-                        $('#videos .com-container')[0]
-                    );
+                        React.render(
+                            <htbt.crm.Commenter data={data} />,
+                            $('#videos .com-container')[0]
+                        );
 
-                    $('#videos .search-container #all-commenters')[0].style.display = data.search ? '' : 'none';
+                        $('#videos .search-container #all-commenters')[0].style.display = data.search ? '' : 'none';
 
-                    $('#back-to-videos')
-                        .click(function () {
-                            React.render(
-                                <div></div>,
-                                $('#videos .active-container')[0]
-                            );
-                            get_videos();
-                        });
+                        $('#back-to-videos')
+                            .click(function () {
+                                React.render(
+                                    <div></div>,
+                                    $('#videos .active-container')[0]
+                                );
+                                get_videos();
+                            });
 
-                    $('.sync')
-                        .click(function () {
-                            cache_comments(this.id, null);
-                        });
+                        $('.sync')
+                            .click(function () {
+                                cache_comments(this.id, null);
+                            });
 
-                    bind_commenters(data, page);
-                },
+                        bind_commenters(data, page);
+                    },
 
-                error: err_cb
-            });
+                    error: err_cb
+                });
+            }
         },
 
         bind_commenters = function (data, page) {
