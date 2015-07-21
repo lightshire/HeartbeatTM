@@ -220,6 +220,11 @@
         },
 
         bind_profile_buttons = function () {
+            var e = $('#profile ul.tabs');
+            e.tabs();
+            e[0].lastChild.style.left = '0';
+            e[0].lastChild.style.right = '67%';
+
             $('#save-profile')
                 .click(function () {
                     var data,

@@ -138,7 +138,8 @@
 
         Profile: React.createClass({
             render: function () {
-                var self = this,
+                var sub_categories = [],
+                    self = this,
 
                     first = (
                         <div className="row">
@@ -170,7 +171,7 @@
                                         : '';
 
                                     return (
-                                        <p>
+                                        <p className="col s3">
                                             <input
                                                 type="checkbox"
                                                 className="filled-in interests"
@@ -183,13 +184,12 @@
                                 })
                                 .value();
 
+                            sub_categories.push(<div id={low} className="col s12 category-col">{sub}</div>);
+
                             return (
-                                <div id={low} className="col s4">
-                                    <h6>{e.category}</h6>
-                                    <div className="category-col">
-                                        {sub}
-                                    </div>
-                                </div>
+                                <li className="tab col s4">
+                                    <a href={'#' + low}>{e.category}</a>
+                                </li>
                             );
                         })
                         .value();
@@ -256,7 +256,12 @@
                         </div>
                         <h5 id="interests-title">Interests</h5>
                         <div className="row">
-                            {categories}
+                            <div className="col s12">
+                                <ul className="tabs">
+                                    {categories}
+                                </ul>
+                            </div>
+                            {sub_categories}
                         </div>
                         <br/><br/>
                         <div className="row">
