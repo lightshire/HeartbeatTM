@@ -29,7 +29,8 @@
                                 </a>
                             :   '',
 
-                        comments = _(e.comments).map(function (k) {
+                        comments = _(e.comments)
+                            .map(function (k) {
                                 return (
                                     <span><q dangerouslySetInnerHTML={{__html: k.comment}}></q><br/></span>
                                 );
@@ -140,24 +141,28 @@
 
         Videos: React.createClass({
             render: function () {
-                var videos = _(this.props.data.items).map(function (e) {
-                    return (
-                        <div className="col s3">
-                            <div className="card small blue-grey lighten-1">
-                                <i
-                                    id={e.id + '_sync'}
-                                    className="material-icons pull-right sync-vid" 
-                                    title="Sync commenters">loop</i>
-                                <div id={e.id + '_video'} className="video card-image">
-                                    <img src={e.thumbnail} />
-                                </div>
-                                <div className="card-content white-text center">
-                                    <p>{e.title}</p>
+                var pages = !this.props.data.prevPageToken && !this.props.data.nextPageToken,
+
+                    videos = _(this.props.data.items).map(function (e) {
+                        return (
+                            <div className="col s3">
+                                <div className="card small blue-grey lighten-1">
+                                    <i
+                                        id={e.id + '_sync'}
+                                        className="material-icons pull-right sync-vid"
+                                        title="Sync commenters">loop</i>
+                                    <div id={e.id + '_video'} className="video card-image">
+                                        <img src={e.thumbnail} />
+                                    </div>
+                                    <div
+                                        id={e.id + '_video'}
+                                        className="video card-content white-text center">
+                                        <p>{e.title}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                }).commit(),
+                        );
+                    }).commit(),
 
                 pagination = (
                     <ul className="vpg pagination center">
@@ -182,7 +187,7 @@
 
                         <div className="row">
                             <div className="input-field col s4"></div>
-                            <div className="input-field col s4">{pagination}</div>
+                            <div className="input-field col s4">{pages ? '' : pagination}</div>
                             <div className="input-field col s4"></div>
                         </div>
                     </div>
@@ -193,11 +198,15 @@
         ActiveVideo: React.createClass({
             render: function () {
                 var e = this.props.data;
-                
+
                 return (
                     <div className="row">
                         <br/>
                         <div className="col s4">
+                            <i
+                                id={e.id}
+                                className="material-icons pull-right sync"
+                                title="Sync commenters">loop</i>
                             <img className="vid_pic" src={e.thumbnail} />
                         </div>
                         <div className="col s8">
@@ -218,12 +227,6 @@
                                 &nbsp;&nbsp;
                                 {e.statistics.dislikeCount} <i className="mdi-action-thumb-down"></i>
                             </p>
-                            <a
-                                id={e.id}
-                                className="btn waves-effect waves-light sync pull-right deep-orange lighten-2">
-                                <i className="material-icons left">play_for_work</i>
-                                Update commenters
-                            </a>
                         </div>
                         <div className="col s12 search-container">
                             <form id="search_commenter">

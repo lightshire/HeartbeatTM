@@ -373,7 +373,7 @@
                 return get_videos(data.nextPageToken, true);
             }
 
-            render_videos({items: all_videos});
+            retrieve_all();
         },
 
         retrieve_all = function () {
@@ -382,7 +382,7 @@
 
                 retriever = function () {
                     if (!all_videos[i]) {
-                        return window.location.reload();
+                        return get_videos();
                     }
 
                     async = all_videos[i].length;
@@ -402,9 +402,6 @@
 
                                 success: function () {
                                     $('#retrieve-all-vids .current')[0].textContent = ++ret_current;
-                                    e.classList.remove('rotating', 'active');
-                                    e.classList.add('done');
-                                    e.textContent = 'done';
 
                                     if (!--async) {
                                         retriever();
@@ -427,7 +424,7 @@
                 })
                 .commit();
             
-            all_videos = _.chunk($('.sync-vid'), 10);
+            all_videos = _.chunk(all_videos, 10);
             retriever();
         },
 
@@ -475,46 +472,38 @@
                     get_videos(data.nextPageToken);
                 });
 
+            $('.sync-vid')
+                .click(function () {
+                    var id = this.id.split('_sync')[0],
+                        self = this;
 
-            if (all_videos.length) {
-                retrieve_all();
-            }
-            else {
-                $('.sync-vid')
-                    .click(function () {
-                        var id = this.id.split('_sync')[0],
-                            self = this;
+                    if (ret_total === ret_current) {
+                        ret_current = ret_total = 0;
+                        $('#retrieve-all-vids .current')[0].textContent = ret_current;
+                    }
 
-                        if (ret_total === ret_current) {
-                            ret_current = ret_total = 0;
-                            $('#retrieve-all-vids .current')[0].textContent = ret_current;
-                        }
+                    self.classList.remove('done');
+                    self.textContent = 'loop';
+                    this.classList.add('rotating', 'active');
 
-                        $('#retrieve-all-vids .total')[0].textContent = ++ret_total;
-                        self.classList.remove('done');
-                        self.textContent = 'loop';
-                        this.classList.add('rotating', 'active');
+                    $.ajax({
+                        type: 'POST',
+                        url: htbt.config.backend + '/crm/cache_comments',
 
-                        $.ajax({
-                            type: 'POST',
-                            url: htbt.config.backend + '/crm/cache_comments',
+                        data: {
+                            channel_id: channel.id,
+                            video_id: id
+                        },
 
-                            data: {
-                                channel_id: channel.id,
-                                video_id: id
-                            },
+                        success: function () {
+                            self.classList.remove('rotating', 'active');
+                            self.classList.add('done');
+                            self.textContent = 'done';
+                        },
 
-                            success: function () {
-                                $('#retrieve-all-vids .current')[0].textContent = ++ret_current;
-                                self.classList.remove('rotating', 'active');
-                                self.classList.add('done');
-                                self.textContent = 'done';
-                            },
-
-                            error: err_cb
-                        });
+                        error: err_cb
                     });
-            }
+                });
 
             $('.video')
                 .click(function () {

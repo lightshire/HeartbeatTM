@@ -113,6 +113,15 @@ textarea.materialize-textarea {
 	position: absolute;
 }
 
+#videos .sync {
+	z-index: 9;
+	position: relative;
+	right: 2px;
+	top: 30px;
+	color: #fff !important;
+	transition: 0.5s;
+}
+
 #videos .sync-vid {
 	z-index: 9;
 	position: absolute;
@@ -126,9 +135,11 @@ textarea.materialize-textarea {
     -webkit-animation: rotating 2s linear infinite;
 }
 
+#videos .sync:hover,
 #videos .sync-vid.active,
 #videos .sync-vid:hover {
 	color: #00b0ff !important;
+	cursor: pointer;
 }
 
 #videos .sync-vid.done {
