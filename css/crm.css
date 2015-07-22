@@ -1,0 +1,203 @@
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
+#crm_container .channel_pic {
+	height: 50px; 
+	display: inline-block;
+}
+
+#crm_container .channel_name {
+	display: inline-block;
+  	position: relative;
+  	top: -17px;
+  	font-size: 20px;
+  	margin-left: 10px;
+}
+
+#commenters .pagination {
+	display: inline-block
+}
+
+#commenters .pagination li:hover {
+	background-color: #ee6e73;
+}
+
+#commenters .preloader-wrapper.big,
+#videos .preloader-wrapper.big {
+	margin-top: 20px;
+}
+
+#icon_search {
+	margin-bottom: 0px;
+}
+
+.card-image {
+	height: 250px;
+}
+
+.card .card-image .card-title {
+  	padding: 10px !important;
+}
+
+.card .card-title {
+  	font-size: 20px !important;
+}
+
+textarea.materialize-textarea {
+	padding: 1.0rem 0;
+	min-height: 0px;
+}
+
+.pull-right {
+	float: right !important;
+}
+
+.commenter_pic {
+	height: 30px !important;
+	margin-top: 7px;
+}
+
+.commenter_name {
+	margin-left: 10px;
+  	position: relative;
+  	top: -9px;
+}
+
+.save {
+	height: 30px;
+  	line-height: 30px;
+  	padding: 0 15px;
+	margin: -18px 0px 7px 8px;
+}
+
+.favorite, .block {
+	color: #000;
+	transition: 0.5s;
+}
+
+.favorite i, .block i {
+	margin: -12px 5px 0px 5px;
+}
+
+.favorite:hover, .block:hover,
+.favorite.active, .block.active {
+	color: #f00;
+	cursor: pointer;
+}
+
+.comment_count {
+	right: -12px;
+  	position: relative;
+  	color: #fff;
+  	font-size: 11px;
+  	top: -2px;
+}
+
+#videos .card.small .card-content {
+	padding: 3px 20px 20px 20px;
+	font-size: 11px;
+}
+
+#videos .card.small {
+	height: 202px;
+}
+
+#videos .card .card-image img {
+	height: 100%;
+	position: absolute;
+}
+
+#videos .sync {
+	z-index: 9;
+	position: relative;
+	right: 2px;
+	top: 30px;
+	color: #fff !important;
+	transition: 0.5s;
+}
+
+#videos .sync-vid {
+	z-index: 9;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	color: #fff !important;
+	transition: 0.5s;
+}
+
+#videos .rotating {
+    -webkit-animation: rotating 2s linear infinite;
+}
+
+#videos .sync:hover,
+#videos .sync-vid.active,
+#videos .sync-vid:hover {
+	color: #00b0ff !important;
+	cursor: pointer;
+}
+
+#videos .sync-vid.done {
+	color: #43a047 !important;
+	font-weight: bold;
+}
+
+#videos .card:hover, 
+#all-commenters:hover {
+	cursor: pointer;
+}
+
+#videos .vpg li {
+	float: none;
+	display: initial;
+	vertical-align: initial;
+}
+
+#videos .vid_pic {
+	width: 250px;
+}
+
+#stats .commenter_pic {
+	margin: 0px 10px;
+	position: relative;
+	top: 7px;
+}
+
+#stats a {
+	color: #000;
+}
+
+#stats .top-vid {
+	width: 90px;
+}
+
+#back-to-videos {
+	transition: 0.5s;
+}
+
+#retrieve-all-vids {
+	display: none;
+}
+
+#back-to-videos:hover {
+	cursor: pointer;
+	color: #dd2c00;
+}
+
+.timespan-label {
+	font-size: 12px;
+  	color: #999;
+}
+
+.collapsible-header .fa {
+	margin-right: 0px;
+}
+
+.collapsible-header .mdi-communication-messenger{
+	margin-left: -6px;
+}
