@@ -145,7 +145,7 @@
                                     <div className="dailymotion col s4">
                                         <div className="input-field">
                                             <input id="dailymotion" type="text" className="platform_fields validate"/>
-                                            <label htmlFor="dailymotion">Dailymotion Username</label>
+                                            <label htmlFor="dailymotion">Dailymotion Username or ID</label>
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@
                     $('#fields').attr('style', 'display:none');
                     $.ajax({
                         type: "POST",
-                        url:  htbt.config.backend + '/save_game_usernames',
+                        url:  'http://localhost/save_game_usernames',
                         data
                     })
                     .done(function (result) {
