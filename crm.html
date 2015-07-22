@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Heartbeat | Comment Relationship Manager</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/crm.css">
+    </head>
+
+
+    <body>
+        <div class="container">
+            <br><br>
+            <div class="title">
+                <h5>Commenter Relationship Manager</h5>
+                
+                <div id="login-cont"></div>
+            </div>
+            <br>
+            <div id="crm_container" class="row">
+                <div id="channel-profile" class="col s12"></div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li id="c_tab" class="tab col s3"><a href="#commenters">Commenters</a></li>
+                        <li id="v_tab" class="tab col s3"><a href="#videos">Videos</a></li>
+                        <li id="s_tab" class="tab col s3"><a href="#stats">Overall Stats</a></li>
+                    </ul>
+                </div>
+
+                <div id="commenters" class="col s12">
+                    <div class="search-container"></div>
+                    <div class="com-container"></div>
+                </div>
+                <div id="videos" class="col s12">
+                    <div class="active-container"></div>
+                    <div class="com-container"></div>
+                </div>
+                <div id="stats" class="col s12"></div>
+            </div>
+        </div>
+
+        <div id="retrieve-modal" class="modal modal-footer">
+            <div class="modal-content">
+                <h4>How many of your latest videos do you want to retrieve videos from ?</h4>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">videocam</i>
+                    <input id="video-count" type="text" class="validate"/>
+                    <label for="video-count">No. of videos</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a 
+                    id="retrieve"
+                    class="modal-action modal-close waves-effect waves-green btn">Retrieve</a>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="bower_components/toastr/toastr.min.js"></script>
+        <script type="text/javascript" src="bower_components/react/react.js"></script>
+        <script src="bower_components/react/JSXTransformer.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/bootpag.js"></script>
+        <script type="text/javascript" src="js/init.js"></script>
+        <script type="text/javascript" src="js/config.js"></script>
+        <script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+                'name':'visualization',
+                'version':'1',
+                'packages':['corechart']
+            }]
+          }"></script>
+        <script type="text/jsx" src="js/jsx_tmpl/crm.js"></script>
+        <script type="text/jsx" src="js/crm.js"></script>
+
+    </body>
+
+</html>
+

@@ -49,7 +49,7 @@
             $("#submit_usernames").bind('click', function() {
 
                 $('#platforms').attr('style', 'display:none');
-                $('#loader').attr('style', 'display:');
+                $('#loader').attr('style', 'display:block');
 
                 $.each($('.fields'), function(i, a) {
                     if (a.value) {
@@ -64,7 +64,7 @@
                 if (ctr < 3) {
                     $.ajax({
                         type: "POST",
-                        url:  'http://localhost/save_usernames',
+                        url:  htbt.config.backend + '/save_usernames',
                         data
                     })
                     .done(function() {
@@ -74,7 +74,7 @@
                         })
                         .done(function (results){
                             $('#loader').attr('style', 'display:none');
-                            $('#confirm').attr('style', 'display:');
+                            $('#confirm').attr('style', 'display:block');
                         });
                     });
                 }
