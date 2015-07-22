@@ -3,7 +3,7 @@
 
     var session,
         channel = {},
-        active_video,
+        active_video = null,
         ret_total = 0,
         ret_current = 0,
         all_videos = [],
@@ -247,6 +247,7 @@
                                     <div></div>,
                                     $('#videos .active-container')[0]
                                 );
+                                active_video = null;
                                 get_videos();
                             });
 
@@ -457,6 +458,14 @@
         },
 
         render_videos = function (data) {
+            if (!active_video) {
+                React.render(
+                    <htbt.crm.RetrieveAll />,
+                    $('#videos .active-container')[0]
+                );
+                $('#videos #retrieve-all-vids')[0].style.display = 'block';
+            }
+
             React.render(
                 <htbt.crm.Videos data={data} />,
                 $('#videos .com-container')[0]
@@ -650,8 +659,6 @@
             $('.tab')
                 .click(function () {
                     on_video = this.id === 'v_tab' ? true : false;
-
-                    $('#retrieve-all-vids')[0].style.display = on_video ? 'inline-block' : 'none';
 
                     if (this.id === 's_tab' && $('#comment_timespan')[0]) {
                         get_comments_stats($('#comment_timespan')[0].value);

@@ -195,6 +195,21 @@
             }
         }),
 
+        RetrieveAll: React.createClass({
+            render: function () {
+                return (
+                    <div id="retrieve-all-vids">
+                        <br/>
+                        <a className="btn btn-small waves-effect waves-light deep-orange lighten-2">
+                            Retrieve All
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <span className="current">0</span> / <span className="total">0</span> Done
+                    </div>
+                );
+            }
+        }),
+
         ActiveVideo: React.createClass({
             render: function () {
                 var e = this.props.data;
