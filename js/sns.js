@@ -12,20 +12,20 @@
                             <div id='platforms-inner' className='platforms-inner'>
                                 <div id='twitch'>
                                     <div className="input-field">
-                                        <input id="twitch_username" type="text" className="fields validate" />
-                                        <label htmlFor="twitch_username">Twitch Username</label>
+                                        <input id="twitch" type="text" className="fields validate" />
+                                        <label htmlFor="twitch">Twitch Username</label>
                                     </div>
                                 </div>
                                 <div id='hitbox'>
                                     <div className="input-field">
-                                        <input id="hitbox_username" type="text" className="fields validate" />
-                                        <label htmlFor="hitbox_username">Hitbox Username</label>
+                                        <input id="hitbox" type="text" className="fields validate" />
+                                        <label htmlFor="hitbox">Hitbox Username</label>
                                     </div>
                                 </div>
                                 <div id='dailymotion'>
                                     <div className="input-field">
-                                        <input id="dailymotion_username" type="text" className="fields validate" />
-                                        <label htmlFor="dailymotion_username">DailyMotion Username</label>
+                                        <input id="dailymotion" type="text" className="fields validate" />
+                                        <label htmlFor="dailymotion">DailyMotion Username</label>
                                     </div>
                                 </div>
                                 <div>
@@ -43,58 +43,40 @@
                         </div>);
         },
         componentDidMount: function() {
+            var data = {},
+                ctr = 0;
+
             $("#submit_usernames").bind('click', function() {
-                var ctr = 0,
-                    data = {
-                            twitch: {
-                                indic: 'twitch',
-                                username: $('#twitch_username').val(),
-                                favorites: ''
-                            },
-                            hitbox: {
-                                indic: 'hitbox',
-                                username: $('#hitbox_username').val(),
-                                favorites: ''
-                            },
-                            dailymotion: {
-                                indic: 'dailymotion',
-                                username: $('#dailymotion_username').val(),
-                                favorites: ''
-                            }
-                        };
+
+                $('#platforms').attr('style', 'display:none');
+                $('#loader').attr('style', 'display:');
+
                 $.each($('.fields'), function(i, a) {
-                    if (!a.value) {
-                        a.className = 'fields validate invalid';
+                    if (a.value) {
+                        data[a.id] = a.value;
+                    }
+                    else {
                         ctr++;
+                        a.className = 'fields validate invalid';
                     }
                 });
-                $("#submit_usernames").bind('mouseleave', function() {
-                    $.each($('.fields'), function(i, a) {
-                        a.className = 'fields validate';
-                    });
-                });
 
-                if (ctr > 0) {
-                    ctr = 0;
-                } else {
-                    $('#platforms').attr('style', 'display:none');
-                    $('#loader').attr('style', 'display:');
+                if (ctr < 3) {
                     $.ajax({
                         type: "POST",
-                        url: htbt.config.backend + '/save_usernames',
-                        data: data
+                        url:  'http://localhost/save_usernames',
+                        data
                     })
                     .done(function() {
                         $.ajax({
                             type: "POST",
-                            url: htbt.config.backend + '/save_streamers'
+                            url:  htbt.config.backend + '/save_streamers'
                         })
                         .done(function (results){
                             $('#loader').attr('style', 'display:none');
                             $('#confirm').attr('style', 'display:');
-                        })
+                        });
                     });
-
                 }
 
             });
