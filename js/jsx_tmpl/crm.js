@@ -29,7 +29,8 @@
                                 </a>
                             :   '',
 
-                        comments = _(e.comments).map(function (k) {
+                        comments = _(e.comments)
+                            .map(function (k) {
                                 return (
                                     <span><q dangerouslySetInnerHTML={{__html: k.comment}}></q><br/></span>
                                 );
@@ -99,38 +100,10 @@
                             </div>
                         </li>
                     );
-                }).commit(),
-
-                all_commenters = this.props.data.search 
-                    ?   <div>
-                            <a id="all-commenters">All Commenters</a>
-                        </div>
-                    :   '',
-
-                search_form = (
-                    <form id="search_commenter">
-                        <div className="row">
-                            <div className="input-field col s8">{all_commenters}</div>
-                            <div className="input-field col s4">
-                                <i className="mdi-action-search prefix"></i>
-                                
-                                <input 
-                                    id="icon_search" 
-                                    className="validate" 
-                                    type="text"
-                                    defaultValue={this.props.data.search}/>
-                                
-                                <label 
-                                    className={this.props.data.search ? 'active' : ''} 
-                                    htmlFor="icon_search">Search</label>
-                            </div>
-                        </div>
-                    </form>
-                );
+                }).commit();
 
                 return (
                     <div>
-                        {search_form}
                         <ul className="collapsible" data-collapsible="accordion">
                             {commenters}
                         </ul>
@@ -142,22 +115,54 @@
             }
         }),
 
-        Videos: React.createClass({
+        Search: React.createClass({
             render: function () {
-                var videos = _(this.props.data.items).map(function (e) {
-                    return (
-                        <div className="col s3">
-                            <div className="card small blue-grey lighten-1">
-                                <div id={e.id + '_video'} className="video card-image">
-                                    <img src={e.thumbnail} />
-                                </div>
-                                <div className="card-content white-text center">
-                                    <p>{e.title}</p>
+                return (
+                    <form id="search_commenter">
+                        <div className="row">
+                            <div className="input-field col s8">
+                                <div>
+                                    <a id="all-commenters">All Commenters</a>
                                 </div>
                             </div>
+                            <div className="input-field col s4">
+                                <i className="mdi-action-search prefix"></i>
+                                <input
+                                    id="icon_search"
+                                    className="validate"
+                                    type="text" />
+                                <label htmlFor="icon_search">Search</label>
+                            </div>
                         </div>
-                    );
-                }).commit(),
+                    </form>
+                );
+            }
+        }),
+
+        Videos: React.createClass({
+            render: function () {
+                var pages = !this.props.data.prevPageToken && !this.props.data.nextPageToken,
+
+                    videos = _(this.props.data.items).map(function (e) {
+                        return (
+                            <div className="col s3">
+                                <div className="card small blue-grey lighten-1">
+                                    <i
+                                        id={e.id + '_sync'}
+                                        className="material-icons pull-right sync-vid"
+                                        title="Sync commenters">loop</i>
+                                    <div id={e.id + '_video'} className="video card-image">
+                                        <img src={e.thumbnail} />
+                                    </div>
+                                    <div
+                                        id={e.id + '_video'}
+                                        className="video card-content white-text center">
+                                        <p>{e.title}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    }).commit(),
 
                 pagination = (
                     <ul className="vpg pagination center">
@@ -182,9 +187,24 @@
 
                         <div className="row">
                             <div className="input-field col s4"></div>
-                            <div className="input-field col s4">{pagination}</div>
+                            <div className="input-field col s4">{pages ? '' : pagination}</div>
                             <div className="input-field col s4"></div>
                         </div>
+                    </div>
+                );
+            }
+        }),
+
+        RetrieveAll: React.createClass({
+            render: function () {
+                return (
+                    <div id="retrieve-all-vids">
+                        <br/>
+                        <a className="btn btn-small waves-effect waves-light deep-orange lighten-2">
+                            Retrieve All
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <span className="current">0</span> / <span className="total">0</span> Done
                     </div>
                 );
             }
@@ -193,11 +213,15 @@
         ActiveVideo: React.createClass({
             render: function () {
                 var e = this.props.data;
-                
+
                 return (
                     <div className="row">
                         <br/>
                         <div className="col s4">
+                            <i
+                                id={e.id}
+                                className="material-icons pull-right sync"
+                                title="Sync commenters">loop</i>
                             <img className="vid_pic" src={e.thumbnail} />
                         </div>
                         <div className="col s8">
@@ -218,13 +242,25 @@
                                 &nbsp;&nbsp;
                                 {e.statistics.dislikeCount} <i className="mdi-action-thumb-down"></i>
                             </p>
-                            <a
-                                id={e.id}
-                                className="btn waves-effect waves-light sync pull-right deep-orange lighten-2">
-                                <i className="material-icons left">play_for_work</i>
-                                Update commenters
-                            </a>
-
+                        </div>
+                        <div className="col s12 search-container">
+                            <form id="search_commenter">
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <div>
+                                            <a id="all-commenters">All Commenters</a>
+                                        </div>
+                                    </div>
+                                    <div className="input-field col s4">
+                                        <i className="mdi-action-search prefix"></i>
+                                        <input
+                                            id="icon_search"
+                                            className="validate"
+                                            type="text" />
+                                        <label htmlFor="icon_search">Search</label>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 );

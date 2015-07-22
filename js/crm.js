@@ -3,7 +3,10 @@
 
     var session,
         channel = {},
-        active_video,
+        active_video = null,
+        ret_total = 0,
+        ret_current = 0,
+        all_videos = [],
         on_video = false,
         already_checked = false,
 
@@ -25,13 +28,15 @@
 
         get_commenters = function (page, search, video_id) {
             var container = on_video 
-                ? $('#videos')[0]
-                : $('#commenters')[0];
+                ? $('#videos .com-container')[0]
+                : $('#commenters .com-container')[0];
 
             React.render(
                 <htbt.crm.Loader />,
                 container
             );
+
+            $('#commenters .search-container #all-commenters')[0].style.display = search ? '' : 'none';
 
             $.ajax({
                 type: 'GET',
@@ -46,24 +51,24 @@
                 },
                 
                 success: function (data) {
-                    render_commenters(data, page);
-                },
-
-                error: function (err) {
-                    if (video_id && !already_checked) {
+                    if (video_id && !already_checked && !data.commenters.length) {
                         already_checked = true;
 
                         if (search) {
                             React.render(
                                 <div className="center-align">
-                                    <htbt.crm.Error data={'No results found. Returning to commenters.'} />
+                                    <htbt.crm.Error data={'No results found.'} />
                                 </div>,
                                 container
                             );
 
-                            setTimeout(function () {
-                                get_commenters(1, null, video_id);
-                            }, 3000);
+                            $('#videos .search-container #all-commenters')[0].style.display = search ? '' : 'none';
+
+                            $('#videos #all-commenters')
+                                .click(function () {
+                                    $('#videos #icon_search')[0].value = '';
+                                    get_commenters(1, null, video_id);
+                                });
 
                             return;
                         }
@@ -71,19 +76,20 @@
                         return cache_comments(video_id, null);
                     }
 
-                    if (err.status === 404) {
+                    if (!data.commenters.length) {
                         if (search) {
                             React.render(
                                 <div className="center-align">
-                                    <htbt.crm.Error data={'No results found. Returning to commenters.'} />
+                                    <htbt.crm.Error data={'No results found.'} />
                                 </div>,
                                 container
                             );
 
-                            setTimeout(function () {
-                                get_commenters(1, null, video_id);
-                            }, 3000);
-
+                            $('#commenters #all-commenters')
+                                .click(function () {
+                                    $('#commenters #icon_search')[0].value = '';
+                                    get_commenters(1);
+                                });
 
                             return;
                         }
@@ -114,7 +120,8 @@
 
                         $('#retrieve-all')
                             .click(function () {
-                                cache_comments(null, null);
+                                get_videos(null, true);
+                                $('#v_tab a').trigger('click');
                             });
 
                         $('#retrieve-certain')
@@ -130,15 +137,17 @@
                         return;
                     }
 
-                    err_cb(err);
-                }
+                    render_commenters(data, page);
+                },
+
+                error: err_cb,
             });
         },
 
         cache_comments = function (id, latest) {
             var container = on_video 
-                ? $('#videos')[0] 
-                : $('#commenters')[0];
+                ? $('#videos .com-container')[0] 
+                : $('#commenters .container')[0];
 
             React.render(
                 <div>
@@ -160,6 +169,7 @@
 
                 success: function () {
                     get_commenters(1, null, id);
+                    get_stats();
                 },
 
                 error: function (err) {
@@ -189,58 +199,69 @@
             if (!on_video) {
                 React.render(
                     <htbt.crm.Commenter data={data} />,
-                    $('#commenters')[0]
+                    $('#commenters .com-container')[0]
                 );
 
                 bind_commenters(data, page);
                 return;
             }
 
-            $.ajax({
-                type: 'GET',
-                url: 'https://www.googleapis.com/youtube/v3/videos',
+            if (active_video) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://www.googleapis.com/youtube/v3/videos',
 
-                data: {
-                    id: active_video.id,
-                    key: htbt.config.google_api_key,
-                    part: 'statistics'
-                },
+                    data: {
+                        id: active_video.id,
+                        key: htbt.config.google_api_key,
+                        part: 'statistics'
+                    },
 
-                success: function (result) {
-                    if (!result.items.length) {
-                        active_video.statistics.viewCount = 0;
-                        active_video.statistics.commentCount = 0;
-                        active_video.statistics.likeCount = 0;
-                        active_video.statistics.dislikeCount = 0;
-                    }
+                    success: function (result) {
+                        if (!result.items.length) {
+                            active_video.statistics.viewCount = 0;
+                            active_video.statistics.commentCount = 0;
+                            active_video.statistics.likeCount = 0;
+                            active_video.statistics.dislikeCount = 0;
+                        }
 
-                    if (result.items[0].statistics) {
-                        active_video.statistics = result.items[0].statistics;
-                    }
+                        if (result.items[0].statistics) {
+                            active_video.statistics = result.items[0].statistics;
+                        }
 
-                    React.render(
-                        <div>
-                            <htbt.crm.ActiveVideo data={active_video}/>
-                            <htbt.crm.Commenter data={data} />
-                        </div>,
-                        $('#videos')[0]
-                    );
+                        React.render(
+                            <htbt.crm.ActiveVideo data={active_video}/>,
+                            $('#videos .active-container')[0]
+                        );
 
-                    $('#back-to-videos')
-                        .click(function () {
-                            get_videos();
-                        });
+                        React.render(
+                            <htbt.crm.Commenter data={data} />,
+                            $('#videos .com-container')[0]
+                        );
 
-                    $('.sync')
-                        .click(function () {
-                            cache_comments(this.id, null);
-                        });
+                        $('#videos .search-container #all-commenters')[0].style.display = data.search ? '' : 'none';
 
-                    bind_commenters(data, page);
-                },
+                        $('#back-to-videos')
+                            .click(function () {
+                                React.render(
+                                    <div></div>,
+                                    $('#videos .active-container')[0]
+                                );
+                                active_video = null;
+                                get_videos();
+                            });
 
-                error: err_cb
-            });
+                        $('.sync')
+                            .click(function () {
+                                cache_comments(this.id, null);
+                            });
+
+                        bind_commenters(data, page);
+                    },
+
+                    error: err_cb
+                });
+            }
         },
 
         bind_commenters = function (data, page) {
@@ -263,6 +284,7 @@
                 });
 
             $(container + ' #search_commenter')
+                .unbind('submit')
                 .submit(function (e) {
                     e.preventDefault();
                     get_commenters(1, $(container + ' #icon_search').val(), data.video_id);
@@ -320,10 +342,11 @@
                 $(container + ' #all-commenters')
                     .click(function () {
                         if (on_video) {
-                            get_commenters(1, null, null);
+                            return get_commenters(1, null, data.video_id);
                         }
 
-                        get_commenters(1, null, data.video_id);
+                        $(container + ' #icon_search')[0].value = '';
+                        get_commenters(1, null, null);
                     });
             }
         },
@@ -344,10 +367,72 @@
 
         /*Videos tab functions*/
 
-        get_videos = function (page) {
+        get_all_videos = function (data) {
+            all_videos = all_videos.concat(data.items);
+
+            if (data.nextPageToken) {
+                return get_videos(data.nextPageToken, true);
+            }
+
+            retrieve_all();
+        },
+
+        retrieve_all = function () {
+            var i = 0,
+                async = 0,
+
+                retriever = function () {
+                    if (!all_videos[i]) {
+                        return get_videos();
+                    }
+
+                    async = all_videos[i].length;
+
+                    _(all_videos[i++])
+                        .forEach(function (e) {
+                            var id = e.id.split('_sync')[0];
+
+                            $.ajax({
+                                type: 'POST',
+                                url: htbt.config.backend + '/crm/cache_comments',
+
+                                data: {
+                                    channel_id: channel.id,
+                                    video_id: id
+                                },
+
+                                success: function () {
+                                    $('#retrieve-all-vids .current')[0].textContent = ++ret_current;
+
+                                    if (!--async) {
+                                        retriever();
+                                    }
+                                },
+
+                                error: function () {}
+                            });
+                        })
+                        .commit();
+                };
+
+            ret_current = 0;
+            $('#retrieve-all-vids .current')[0].textContent = ret_current;
+            $('#retrieve-all-vids .total')[0].textContent = all_videos.length;
+            
+            _($('.sync-vid'))
+                .forEach(function (e) {
+                    e.classList.add('rotating', 'active');
+                })
+                .commit();
+            
+            all_videos = _.chunk(all_videos, 10);
+            retriever();
+        },
+
+        get_videos = function (page, get_all) {
             React.render(
                 <htbt.crm.Loader />,
-                $('#videos')[0]
+                $('#videos .com-container')[0]
             );
 
             $.ajax({
@@ -359,15 +444,31 @@
                     next_page: page
                 },
 
-                success: render_videos,
+                success: function (data) {
+                    if (get_all) {
+                        get_all_videos(data);
+                        return;
+                    }
+
+                    render_videos(data);
+                },
+
                 error: err_cb
             });
         },
 
         render_videos = function (data) {
+            if (!active_video) {
+                React.render(
+                    <htbt.crm.RetrieveAll />,
+                    $('#videos .active-container')[0]
+                );
+                $('#videos #retrieve-all-vids')[0].style.display = 'block';
+            }
+
             React.render(
                 <htbt.crm.Videos data={data} />,
-                $('#videos')[0]
+                $('#videos .com-container')[0]
             );
 
             $('.prev')
@@ -378,6 +479,39 @@
             $('.next')
                 .click(function () {
                     get_videos(data.nextPageToken);
+                });
+
+            $('.sync-vid')
+                .click(function () {
+                    var id = this.id.split('_sync')[0],
+                        self = this;
+
+                    if (ret_total === ret_current) {
+                        ret_current = ret_total = 0;
+                        $('#retrieve-all-vids .current')[0].textContent = ret_current;
+                    }
+
+                    self.classList.remove('done');
+                    self.textContent = 'loop';
+                    this.classList.add('rotating', 'active');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: htbt.config.backend + '/crm/cache_comments',
+
+                        data: {
+                            channel_id: channel.id,
+                            video_id: id
+                        },
+
+                        success: function () {
+                            self.classList.remove('rotating', 'active');
+                            self.classList.add('done');
+                            self.textContent = 'done';
+                        },
+
+                        error: err_cb
+                    });
                 });
 
             $('.video')
@@ -392,7 +526,7 @@
                             <htbt.crm.Retrieving />
                             <htbt.crm.Loader />
                         </div>,
-                        $('#videos')[0]
+                        $('#videos .com-container')[0]
                     );
 
                     get_commenters(1, null, id);
@@ -418,7 +552,13 @@
                 },
 
                 success: render_stats,
-                error: err_cb
+                
+                error: function () {
+                    React.render(
+                        <htbt.crm.Error data="No data found" />,
+                        $('#stats')[0]
+                    );
+                }
             });
         },
 
@@ -433,11 +573,14 @@
             $('#comment_timespan').change(function () {
                 get_comments_stats(this.value);
             });
-
-            get_comments_stats('7days');
         },
 
         get_comments_stats = function (duration) {
+            React.render(
+                <htbt.crm.Loader />,
+                $('#stats_chart')[0]
+            );
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/comments',
@@ -448,7 +591,13 @@
                 },
 
                 success: render_stats_chart,
-                error: err_cb
+                
+                error: function () {
+                    React.render(
+                        <htbt.crm.Error data="No data found" />,
+                        $('#stats_chart')[0]
+                    );
+                }
             });
         },
 
@@ -469,7 +618,7 @@
                         }
                     },
                     hAxis: { 
-                        maxValue: '500',
+                        maxValue: '100',
                         textStyle: {
                             fontSize: 12
                         }
@@ -483,20 +632,25 @@
                 },
                 chart;
 
+            if (data && !data.length) {
+                React.render(
+                    <htbt.crm.Error data="No data found" />,
+                    $('#stats_chart')[0]
+                );
+
+                return;
+            }
+
             chart = new google.visualization.LineChart($('#stats_chart')[0]);
 
             data = _(data)
                 .map(function (e) {
-                    return [e.published_at, +e.count]
+                    return [e.published_at, e.count]
                 }).value();
 
             data.unshift(['Dates', 'Comments']);
             data = google.visualization.arrayToDataTable(data);
-
-            setTimeout(function () {
-                chart.draw(data, options);
-            }, 2000);
-
+            chart.draw(data, options);
         },
 
         /*Listeners*/
@@ -505,6 +659,10 @@
             $('.tab')
                 .click(function () {
                     on_video = this.id === 'v_tab' ? true : false;
+
+                    if (this.id === 's_tab' && $('#comment_timespan')[0]) {
+                        get_comments_stats($('#comment_timespan')[0].value);
+                    }
                 });
         },
 
@@ -549,7 +707,7 @@
                         $('#login-cont')[0]
                     );
                 }
-            });
+        });
         },
 
         get_channel = function (data) {
@@ -588,6 +746,11 @@
                 $('#login-cont')[0]
             );
 
+            React.render(
+                <htbt.crm.Search />,
+                $('#commenters .search-container')[0]
+            );
+
             $('#logout')
                 .click(function () {
                     $.ajax({
@@ -602,8 +765,15 @@
                             location.reload();
                         },
 
-                        error: err_cb
+                        error: function () {
+                            location.reload();
+                        }
                     });
+                });
+
+            $('#retrieve-all-vids .btn-small')
+                .click(function () {
+                    get_videos(null, true);
                 });
 
             get_commenters(1, null, null);
