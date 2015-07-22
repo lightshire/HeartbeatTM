@@ -42,7 +42,7 @@
                                             <label htmlFor="lol_username">Summoner Name</label>
                                         </div>
                                         <div className="input-field col s4">
-                                            <select className="browser-default validate">
+                                            <select className="browser-default validate fields">
                                                 <option disabled>Region</option>
                                                 <option value="na">North America</option>
                                                 <option value="euw">Europe West</option>
