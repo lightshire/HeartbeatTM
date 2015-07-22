@@ -43,7 +43,7 @@
                                         </div>
                                         <div className="input-field col s4">
                                             <select className="browser-default validate">
-                                                <option value="">Region</option>
+                                                <option disabled>Region</option>
                                                 <option value="na">North America</option>
                                                 <option value="euw">Europe West</option>
                                                 <option value="eune">Europe Nordic & East</option>
