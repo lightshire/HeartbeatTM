@@ -108,8 +108,26 @@
                                     </div>
                                     <div className="col s8">
                                         <div className="input-field">
-                                            <input id="wow_username" type="text" className="fields validate" disabled='true'/>
-                                            <label htmlFor="wow_username">Under construction</label>
+                                            <input id="wow_username" type="text" className="fields validate"/>
+                                            <label htmlFor="wow_username">Character name</label>
+                                        </div>
+                                    </div>
+                                    <div className="col s4 offset-s4">
+                                        <div className="input-field">
+                                            <select className="browser-default fields validate">
+                                                <option disabled>Region</option>
+                                                <option value="cn">China</option>
+                                                <option value="eu">Europe</option>
+                                                <option value="kr">Korea</option>
+                                                <option value="tw">Taiwan</option>
+                                                <option value="us">United States</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col s4">
+                                        <div className="input-field">
+                                            <input id="wow_realm" type="text" className="fields validate"/>
+                                            <label htmlFor="wow_realm">Realm</label>
                                         </div>
                                     </div>
                                 </div>
