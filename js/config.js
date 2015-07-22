@@ -4,7 +4,7 @@
 
     htbt.config = {};
 
-    htbt.config.google_api_key = 'AIzaSyDBNUJQG9PXcGKkmgT4TWtXXQrCychOodI';
+    htbt.config.google_api_key = 'AIzaSyBFAShlZr9tBGQBjtyN_IY9-SbVVn-fMcc';
     htbt.config.extension_id = 'aailiojlhjbichheofhdpcongebcgcgm';
     htbt.config.dailymotion_api_key = 'fb0e94b9cd1d6ca3c69f';
     htbt.config.dailymotion_data = {};
