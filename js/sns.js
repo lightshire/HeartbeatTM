@@ -64,7 +64,7 @@
                 if (ctr < 3) {
                     $.ajax({
                         type: "POST",
-                        url:  'http://localhost/save_usernames',
+                        url:  htbt.config.backend + '/save_usernames',
                         data
                     })
                     .done(function() {
