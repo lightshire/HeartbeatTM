@@ -37,9 +37,24 @@
                                         </p>
                                     </div>
                                     <div className="col s8">
-                                        <div className="input-field">
-                                            <input id="lol_username" type="text" className="fields validate" disabled='true'/>
-                                            <label htmlFor="lol_username">Under construction for Twitch and Dailymotion</label>
+                                        <div className="input-field col s4">
+                                            <input id="lol_username" type="text" className="fields validate"/>
+                                            <label htmlFor="lol_username">Summoner Name</label>
+                                        </div>
+                                        <div className="input-field col s4">
+                                            <select className="browser-default validate">
+                                                <option disabled>Region</option>
+                                                <option value="na">North America</option>
+                                                <option value="euw">Europe West</option>
+                                                <option value="eune">Europe Nordic & East</option>
+                                                <option value="br">Brazil</option>
+                                                <option value="tr">Turkey</option>
+                                                <option value="br">Brazil</option>
+                                                <option value="ru">Russia</option>
+                                                <option value="lan">Latin America North</option>
+                                                <option value="las">Latin America South</option>
+                                                <option value="oce">Oceania</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
