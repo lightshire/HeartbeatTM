@@ -25,6 +25,11 @@
         /*Matchmaking Functions*/
 
         get_users = function (page, search, search_by) {
+            React.render(
+                <htbt.lfg.Loader />,
+                $('#matchmaking .match-container')[0]
+            );
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/users',
