@@ -78,8 +78,8 @@
                             <div className="match-view-all col s2">&nbsp;</div>
                             <div className="input-field col s4 offset-s6">
                                 <i className="material-icons prefix">search</i>
-                                <input id="search" type="text" className="validate" placeholder="Search"/>
-                                <label htmlFor="search" className="active">Search</label>
+                                <input id="search" type="text" className="validate"/>
+                                <label htmlFor="search">Search</label>
 
                                 <div className="search-by-container">
                                     <input id="by-name" className="with-gap" name="search-by" type="radio" defaultChecked/>
