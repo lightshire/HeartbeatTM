@@ -119,6 +119,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <br/>
                             <div className="platforms">
                                 <div className="row">
                                     <div className="twitch col s4">
@@ -129,20 +130,22 @@
                                         </div>
                                     </div>
                                     <div className="dailymotion col s4">
-                                        <a className="waves-effect waves-light btn blue darken-1 dailymotion-connect">Dailymotion</a>
+                                        <a className="waves-effect waves-light btn blue darken-1 dailymotion-connect col s10">Dailymotion</a>
                                         <div id="dailymotion-input" className="input-field" style={{display: 'none'}}>
                                             <input id="dailymotion" type="text" className="platform_fields validate" disabled/>
                                             <label className="active" htmlFor="dailymotion">Dailymotion Username</label>
                                         </div>
                                     </div>
                                     <div className="hitbox col s4">
-                                        <div className="input-field">
+                                        <a className="waves-effect waves-light btn light-green black-text hitbox-connect col s10">Hitbox</a>
+                                        <div id="hitbox-input" className="input-field" style={{display: 'none'}}>
                                             <input id="hitbox" type="text" className="platform_fields validate"/>
                                             <label htmlFor="hitbox">Hitbox Username</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <br/>
                             <div>
                                 <div className='right-align'>
                                     <button id='submit_usernames' className='waves-effect waves-light btn'>Submit</button>
@@ -196,6 +199,11 @@
                         $('#twitch').val(user.name);
                     });
                 }
+            });
+
+            $('.hitbox-connect').bind('click', function() {
+                $('.hitbox-connect').hide();
+                $('#hitbox-input').show();
             });
 
             var data = {};
