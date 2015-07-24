@@ -58,34 +58,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div className='hearthstone'>
-                                    <div className="col s4">
-                                        <p id='hearthstone-name'>
-                                            <img id='hearthstone-logo' src='assets/hearthstone.png'/>
-                                            Hearthstone
-                                        </p>
-                                    </div>
-                                    <div className="col s8">
-                                        <div className="input-field">
-                                            <input id="hearthstone_username" type="text" className="fields validate" disabled='true'/>
-                                            <label htmlFor="hearthstone_username">API not yet available</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='hots'>
-                                    <div className="col s4">
-                                        <p id='hots-name'>
-                                            <img id='hots-logo' src='assets/hots.png'/>
-                                            Heroes of the Storm
-                                        </p>
-                                    </div>
-                                    <div className="col s8">
-                                        <div className="input-field">
-                                            <input id="hots_username" type="text" className="fields validate" disabled='true'/>
-                                            <label htmlFor="hots_username">API not yet available</label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className='diablo3'>
                                     <div className="col s4">
                                         <p id='diablo3-name'>
@@ -125,20 +97,6 @@
                                         <div className="input-field">
                                             <input id="wow_username" type="text" className="fields validate" disabled='true'/>
                                             <label htmlFor="wow_username">Under construction</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='minecraft'>
-                                    <div className="col s4">
-                                        <p id='minecraft-name'>
-                                            <img id='minecraft-logo' src='assets/minecraft.png'/>
-                                            Minecraft
-                                        </p>
-                                    </div>
-                                    <div className="col s8">
-                                        <div className="input-field">
-                                            <input id="minecraft_username" type="text" className="fields validate" disabled='true'/>
-                                            <label htmlFor="minecraft_username">Under construction</label>
                                         </div>
                                     </div>
                                 </div>
