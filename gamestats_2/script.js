@@ -3,12 +3,12 @@
     'use strict';
 
     var Fields = React.createClass({
-        render: function() {
+        render: function () {
             return (<div>
                         <div className="title">
                             <h4>
                                 <img id='hb-logo' src='https://s3.amazonaws.com/heartbeat.asset/logo.png?2' />
-                                Heartbeat Game Stats 2
+                                Heartbeat Game Stats
                             </h4>
                             <p><b>Register your usernames or IDs here to publish your stats on Twitch, Hitbox and Dailymotion!</b>
                             <br/><small>We will find your game stats and embed a sick UI for your viewers to see!</small></p>
@@ -104,21 +104,23 @@
                             <div className="platforms">
                                 <div className="row">
                                     <div className="twitch col s4">
-                                        <div className="input-field">
-                                            <input id="twitch" type="text" className="platform_fields validate"/>
-                                            <label htmlFor="twitch">Twitch Username</label>
+                                        <img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" className="twitch-connect" href="#" />
+                                        <div id='twitch-input' className="input-field" style={{display: 'none'}}>
+                                            <input id="twitch" type="text" className="platform_fields validate" disabled/>
+                                            <label className="active" htmlFor="twitch">Twitch Username</label>
+                                        </div>
+                                    </div>
+                                    <div className="dailymotion col s4">
+                                        <a className="waves-effect waves-light btn blue darken-1 dailymotion-connect">Dailymotion</a>
+                                        <div id="dailymotion-input" className="input-field" style={{display: 'none'}}>
+                                            <input id="dailymotion" type="text" className="platform_fields validate" disabled/>
+                                            <label className="active" htmlFor="dailymotion">Dailymotion Username</label>
                                         </div>
                                     </div>
                                     <div className="hitbox col s4">
                                         <div className="input-field">
                                             <input id="hitbox" type="text" className="platform_fields validate"/>
                                             <label htmlFor="hitbox">Hitbox Username</label>
-                                        </div>
-                                    </div>
-                                    <div className="dailymotion col s4">
-                                        <div className="input-field">
-                                            <input id="dailymotion" type="text" className="platform_fields validate"/>
-                                            <label htmlFor="dailymotion">Dailymotion Username</label>
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +137,49 @@
                         </div>
                     </div>);
         },
-        componentDidMount: function() {
+        componentDidMount: function () {
+            DM.init({
+                apiKey: '4d57eb2f1091a7a60e80',
+                status: true,
+                cookie: true
+            });
+
+            DM.getLoginStatus(function (response) {
+                if (response.session) {
+                    DM.api('/me', {fields: 'screenname'}, function (user) {
+                        $('#dailymotion').val(user.screenname);
+                    });
+                }
+                else {
+                    $('.dailymotion-connect').bind('click', function () {
+                        DM.login(function (response) {
+                            if (response.session) {
+                                $('.dailymotion-connect').hide();
+                                $('#dailymotion-input').show();
+                                DM.api('/me', {fields: 'screenname'}, function (user) {
+                                    $('#dailymotion').val(user.screenname);
+                                });
+                            }
+                        }, {scope: 'read'});
+                    });
+                }
+            });
+
+            Twitch.init({clientId: '7y00q297x91rp2nmbrsf3sntcj63wp5'}, function(error, status) {
+                $('.twitch-connect').click(function() {
+                    Twitch.login({
+                        scope: ['user_read', 'channel_read']
+                    });
+                });
+                if (status.authenticated) {
+                    $('.twitch-connect').hide();
+                    $('#twitch-input').show();
+                    Twitch.api({method:'user'}, function (error, user) {
+                        $('#twitch').val(user.name);
+                    });
+                }
+            });
+
             var data = {};
 
             $("#submit_usernames").bind('click', function() {
@@ -180,7 +224,7 @@
     }),
     
     Loader = React.createClass({
-        render: function() {
+        render: function () {
             return (<div id="preloader" className="center-align">
                         <div className="preloader-wrapper big active">
                             <div className="spinner-layer spinner-blue-only">
@@ -203,7 +247,7 @@
     }),
 
     Confirm = React.createClass({
-        render: function() {
+        render: function () {
             return (<div id="confirm-msg" className="center-align">
                         <p className="flow-text">
                             Thanks for waiting. Your stats are now indexed.<br/>
