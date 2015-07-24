@@ -14,8 +14,7 @@
                             <br/><small>We will find your game stats and embed a sick UI for your viewers to see!</small></p>
                         </div><br/>
                         <div className='fields'>
-                            <div className='row'>
-                                <div className='dota'>
+                                <div className='dota row'>
                                     <div className="col s4">
                                         <p id='dota2-name'>
                                             <img id='dota2-logo' src='assets/dota2.png'/>
@@ -29,7 +28,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div className='lol'>
+                                <div className='lol row'>
                                     <div className="col s4">
                                         <p id='lol-name'>
                                             <img id='lol-logo' src='assets/lol.png'/>
@@ -58,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div className='diablo3'>
+                                <div className='diablo3 row'>
                                     <div className="col s4">
                                         <p id='diablo3-name'>
                                             <img id='diablo3-logo' src='assets/diablo3.png'/>
@@ -72,7 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div className='csgo'>
+                                <div className='csgo row'>
                                     <div className="col s4">
                                         <p id='csgo-name'>
                                             <img id='csgo-logo' src='assets/csgo.png'/>
@@ -86,7 +85,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div className='wow'>
+                                <div className='wow row'>
                                     <div className="col s4">
                                         <p id='wow-name'>
                                             <img id='wow-logo' src='assets/wow.png'/>
@@ -118,7 +117,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <br/>
                             <div className="platforms">
                                 <div className="row">
@@ -296,3 +294,4 @@
 
 })(window.React, window.htbt);
 
+row
