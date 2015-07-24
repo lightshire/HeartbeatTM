@@ -53,7 +53,7 @@
                         $('#matchmaking .search-container')[0]
                     );
 
-                    if (search) {
+                    if (search && search !== ' ') {
                         React.render(
                             <a href="#!" className="view-all">View all</a>,
                             $('.match-view-all')[0]
@@ -63,6 +63,7 @@
                             .click(function () {
                                 get_users(1, null, 0);
                                 $('#search')[0].value = '';
+                                $('.match-view-all')[0].removeChild($('.view-all')[0]);
                             });
                     }
 
@@ -86,9 +87,7 @@
 
                                 event.preventDefault();
 
-                                if (search_input && search_input !== ' ') {
-                                    get_users(1, search_input, search_by_input);
-                                }
+                                get_users(1, search_input, search_by_input);
                             });
 
                         bind_favorite_buttons();
@@ -102,7 +101,7 @@
                         $('#matchmaking .match-container')[0]
                     );
 
-                    if (search) {
+                    if (search && search !== ' ') {
                         React.render(
                             <a href="#!" className="view-all">View all</a>,
                             $('.match-view-all')[0]
@@ -112,6 +111,7 @@
                             .click(function () {
                                 get_users(1, null, 0);
                                 $('#search')[0].value = '';
+                                $('.match-view-all')[0].removeChild($('.view-all')[0]);
                             });
                     }
                 }
