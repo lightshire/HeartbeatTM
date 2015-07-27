@@ -343,6 +343,12 @@
                 $('#matchmaking .match-container')[0]
             );
 
+            session = window.location.href.split('#access_token=')[1];
+
+            if (session) {
+                document.cookie = 'hbeat_access_token=' + session;
+            }
+
             session = document.cookie.split('; ');
 
             _(session)
@@ -384,6 +390,8 @@
         },
 
         get_channel = function (data) {
+            window.location.href = '#';
+
             $.ajax({
                 type: 'GET',
                 url: 'https://www.googleapis.com/youtube/v3/channels',
