@@ -24,4 +24,23 @@
 		return value;
     };
 
+    htbt.util.parse_qs = function (url) {
+        var obj = {};
+
+        if (!url) {
+            url = location.search;
+        }
+
+        url.slice(url.indexOf('?') + 1)
+            .split('&')
+            .forEach(function (a) {
+                if (a) {
+                    a = a.split('=');
+                    obj[a[0]] = decodeURIComponent(a.slice(1).join('='));
+                }
+            });
+
+        return obj;
+    };
+
 })(window.htbt = window.htbt || {});
