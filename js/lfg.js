@@ -390,7 +390,9 @@
         },
 
         get_channel = function (data) {
-            window.location.href = '#';
+            if (!~window.location.href.indexOf('profile')) {
+                window.location.href = '#';
+            }
 
             $.ajax({
                 type: 'GET',
