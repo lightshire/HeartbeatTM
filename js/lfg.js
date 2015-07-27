@@ -390,7 +390,7 @@
         },
 
         get_channel = function (data) {
-            if (!~~window.location.href.indexOf('profile')) {
+            if (!~window.location.href.indexOf('profile')) {
                 window.location.href = '#';
             }
 
