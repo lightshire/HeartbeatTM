@@ -2,50 +2,32 @@
 (function (React, htbt) {
     'use strict';
 
-    var Login = React.createClass({
+    var Modal = React.createClass({
             render: function () {
-                return (<div>
-                            <div className="title">
-                                <h4>
-                                    <img id='hb-logo' src='https://s3.amazonaws.com/heartbeat.asset/logo.png?2' />
-                                    Heartbeat Game Stats
-                                </h4>
-                                <p><b>Register your usernames or IDs here to publish your stats on Twitch, Hitbox and Dailymotion!</b>
-                                <br/><small>We will find your game stats and embed a sick UI for your viewers to see!</small></p>
-                            </div><br/>
-                            <div className="center-align">
-                                <h6>Step 1: Choose the platform where you stream</h6>
-                                <div className="col s12 m8 hoverable">
-                                    <div className="card red darken-1">
-                                        <div className="card-content white-text container">
-                                            <span className="card-title">Sign-in</span>
-                                            <div className="row">
-                                                <div className="twitch col s10 offset-s2">
-                                                    <a className="waves-effect waves-light btn purple darken-3 twitch-connect col s10">Twitch</a>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="dailymotion col s10 offset-s2">
-                                                    <a className="waves-effect waves-light btn blue darken-1 dailymotion-connect col s10">Dailymotion</a>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="hitbox col s10 offset-s2">
-                                                    <a className="waves-effect waves-light btn light-green black-text hitbox-connect col s10">Hitbox</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                return (<div id="modal1" className="modal modal-fixed-footer">
+                            <div className="modal-content">
+                                <h4>User Guide</h4>
+                                <p>This feature allows users of Heartbeat to be able to see your game statistics from 
+                                different streaming platforms. Let us start.</p>
+                                <p>First you need to have an account on at least one of these platforms: Twitch, Dailymotion, and Hitbox. 
+                                Then log-in to them via these links. You can enter all accounts if you want.</p>
+                                <img width="100%" src="assets/step1.png" />
+                                <p>Enter your game information on the fields corresponding to the games you want your stats to be shown.</p>
+                                <img width="100%" src="assets/step2.png" />
+                                <p>After signing-up, you will see a message like the one below.</p>
+                                <img width="100%" src="assets/step3.png" />
+                                <p>Heartbeat users can now see your game statistics just like the example below.</p>
+                                <img width="100%" src="assets/sample1.png" />
+                                <img width="100%" src="assets/sample2.png" />
+                            </div>
+                            <div className="modal-footer">
+                                <a href="" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                             </div>
                         </div>);
             },
             componentDidMount: function () {
-                $('.hitbox-connect').bind('click', function() {
-                    $('#login').hide();
-                    $('#login').addClass('prev');
-                    $('#hitbox_login').show();
-                }); 
+                $('.modal-trigger').leanModal();
+                $('#modal1').openModal();
             }
         }),
         Hitbox_Login = React.createClass({
@@ -80,8 +62,7 @@
             componentDidMount: function () {
                 $('#cancel_hitbox').bind('click', function () {
                     $('#hitbox_login').hide();
-                    $('.prev').show();
-                    $('.prev').removeClass('prev');
+                    $('#fields').show();
                 });
 
                 $('.submit_hitbox').bind('click', function () {
@@ -131,12 +112,13 @@
                                     Heartbeat Game Stats
                                 </h4>
                                 <p><b>Register your usernames or IDs here to publish your stats on Twitch, Hitbox and Dailymotion!</b>
-                                <br/><small>We will find your game stats and embed a sick UI for your viewers to see!</small></p>
-                            </div><br/>
-                            <h4>Step 2</h4>
+                                <br/><small>We will find your game stats and embed a sick UI for your viewers to see!</small>
+                                <a className="modal-trigger waves-effect waves-green btn-flat" href="#modal1">More info</a></p>
+                            </div>
+                            <h4>Step 1</h4>
                             <div className='fields'>
                                 <div className="platforms">
-                                    <h6>Add platforms here</h6>
+                                    <h6><i className="material-icons">web</i>Choose the platforms where you stream</h6>
                                     <hr/><br/>
                                     <div className="row">
                                         <div className="twitch col s4">
@@ -162,7 +144,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h6>Enter your game information for the games you want to display your stats</h6>
+                                <h4>Step 2</h4>
+                                <h6><i className="material-icons">games</i> Enter your game information for the games you want to display your stats</h6>
                                 <hr/>
                                 <br/>
                                 <div className='dota row'>
@@ -314,7 +297,6 @@
                 
                 /*---Hitbox Auth---*/
                 if (hitbox_username) {
-                    $('#login').hide();
                     $('#fields').show();
                     $('.hitbox-connect2').hide();
                     $('#hitbox-input').show();
@@ -323,7 +305,6 @@
 
                 $('.hitbox-connect2').bind('click', function() {
                     $('#fields').hide();
-                    $('#fields').addClass('prev');
                     $('#hitbox_login').show();
                 });
                 /*---Hitbox Auth End---*/
@@ -336,7 +317,6 @@
 
                 DM.getLoginStatus(function (response) {
                     if (response.session) {
-                        $('#login').hide();
                         $('#fields').show();
                         $('.dailymotion-connect').hide();
                         $('#dailymotion-input').show();
@@ -349,7 +329,6 @@
                         $('.dailymotion-connect').bind('click', function () {
                             DM.login(function (response) {
                                 if (response.session) {
-                                    $('#login').hide();
                                     $('#fields').show();
                                     $('.dailymotion-connect').hide();
                                     $('#dailymotion-input').show();
@@ -371,7 +350,6 @@
                         });
                     });
                     if (status.authenticated) {
-                        $('#login').hide();
                         $('#fields').show();
                         $('.twitch-connect').hide();
                         $('#twitch-input').show();
@@ -468,10 +446,10 @@
             }
         });
 
-    React.render(<Login/>, document.getElementById('login'));
     React.render(<Hitbox_Login/>, document.getElementById('hitbox_login'));
     React.render(<Fields/>, document.getElementById('fields'));
     React.render(<Loader/>, document.getElementById('loader'));
     React.render(<Confirm/>, document.getElementById('confirm'));
+    React.render(<Modal/>, document.getElementById('modal'));
 
 })(window.React, window.htbt);
