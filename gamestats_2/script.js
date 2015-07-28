@@ -16,18 +16,17 @@
                                 <img width="100%" src="assets/step2.png" />
                                 <p>After signing-up, you will see a message like the one below.</p>
                                 <img width="100%" src="assets/step3.png" />
-                                <p>Heartbeat users can now see your game statistics just like the example below.</p>
+                                <p>Heartbeat users can now see your game statistics in the platforms you entered just like the example below.</p>
                                 <img width="100%" src="assets/sample1.png" />
                                 <img width="100%" src="assets/sample2.png" />
                             </div>
                             <div className="modal-footer">
-                                <a href="" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                                <a href="#" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                             </div>
                         </div>);
             },
             componentDidMount: function () {
                 $('.modal-trigger').leanModal();
-                $('#modal1').openModal();
             }
         }),
         Hitbox_Login = React.createClass({
@@ -126,6 +125,7 @@
                                             <div id='twitch-input' className="input-field" style={{display: 'none'}}>
                                                 <input id="twitch" type="text" className="platform_fields validate" disabled/>
                                                 <label className="active" htmlFor="twitch">Twitch Username</label>
+                                                <a className="waves-effect waves-green btn-flat twitch-unlink" href="#">unlink</a>
                                             </div>
                                         </div>
                                         <div className="dailymotion col s4">
@@ -133,6 +133,7 @@
                                             <div id="dailymotion-input" className="input-field" style={{display: 'none'}}>
                                                 <input id="dailymotion" type="text" className="platform_fields validate" disabled/>
                                                 <label className="active" htmlFor="dailymotion">Dailymotion Username</label>
+                                                <a className="waves-effect waves-green btn-flat dailymotion-unlink" href="#">unlink</a>
                                             </div>
                                         </div>
                                         <div className="hitbox col s4">
@@ -140,6 +141,7 @@
                                             <div id="hitbox-input" className="input-field" style={{display: 'none'}}>
                                                 <input id="hitbox" type="text" className="platform_fields validate" disabled/>
                                                 <label className="active" htmlFor="hitbox">Hitbox Username</label>
+                                                <a className="waves-effect waves-green btn-flat hitbox-unlink" href="#">unlink</a>
                                             </div>
                                         </div>
                                     </div>
@@ -307,6 +309,11 @@
                     $('#fields').hide();
                     $('#hitbox_login').show();
                 });
+
+                $('.hitbox-unlink').bind('click', function () {
+                    document.cookie = "hitbox=;expires=Wed 01 Jan 1970";
+                    location.reload();
+                });
                 /*---Hitbox Auth End---*/
                 /*---DailyMotion Auth---*/
                 DM.init({
@@ -341,10 +348,15 @@
                         });
                     }
                 });
+                $('.dailymotion-unlink').bind('click', function () {
+                    DM.logout(function (response) {
+                        location.reload();
+                    });
+                });
                 /*---DailyMotion Auth End---*/
                 /*---Twitch Auth---*/
                 Twitch.init({clientId: '7y00q297x91rp2nmbrsf3sntcj63wp5'}, function(error, status) {
-                    $('.twitch-connect').click(function() {
+                    $('.twitch-connect').click(function () {
                         Twitch.login({
                             scope: ['user_read', 'channel_read']
                         });
@@ -358,9 +370,14 @@
                         });
                     }
                 });
+                $('.twitch-unlink').bind('click', function () {
+                    Twitch.logout(function(error) {
+                        location.reload();
+                    });
+                });
                 /*---Twitch Auth End---*/
 
-                $("#submit_usernames").bind('click', function() {
+                $("#submit_usernames").bind('click', function () {
                     var ctr = 0;
 
                     $.each($('.fields'), function(i, a) {
