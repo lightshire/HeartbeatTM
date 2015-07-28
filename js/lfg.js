@@ -68,9 +68,10 @@
                     }
 
                     if (!match_binded) {
+                        console.log(~~(data.total / data.limit));
                         $('#matchmaking-pagination')
                             .bootpag({
-                                total: ~~(data.total / data.limit),
+                                total: Math.ceil(data.total / data.limit),
                                 page: page,
                                 maxVisible: 10,
                                 leaps: false,
