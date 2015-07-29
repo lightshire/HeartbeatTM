@@ -21,7 +21,7 @@
                                 <img width="100%" src="assets/sample2.png" />
                             </div>
                             <div className="modal-footer">
-                                <a href="#" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                                <a href="" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                             </div>
                         </div>);
             },
@@ -125,7 +125,7 @@
                                             <div id='twitch-input' className="input-field" style={{display: 'none'}}>
                                                 <input id="twitch" type="text" className="platform_fields validate" disabled/>
                                                 <label className="active" htmlFor="twitch">Twitch Username</label>
-                                                <a className="waves-effect waves-green btn-flat twitch-unlink" href="#">unlink</a>
+                                                <a className="waves-effect waves-green red btn twitch-unlink small" href="">unlink</a>
                                             </div>
                                         </div>
                                         <div className="dailymotion col s4">
@@ -133,7 +133,7 @@
                                             <div id="dailymotion-input" className="input-field" style={{display: 'none'}}>
                                                 <input id="dailymotion" type="text" className="platform_fields validate" disabled/>
                                                 <label className="active" htmlFor="dailymotion">Dailymotion Username</label>
-                                                <a className="waves-effect waves-green btn-flat dailymotion-unlink" href="#">unlink</a>
+                                                <a className="waves-effect waves-green red btn dailymotion-unlink small" href="">unlink</a>
                                             </div>
                                         </div>
                                         <div className="hitbox col s4">
@@ -141,7 +141,7 @@
                                             <div id="hitbox-input" className="input-field" style={{display: 'none'}}>
                                                 <input id="hitbox" type="text" className="platform_fields validate" disabled/>
                                                 <label className="active" htmlFor="hitbox">Hitbox Username</label>
-                                                <a className="waves-effect waves-green btn-flat hitbox-unlink" href="#">unlink</a>
+                                                <a className="waves-effect waves-green red btn hitbox-unlink small" href="">unlink</a>
                                             </div>
                                         </div>
                                     </div>
@@ -450,8 +450,14 @@
                 return (<div id="confirm-msg" className="center-align">
                             <p className="flow-text">
                                 Thanks for waiting. Your stats are now indexed.<br/>
-                                <small>Your viewers will now be able to see your stats when you stream on Twitch, Hitbox, Dailymotion</small>
+                                <small>Your viewers will now be able to see your stats when you stream. Start streaming now!</small>
                             </p>
+                            <ul>
+                                <li><a href="http://www.twitch.tv/">Twitch</a></li>
+                                <li><a href="http://www.hitbox.tv/">Hitbox</a></li>
+                                <li><a href="http://games.dailymotion.com/">Dailymotion</a></li>
+                            </ul>
+                            <p>Or see who's streaming <a href="/streamers.html">here</a></p>
                             <button id='go_back' className='waves-effect waves-light btn'>Go back</button>
                         </div>);
             },
