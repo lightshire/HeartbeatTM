@@ -1,0 +1,29 @@
+#crm_container .channel_pic {
+	height: 50px; 
+	display: inline-block;
+}
+
+#crm_container .channel_name {
+	display: inline-block;
+  	position: relative;
+  	top: -17px;
+  	font-size: 20px;
+  	margin-left: 10px;
+}
+
+.tabs {
+	display: none;
+}
+
+.google-visualization-table-td-number,
+.google-visualization-table-seq,
+.google-visualization-table-th {
+	text-align: center !important;
+}
+
+.google-visualization-table-th, 
+.google-visualization-table-td {
+	border: none !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}

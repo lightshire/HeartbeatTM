@@ -14,7 +14,7 @@
         htbt.config.twitch_api_key = 'ejhmzlu5zwlldjajydsc6ijmoiqq1pw';
     }
     else {
-        htbt.config.backend = 'https://www.you1tube.com';
+        htbt.config.backend = 'http://dev.heartbeat.tm';
         htbt.config.twitch_api_key = 'ejhmzlu5zwlldjajydsc6ijmoiqq1pw';
     }
 
