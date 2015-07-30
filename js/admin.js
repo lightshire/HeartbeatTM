@@ -16,7 +16,7 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.responseText || 'An unexpected error occured');
+            toastr.error(err.message || 'An unexpected error occured');
         },
 
         /*URL Logs functions*/
@@ -68,17 +68,76 @@
                 url: htbt.config.backend + '/lfg/categories',
 
                 success: function (data) {
-                    var i = 0,
-                        cont = $('#lfg-categories')[0],
-                        d = {categories: data};
+                    var d = {categories: data};
+
                     React.render(
                         <htbt.admin.Profile data={d}/>,
-                        cont
+                        $('#lfg-categories')[0]
                     );
+
                     $('.tabs').show();
                     $('ul.tabs').tabs();
 
-                    cont = cont.children[0];
+                    $('.save-category')
+                        .click(function () {
+                            var id = get_id(this.id, '_save');
+
+                            if (!sub || sub === ' ') {
+                                return;
+                            }
+
+                            sub = sub[0].toUpperCase() + sub.slice(1);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: htbt.config.backend + '/lfg/sub_category',
+
+                                data: {
+                                    category_id: id,
+                                    sub_category: sub
+                                },
+
+                                success: suc_cb,
+                                error: err_cb
+                            });
+                        })
+
+                    $('#delete-categories')
+                        .click(function () {
+                            var interests = $('.interests');
+
+                            if (!interests.is(':checked')) {
+                                return err_cb({message: 'Please select category to delete.'});
+                            }
+
+                            interests = _(interests)
+                                .map(function (e) {
+                                    if (e.checked) {
+                                        e.parentNode.style.display = 'none';
+                                        return get_id(e.id, '_check');
+                                    }
+                                })
+                                .filter(function (e) {
+                                    if (e) {
+                                        return e;
+                                    }
+                                })
+                                .value()
+                                .join(',');
+
+                            $.ajax({
+                                type: 'DELETE',
+                                url: htbt.config.backend + '/lfg/category',
+
+                                data: {
+                                    category_id: interests,
+                                    sub: true
+                                },
+
+                                success: suc_cb,
+                                error: err_cb
+                            });
+                        });
                 },
 
                 error: err_cb

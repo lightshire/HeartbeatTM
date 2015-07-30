@@ -42,7 +42,6 @@
                                                 type="checkbox"
                                                 className="filled-in interests"
                                                 id={k.sub_id + '_check'}
-                                                defaultChecked={checked}
                                                 data={k.sub_category}/>
                                             <label htmlFor={k.sub_id + '_check'}>{k.sub_category}</label>
                                         </p>
@@ -50,6 +49,22 @@
                                 })
                                 .value();
 
+                            sub.unshift(
+                                <div className="col s12" style={{margin: '10px 0 10px 0'}}>
+                                    <div className="input-field col s9">
+                                        <input placeholder="Add category" id={e.category_id + '_sub'} type="text" className="validate"/>
+                                        <label htmlFor={e.id + '_sub'} className="active">Create new sub category</label>
+                                    </div>
+                                    <div className="input-field col s2">
+                                        <a id={e.category_id + '_save'} className="save-category waves-effect waves-light btn" style={{width: '100%'}}>Create</a>
+                                    </div>
+                                    <div className="col s1 right">
+                                        <a id="delete-categories" className="btn-floating btn-small waves-effect waves-light red" style={{marginTop: '13px'}}>
+                                            <i className="material-icons" style={{fontSize: '18px'}}>delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            );
                             sub_categories.push(<div id={low} className="col s12 category-col">{sub}</div>);
 
                             return (
