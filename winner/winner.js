@@ -3,8 +3,7 @@ $(function () {
     'use strict';
 
     var videoId = window.htbt.util.getVideoId(window.location.href),
-        // getCommentatorsUrl = window.htbt.config.backend +
-        getCommentatorsUrl = 'http://localhost' +
+        getCommentatorsUrl = window.htbt.config.backend +
         '/get_comment_authors?video_id=' + videoId,
         pickButton,
         winnerCount,
