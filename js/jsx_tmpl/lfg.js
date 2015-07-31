@@ -76,7 +76,7 @@
                     <form id="search-match" className="col s12">
                         <div className="row">
                             <div className="match-view-all col s2">&nbsp;</div>
-                            <div className="input-field col s4 offset-s6">
+                            <div className="search-input-container input-field col s4 offset-s6">
                                 <i className="material-icons prefix">search</i>
                                 <input id="search" type="text" className="validate"/>
                                 <label htmlFor="search">Search</label>
