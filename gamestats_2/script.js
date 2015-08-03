@@ -159,8 +159,8 @@
                                     </div>
                                     <div className="col s8">
                                         <div className="input-field">
-                                            <input id="dota2_id" type="text" className="fields validate" />
-                                            <label htmlFor="dota2_id">Dota ID (ex: 1xxxxxxxx)</label>
+                                            <input id="dota2_username" type="text" className="fields validate" />
+                                            <label htmlFor="dota2_username">Dota ID (ex: 1xxxxxxxx)</label>
                                         </div>
                                     </div>
                                 </div>
@@ -228,8 +228,8 @@
                                     </div>
                                     <div className="col s8">
                                         <div className="input-field">
-                                            <input id="steam_url" type="text" className="fields validate"/>
-                                            <label htmlFor="steam_url">Steam Profile URL (ex. http://steamcommunity.com/id/:steamID)</label>
+                                            <input id="csgo_username" type="text" className="fields validate"/>
+                                            <label htmlFor="csgo_username">Steam Profile URL (ex. http://steamcommunity.com/id/:steamID)</label>
                                         </div>
                                     </div>
                                 </div>
@@ -410,8 +410,6 @@
                             data[a.id] = a.value;
                         }
                     });
-
-                    console.log(data);
 
                     !$('#twitch').val() ? ctr++ : ctr = 0;
                     !$('#hitbox').val() ? ctr++ : ctr = 0;
