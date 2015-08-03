@@ -707,7 +707,7 @@
 
                 error: function (err) {
                     React.render(
-                        <htbt.lfg.Login />,
+                        <htbt.crm.Login />,
                         $('#login-cont')[0]
                     );
 
