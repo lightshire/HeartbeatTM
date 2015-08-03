@@ -317,7 +317,7 @@
                 /*---Hitbox Auth End---*/
                 /*---DailyMotion Auth---*/
                 DM.init({
-                    apiKey: '5e43dacb88da06c35f66',
+                    apiKey: htbt.config.dailymotion_gamestats_api_key,
                     status: true,
                     cookie: true
                 });
@@ -355,7 +355,7 @@
                 });
                 /*---DailyMotion Auth End---*/
                 /*---Twitch Auth---*/
-                Twitch.init({clientId: '7y00q297x91rp2nmbrsf3sntcj63wp5'}, function(error, status) {
+                Twitch.init({clientId: htbt.config.twitch_gamestats_client_id}, function(error, status) {
                     $('.twitch-connect').click(function () {
                         Twitch.login({
                             scope: ['user_read', 'channel_read']
@@ -478,6 +478,7 @@
                                 <li><a href="http://games.dailymotion.com/">Dailymotion</a></li>
                             </ul>
                             <p>Or see who's streaming <a href="/streamers.html">here</a></p>
+                            <p><small>Note: Please include the name of the game in the title for dailymotion</small></p>
                             <button id='go_back' className='waves-effect waves-light btn'>Go back</button>
                         </div>);
             },
