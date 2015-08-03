@@ -14,7 +14,7 @@
                                 <img width="100%" src="assets/step1.png" />
                                 <p>Enter your game information on the fields corresponding to the games you want your stats to be shown.</p>
                                 <img width="100%" src="assets/step2.png" />
-                                <p>After signing-up, you will see a message like the one below.</p>
+                                <p>After signing-up, you will see a message like the one below, and we will be able to fetch your game data via this information</p>
                                 <img width="100%" src="assets/step3.png" />
                                 <p>Heartbeat users can now see your game statistics in the platforms you entered just like the example below.</p>
                                 <img width="100%" src="assets/sample1.png" />
@@ -159,8 +159,8 @@
                                     </div>
                                     <div className="col s8">
                                         <div className="input-field">
-                                            <input id="dota2_username" type="text" className="fields validate" />
-                                            <label htmlFor="dota2_username">Dota ID (ex: 1xxxxxxxx)</label>
+                                            <input id="dota2_id" type="text" className="fields validate" />
+                                            <label htmlFor="dota2_id">Dota ID (ex: 1xxxxxxxx)</label>
                                         </div>
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@
                                         </div>
                                         <div className="input-field col s4">
                                             <select id="lol_region" className="browser-default validate fields">
-                                                <option disabled>Region</option>
+                                                <option value="">Region</option>
                                                 <option value="na">North America</option>
                                                 <option value="euw">Europe West</option>
                                                 <option value="eune">Europe Nordic & East</option>
@@ -209,7 +209,7 @@
                                     <div className="col s4 offset-s4">
                                         <div className="input-field">
                                             <select id="diablo3_region" className="browser-default fields validate">
-                                                <option disabled>Region</option>
+                                                <option value="">Region</option>
                                                 <option value="cn">China</option>
                                                 <option value="eu">Europe</option>
                                                 <option value="kr">Korea</option>
@@ -228,8 +228,8 @@
                                     </div>
                                     <div className="col s8">
                                         <div className="input-field">
-                                            <input id="csgo_username" type="text" className="fields validate"/>
-                                            <label htmlFor="csgo_username">Steam Profile URL (ex. http://steamcommunity.com/id/:steamID)</label>
+                                            <input id="steam_url" type="text" className="fields validate"/>
+                                            <label htmlFor="steam_url">Steam Profile URL (ex. http://steamcommunity.com/id/:steamID)</label>
                                         </div>
                                     </div>
                                 </div>
@@ -242,14 +242,14 @@
                                     </div>
                                     <div className="col s8">
                                         <div className="input-field">
-                                            <input id="wow_username" type="text" className="fields validate"/>
-                                            <label htmlFor="wow_username">Character name</label>
+                                            <input id="wow_charactername" type="text" className="fields validate"/>
+                                            <label htmlFor="wow_charactername">Character name</label>
                                         </div>
                                     </div>
                                     <div className="col s4 offset-s4">
                                         <div className="input-field">
                                             <select id="wow_region" className="browser-default fields validate">
-                                                <option disabled>Region</option>
+                                                <option value="">Region</option>
                                                 <option value="cn">China</option>
                                                 <option value="eu">Europe</option>
                                                 <option value="kr">Korea</option>
@@ -380,6 +380,25 @@
                 $("#submit_usernames").bind('click', function () {
                     var ctr = 0;
 
+                    function validate_fields () {
+                        if ($('#dota2_username').val() && !$('#dota2_username').val().match(/^[0-9]{9}$/)) {
+                            Materialize.toast('Invalid Dota ID',1000);
+                            return false;
+                        }
+
+                        if ($('#diablo3_battletag').val() && !$('#diablo3_battletag').val().match(/-[0-9]{4}$/)) {
+                            Materialize.toast('Invalid Diablo 3 Battle Tag',1000);
+                            return false;
+                        }
+
+                        if ($('#csgo_username').val() && !$('#csgo_username').val().match(/^http:\/\/steamcommunity.com\/id\//)) {
+                            Materialize.toast('Invalid Steam Profile URL',1000);
+                            return false;
+                        }
+
+                        return true;
+                    }
+
                     $.each($('.fields'), function(i, a) {
                         if (a.value) {
                             data[a.id] = a.value;
@@ -392,18 +411,21 @@
                         }
                     });
 
+                    console.log(data);
+
                     !$('#twitch').val() ? ctr++ : ctr = 0;
                     !$('#hitbox').val() ? ctr++ : ctr = 0;
                     !$('#dailymotion').val() ? ctr++ : ctr = 0;
 
-                    if (ctr < 3) {
+                    if (ctr < 3 && validate_fields()) {
 
                         $('#loader').attr('style', 'display:');
                         $('#fields').attr('style', 'display:none');
                         $.ajax({
-                            type: "POST",
+                            method: "PUT",
                             url:  htbt.config.backend + '/save_game_usernames',
-                            data
+                            dataType: 'json',
+                            data: data
                         })
                         .done(function (result) {
                             if (result) {
