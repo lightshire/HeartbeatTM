@@ -390,6 +390,10 @@
                 document.cookie = 'hbeat_access_token=' + session;
             }
 
+            if (!~window.location.href.indexOf('profile')) {
+                window.location.href = '#';
+            }
+
             session = document.cookie.split('; ');
 
             _(session)
@@ -413,11 +417,11 @@
 
             $.ajax({
                 type: 'GET',
-                url: 'http://api.accounts.freedom.tm/user/google_access_token',
+                url: htbt.config.backend + '/crm/user',
 
-                headers: {'ACCESS-TOKEN': session},
+                data: {session: session},
 
-                success: get_channel,
+                success: start,
 
                 error: function (err) {
                     React.render(
@@ -427,27 +431,6 @@
 
                     $('#matchmaking .center-align')[0].style.display = 'none';
                 }
-            });
-        },
-
-        get_channel = function (data) {
-            if (!~window.location.href.indexOf('profile')) {
-                window.location.href = '#';
-            }
-
-            $.ajax({
-                type: 'GET',
-                url: 'https://www.googleapis.com/youtube/v3/channels',
-
-                data: {
-                    part: 'id,snippet',
-                    mine: true
-                },
-
-                headers: {'Authorization': 'Bearer ' + data.google_access_token},
-
-                success: start,
-                error: err_cb
             });
         },
 

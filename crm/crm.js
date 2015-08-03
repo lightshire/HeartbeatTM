@@ -699,41 +699,20 @@
 
             $.ajax({
                 type: 'GET',
-                url: 'http://api.accounts.freedom.tm/user/google_access_token',
+                url: htbt.config.backend + '/crm/user',
 
-                headers: {
-                    'ACCESS-TOKEN': session
-                },
+                data: {session: session},
 
-                success: get_channel,
+                success: start,
 
                 error: function (err) {
                     React.render(
-                        <htbt.crm.Login />,
+                        <htbt.lfg.Login />,
                         $('#login-cont')[0]
                     );
+
+                    $('#matchmaking .center-align')[0].style.display = 'none';
                 }
-            });
-        },
-
-        get_channel = function (data) {
-            window.location.href = '#';
-
-            $.ajax({
-                type: 'GET',
-                url: 'https://www.googleapis.com/youtube/v3/channels',
-
-                data: {
-                    part: 'id,snippet',
-                    mine: true
-                },
-
-                headers: {
-                    'Authorization': 'Bearer ' + data.google_access_token
-                },
-
-                success: start,
-                error: err_cb
             });
         },
 
