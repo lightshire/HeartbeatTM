@@ -337,7 +337,7 @@
 				          	first_name: data.first_name,
 				          	last_name: data.last_name,
 				          	earned_points: data.earned_points,
-				          	last_updated: moment(data.last_updated).format('DD MMM YYYY HH:mm')
+				          	last_updated: data.last_updated ? moment(data.last_updated).format('DD MMM YYYY HH:mm') : 'never'
 				        });
 					})
 					.always(function () {
@@ -359,7 +359,7 @@
     							), 
     							React.createElement("div", {className: "col s6 valign-wrapper"}, 
     								React.createElement("div", {className: "valign"}, 
-    									React.createElement("a", {href: "mailto:{this.state.email}"}, this.state.email)
+    									React.createElement("a", {href: 'mailto:' + this.state.email}, this.state.email)
     								)
     							)
     						), 
@@ -407,20 +407,24 @@
 				this.load_user_rewarded_actions(0);
 			},
 
+			change_page: function (page) {
+				if (page ===  this.state.current_page) {
+					return;
+				}
+
+				this.setState({
+					current_page: page
+				});
+
+				this.load_user_rewarded_actions(page);
+			},
+
 			on_prev_page: function () {
 				var current_page = this.state.current_page > 1
 						? this.state.current_page - 1
 						: 0;
 
-				if (current_page ===  this.state.current_page) {
-					return;
-				}
-
-				this.setState({
-					current_page: current_page
-				});
-
-				this.load_user_rewarded_actions(current_page);
+				this.change_page(current_page);
 			},
 
 			on_next_page: function () {
@@ -428,30 +432,14 @@
 						? this.state.current_page + 1
 						: this.state.total_pages - 1;
 
-				if (current_page ===  this.state.current_page) {
-					return;
-				}
-
-				this.setState({
-					current_page: current_page
-				});
-
-				this.load_user_rewarded_actions(current_page);
+				this.change_page(current_page);
 			},
 
 			on_goto_page: function (event) {
 				var a = event.currentTarget,
 					current_page = parseInt(a.innerText) - 1;
 
-				if (current_page === this.state.current_page) {
-					return;
-				}
-
-				this.setState({
-					current_page: current_page
-				});
-
-				this.load_user_rewarded_actions(current_page);
+				this.change_page(current_page);
 			},
 
     		render: function () {
