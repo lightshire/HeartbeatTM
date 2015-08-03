@@ -3,7 +3,8 @@ $(function () {
     'use strict';
 
     var videoId = window.htbt.util.getVideoId(window.location.href),
-        getCommentatorsUrl = window.htbt.config.backend +
+        // getCommentatorsUrl = window.htbt.config.backend +
+        getCommentatorsUrl = 'http://localhost' +
         '/get_comment_authors?video_id=' + videoId,
         pickButton,
         winnerCount,
@@ -42,11 +43,7 @@ $(function () {
         $('.loader')
             .hide();
 
-        var commentators = _.map(response.authors, function (obj) {
-            return obj.title;
-        });
-
-        displayCommentators(commentators);
+        displayCommentators(response.authors);
     }
 
     function displayCommentators(commentators) {
@@ -62,7 +59,13 @@ $(function () {
                 .append(winnerCount)
                 .append('<span class="taunt"> winner(s)!</span>')
                 .append(pickButton)
+                .append('<div id="filter_div"></div>')
                 .append($('<br/><br/>')));
+
+        $('#filter_div')
+            .append('Comment filter: ')
+            .append('<input name="filter" onkeyup="filter_comments(this);" type="text" id="comment_filter" title="Only people with comments containing this word(s) will appear"/>')
+            .append($('<br/><br/>'));
 
         $('#pick-one')
             .on('click', function () {
@@ -72,12 +75,24 @@ $(function () {
         _.each(commentators, function (commentator) {
             var element = $('<div></div>')
                 .addClass('commentator')
-                .html(commentator);
+                .html(commentator.title)
+                .attr('title', commentator.comment);
             elements.push(element);
-            $('#commentators')
-                .append(element);
+
+            $('#commentators').append(element);
         });
     }
+
+    window.filter_comments = function (e) {
+        elements.forEach(function (a) {
+            if (~a[0].getAttribute('title').indexOf(e.value)) {
+                a[0].style.display = 'inline-block';
+            }
+            else {
+                a[0].style.display = 'none';
+            }
+        })
+    };
 
     function toggleSlotMachine(commentators) {
         $('#slot-machine')
@@ -91,6 +106,10 @@ $(function () {
         for (var i = 0; i < easeOffBy; i++) {
             showName(i, easeOffBy - 1);
         }
+
+        commentators = commentators.filter(function (a) {
+            return a[0].style.display !== 'none';
+        });
 
         function showName(n, lastIdx) {
             setTimeout(function nextName() {
