@@ -193,6 +193,10 @@
         },
 
         get_user = function (youtube_id) {
+            if (!youtube_id) {
+                return;
+            }
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/user',
@@ -230,8 +234,11 @@
                         bind_profile_buttons();
                         return;
                     }
-
-                    err_cb(err);
+                    
+                    React.render(
+                        <htbt.lfg.Error data="User not found"/>,
+                        $('#matchmaking .match-container')[0]
+                    );
                 }
             });
         },
