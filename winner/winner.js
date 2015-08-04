@@ -8,6 +8,7 @@ $(function () {
         pickButton,
         winnerCount,
         elements = [],
+        users,
         highlighted;
 
     collectComments();
@@ -20,7 +21,7 @@ $(function () {
         };
 
         $.ajax({
-            url: window.htbt.config.backend + '/comments',
+            url: window.htbt.config.backend + '/comments?refresh=1',
             type: 'GET',
             data: options,
             success: function (data) {
@@ -41,6 +42,8 @@ $(function () {
     function handleCommentators(response) {
         $('.loader')
             .hide();
+
+        users = response.authors;
 
         displayCommentators(response.authors);
     }
@@ -75,7 +78,7 @@ $(function () {
             var element = $('<div></div>')
                 .addClass('commentator')
                 .html(commentator.title)
-                .attr('title', commentator.comment);
+                .attr('data-comment-id', commentator.comment_id);
             elements.push(element);
 
             $('#commentators').append(element);
@@ -83,14 +86,17 @@ $(function () {
     }
 
     window.filter_comments = function (e) {
-        elements.forEach(function (a) {
-            if (~a[0].getAttribute('title').indexOf(e.value)) {
-                a[0].style.display = 'inline-block';
+        users.forEach(function (a) {
+            var b = $('div[data-comment-id="' + a.comment_id + '"]')[0];
+
+            if (~a.comment.toLowerCase().indexOf(e.value.toLowerCase())) {
+                console.log(a.comment);
+                b.style.display = 'inline-block';
             }
             else {
-                a[0].style.display = 'none';
+                b.style.display = 'none';
             }
-        })
+        });
     };
 
     function toggleSlotMachine(commentators) {
