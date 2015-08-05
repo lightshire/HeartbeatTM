@@ -127,15 +127,18 @@
 		    				.replace('http://', '')
 		    				.toLowerCase();
 
-		    		switch (this.props.data.website) {
+		    		switch (website) {
 		    			case 'hitbox.tv':
 		    				link = 'http://www.hitbox.tv/' + this.props.data.username;
+		    				website = 'http://www.hitbox.tv';
 		    				break;
 		    			case 'youtube.com':
 		    				link = 'https://www.youtube.com/channel/' + this.props.data.channel_id;
+		    				website = 'https://www.youtube.com';
 		    				break;
 		    			case 'twitch.tv':
 		    				link = 'http://www.twitch.tv/' + this.props.data.channel_id;
+		    				website = 'http://www.twitch.tv';
 		    				break;
 		    		}
 
@@ -154,7 +157,7 @@
 			            	<div className='row'>
 			            		<div className='col s2'>Platform</div>
 			            		<div className='col s10'>
-			            			<a href={this.props.data.website}>{this.props.data.website}</a>
+			            			<a href={website}>{website}</a>
 			            		</div>
 			            	</div>
 		            	</div>
