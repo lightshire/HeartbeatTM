@@ -18,7 +18,7 @@
                                 <span className="title"><b>{e.name}</b></span>
                                 <p>
                                     <br/>
-                                    <b>Email:</b> {e.email}
+                                    <b>Email:</b> <a href="javascript:void(0)" className="view-email" data-email={e.email}>Click here to view email ... </a>
                                     <br/>
                                     <b>Looking for group:</b> {e.is_looking}
                                     <br/>

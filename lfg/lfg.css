@@ -111,43 +111,6 @@
 	font-size: 25px;
 }
 
-#messages .badge {
-	position: relative;
-	height: 25px;
-	line-height: 25px;
-	float: right;
-	padding: 0px;
-	top: 22px;
-}
-
-#messages .card-panel {
-	padding: 10px;
-}
-
-#messages .user-messages {
-	padding: 0px 10px;
-	height: 300px;
-	overflow-y: scroll;
-	margin: 0px 0px;
-}
-
-#messages .circle {
-	height: 35px;
-	margin-top: 5px;
-}
-
-#messages .sent-date {
-	font-size: 12px;
-	color: #ddd;
-}
-
-#messages .message-name {
-	display: inline;
-	position: relative;
-	top: -12px;
-	margin-left: 10px;
-}
-
 .category-col {
 	max-height: 600px;
 	overflow-x: overlay;
@@ -161,7 +124,23 @@
 	color: #f00 !important;
 }
 
-textarea.materialize-textarea.err-input:focus:not([readonly]) {
-	border-bottom: 1px solid #f00;
-	box-shadow: 0 1px 0 0 #f00;
+.ui-autocomplete {
+    width: 17% !important;
+    background: #eee !important;
+    border: 1px solid #bbb !important;
+    max-height: 300px !important;
+    overflow-y: auto !important;
+}
+
+.ui-menu-item {
+    padding: 2px !important;
+}
+
+.ui-state-focus {
+	color: #fff !important;
+	background: #039be5;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
 }

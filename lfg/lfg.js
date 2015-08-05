@@ -68,6 +68,14 @@
         },
 
         render_users = function (data, page, search, search_by, favorite) {
+            var autocomplete = [];
+                    
+            _(categories)
+                .forEach(function (e) {
+                    autocomplete = autocomplete.concat(_.pluck(e.sub_categories, 'sub_category'));
+                })
+                .commit();
+
             React.render(
                 <htbt.lfg.Matchmaking data={data}/>,
                 $('#matchmaking .match-container')[0]
@@ -106,6 +114,18 @@
                         $('.search-input-container')[0].style.display = 'block';
                     });
             }
+
+            $('#by-name')
+                .unbind('click')
+                .click(function () {
+                    $('#search').autocomplete({source: []});
+                });
+
+            $('#by-interest')
+                .unbind('click')
+                .click(function () {
+                    $('#search').autocomplete({source: autocomplete});
+                });
 
             $('#matchmaking-pagination')
                 .bootpag({
@@ -267,6 +287,11 @@
             $('.view-all')
                 .click(function () {
                     get_users(1);
+                });
+
+            $('.view-email')
+                .click(function () {
+                    this.textContent = this.getAttribute('data-email');
                 });
 
             bind_favorite_buttons();
