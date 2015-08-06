@@ -24,98 +24,139 @@
 
         /*Matchmaking Functions*/
 
-        get_users = function (page, search, search_by) {
+        get_users = function (page, search, search_by, favorite) {
+            var data, url;
+
             React.render(
                 <htbt.lfg.Loader />,
                 $('#matchmaking .match-container')[0]
             );
 
-            $.ajax({
-                type: 'GET',
-                url: htbt.config.backend + '/lfg/users',
+            url = favorite ? '/lfg/favorite_users' : '/lfg/users';
 
-                data: {
+            if (favorite) {
+                data = {
+                    channel_id: channel.id,
+                    limit: 10,
+                    page: page,
+                };
+            }
+            else {
+                data = {
                     channel_id: channel.id,
                     limit: 10,
                     page: page,
                     search: search,
                     by_name: search_by
-                },
+                };
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + url,
+
+                data: data,
 
                 success: function (data) {
-                    React.render(
-                        <htbt.lfg.Matchmaking data={data}/>,
-                        $('#matchmaking .match-container')[0]
-                    );
-
-                    React.render(
-                        <htbt.lfg.Search data={data}/>,
-                        $('#matchmaking .search-container')[0]
-                    );
-
-                    if (search && search !== ' ') {
-                        React.render(
-                            <a href="#!" className="view-all">View all</a>,
-                            $('.match-view-all')[0]
-                        );
-
-                        $('#matchmaking .view-all')
-                            .click(function () {
-                                get_users(1, null, 0);
-                                $('#search')[0].value = '';
-                                $('.match-view-all')[0].removeChild($('.view-all')[0]);
-                            });
-                    }
-
-                    if (!match_binded) {
-                        $('#matchmaking-pagination')
-                            .bootpag({
-                                total: Math.ceil(data.total / data.limit),
-                                page: page,
-                                maxVisible: 10,
-                                leaps: false,
-                                firstLastUse: true 
-                            })
-                            .on('page', function (event, num) {
-                                get_users(num, search, search_by);
-                            });
-
-                        $('#search-match')
-                            .submit(function (event) {
-                                var search_input = $('#search')[0].value,
-                                    search_by_input = $('#by-name')[0].checked ? 1 : 0;
-
-                                event.preventDefault();
-
-                                get_users(1, search_input, search_by_input);
-                            });
-
-                        bind_favorite_buttons();
-                        match_binded = true;
-                    }
+                    render_users(data, page, search, search_by, favorite);
                 },
 
                 error: function () {
-                    React.render(
-                        <htbt.lfg.Error data="No users found."/>,
-                        $('#matchmaking .match-container')[0]
-                    );
-
-                    if (search && search !== ' ') {
-                        React.render(
-                            <a href="#!" className="view-all">View all</a>,
-                            $('.match-view-all')[0]
-                        );
-
-                        $('#matchmaking .view-all')
-                            .click(function () {
-                                get_users(1, null, 0);
-                                $('#search')[0].value = '';
-                                $('.match-view-all')[0].removeChild($('.view-all')[0]);
-                            });
-                    }
+                    render_error_users(search, favorite);
                 }
             });
+        },
+
+        render_users = function (data, page, search, search_by, favorite) {
+            React.render(
+                <htbt.lfg.Matchmaking data={data}/>,
+                $('#matchmaking .match-container')[0]
+            );
+
+            React.render(
+                <htbt.lfg.Search data={data}/>,
+                $('#matchmaking .search-container')[0]
+            );
+
+            if (!favorite && !search) {
+                React.render(
+                    <a href="#!" className="view-all">View Favorites</a>,
+                    $('.match-view-all')[0]
+                );
+
+                $('#matchmaking .view-all')
+                    .unbind()
+                    .click(function () {
+                        get_users(1, null, 0, true);
+                        $('.search-input-container')[0].style.display = 'none';
+                    });
+            }
+
+            if ((search && search !== ' ') || favorite) {
+                React.render(
+                    <a href="#!" className="view-all">View all</a>,
+                    $('.match-view-all')[0]
+                );
+
+                $('#matchmaking .view-all')
+                    .unbind()
+                    .click(function () {
+                        get_users(1, null, 0);
+                        $('#search')[0].value = '';
+                        $('.search-input-container')[0].style.display = 'block';
+                    });
+            }
+
+            $('#matchmaking-pagination')
+                .bootpag({
+                    total: Math.ceil(data.total / data.limit),
+                    page: page,
+                    maxVisible: 10,
+                    leaps: false,
+                    firstLastUse: true
+                })
+                .on('page', function (event, num) {
+                    get_users(num, search, search_by, favorite);
+                });
+
+            $('#search-match')
+                .unbind()
+                .submit(function (event) {
+                    var search_input = $('#search')[0].value,
+                        search_by_input = $('#by-name')[0].checked ? 1 : 0;
+
+                    event.preventDefault();
+                    get_users(1, search_input, search_by_input);
+                });
+
+            bind_favorite_buttons();
+        },
+
+        render_error_users = function (search, favorite) {
+            React.render(
+                <htbt.lfg.Error data="No users found."/>,
+                $('#matchmaking .match-container')[0]
+            );
+
+            if ((search && search !== ' ')) {
+                React.render(
+                    <a href="#!" className="view-all">View all</a>,
+                    $('.match-view-all')[0]
+                );
+
+                $('#matchmaking .view-all')
+                    .click(function () {
+                        get_users(1, null, 0);
+                        $('#search')[0].value = '';
+
+                        if (favorite) {
+                            $('.search-input-container')[0].style.display = 'none';
+                        }
+                        else {
+                            $('.search-input-container')[0].style.display = 'block';
+                        }
+                    });
+            }
         },
 
         mark_as_favorite = function (id) {
