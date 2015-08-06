@@ -222,8 +222,9 @@
                 url: htbt.config.backend + '/lfg/user',
 
                 data: {
-                    channel_id: channel.id,
-                    youtube_id: youtube_id
+                    own_id: channel.id,
+                    user_id: youtube_id,
+                    type: 'youtube'
                 },
 
                 success: render_details,
