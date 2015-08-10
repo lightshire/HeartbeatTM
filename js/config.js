@@ -12,10 +12,12 @@
     if (htbt.env === 'dev') {
         htbt.config.backend = 'https://www.you1tube.com';
         htbt.config.twitch_api_key = 'ejhmzlu5zwlldjajydsc6ijmoiqq1pw';
+        htbt.config.login_url = 'http://api.dev.accounts.freedom.tm:8000/auth';
     }
     else {
         htbt.config.backend = 'https://www.you1tube.com';
         htbt.config.twitch_api_key = 'ejhmzlu5zwlldjajydsc6ijmoiqq1pw';
+        htbt.config.login_url = 'http://api.accounts.freedom.tm/auth';
     }
 
 })(window.htbt = window.htbt || {});
