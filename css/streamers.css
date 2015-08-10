@@ -16,6 +16,7 @@ p {
 .streamers #inner_streamers .row .col .online_streamer a .card {
     cursor: pointer;
     background: #19191F;
+    height: 337px;
 }
 
 .streamers #inner_streamers .row .col .online_streamer a .card .user_thumb {
@@ -37,6 +38,9 @@ p {
 .streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .status {
     color: #E8E8E8;
     font-size: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .info {
@@ -55,17 +59,30 @@ p {
     border-radius: 2px 2px 2px 2px;
 }
 
+.streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .info .viewers,
+.streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .info .followers {
+    padding: 4px;
+    background-color: white;
+    border-radius: 2px 2px 2px 2px;
+    color: #19191F;
+}
+
 .streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .info .lang {
     padding: 4px;
     background-color: #1565c0;
     border-radius: 2px 2px 2px 2px;
 }
 
-
+.streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .info .mature {
+    padding: 4px;
+    background-color: #ef5350;
+    border-radius: 2px 2px 2px 2px;
+}
 
 .streamers #inner_streamers .row .col .offline_streamer a .card {
     cursor: pointer;
     background: #19191F;
+    height: 337px;
 }
 
 .streamers #inner_streamers .row .col .offline_streamer a .card .user_thumb {
@@ -87,20 +104,41 @@ p {
 .streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .status {
     color: #E8E8E8;
     font-size: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info {
     color: #E8E8E8;
 }
 
-.streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info .indic {
+.streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info .lang {
+    padding: 4px;
+    background-color: #1565c0;
+    border-radius: 2px 2px 2px 2px;
+}
+
+.streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info .mature {
     padding: 4px;
     background-color: #ef5350;
     border-radius: 2px 2px 2px 2px;
 }
 
+.streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info .indic {
+    padding: 4px;
+    background-color: #19191F;
+    border-radius: 2px 2px 2px 2px;
+    color: white;
+}
 
-
+.streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info .viewers,
+.streamers #inner_streamers .row .col .offline_streamer a .card .user_info .row .info .followers {
+    padding: 4px;
+    background-color: white;
+    border-radius: 2px 2px 2px 2px;
+    color: #19191F;
+}
 
 .offline_streamer {
     opacity: 0.4;
