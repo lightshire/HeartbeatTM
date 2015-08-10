@@ -1,0 +1,71 @@
+#main_container {
+	margin-top: 30px;
+}
+
+.heartbeat_navbar #logo-container img {
+	height: 48px;
+	margin-top: 6px;
+	float: left;
+	margin-right: 20px;
+}
+
+#profile_details {
+	background-color: #EAEAEA !important;
+	padding: 10px;
+	margin-top: 10px;
+	border-left: 4px solid #ccc;
+	padding-left: 1.5rem;
+	font-size: 15px;
+}
+
+#profile_details {
+	font-size: 16px;
+}
+
+#profile_details .col.s1 {
+	width: 32px;
+}
+
+#log_out {
+	font-size: 12px !important;
+	vertical-align: middle;
+  	margin-left: 10px;
+}
+
+#data_pager {
+	display: inline-block;
+	height: 38px;
+}
+
+.action_details .row:last-of-type,
+#profile_details > .profile_row:last-of-type {
+	margin-bottom: 0 !important;
+}
+
+.action_title a,
+#log_out {
+	cursor: pointer;
+}
+
+.inline_video {
+	margin-right: 10px;
+}
+
+.action_title {
+	position: relative;
+}
+
+.action_details.card {
+	position: absolute;
+	z-index: 10;
+	background-color: white;
+	width: 500px;
+}
+
+#loading {
+	margin-top: -8px;
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 100;
+}

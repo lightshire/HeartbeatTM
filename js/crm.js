@@ -273,7 +273,7 @@
 
             $(container + ' #commenters-pagination')
                 .bootpag({
-                    total: ~~(data.total / data.limit),
+                    total: Math.ceil(data.total / data.limit),
                     page: page,
                     maxVisible: 10,
                     leaps: false,
@@ -671,6 +671,12 @@
         /*Login functions*/
 
         is_signed_in = function () {
+            session = window.location.href.split('#access_token=')[1];
+
+            if (session) {
+                document.cookie = 'hbeat_access_token=' + session;
+            }
+
             session = document.cookie.split('; ');
 
             _(session)
@@ -707,10 +713,12 @@
                         $('#login-cont')[0]
                     );
                 }
-        });
+            });
         },
 
         get_channel = function (data) {
+            window.location.href = '#';
+
             $.ajax({
                 type: 'GET',
                 url: 'https://www.googleapis.com/youtube/v3/channels',
