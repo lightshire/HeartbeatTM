@@ -40,19 +40,24 @@
 	display: inline-block;
 }
 
-#matchmaking .collection-item {
+#matchmaking .collection-item,
+#msearch .collection-item {
 	height: 100px !important;
 }
 
+#msearch .collection-item p,
 #matchmaking .collection-item p{
 	font-size: 14px !important;
 }
 
+#msearch .favorite,
 #matchmaking .favorite {
 	transition: 0.3s;
 	color: #bdbdbd !important;
 }
 
+#msearch .favorite.active,
+#msearch .favorite:hover,
 #matchmaking .favorite.active,
 #matchmaking .favorite:hover {
 	color: #fbc02d !important;
@@ -63,6 +68,7 @@
 	height: auto!important;
 }
 
+#msearch .fave-btn,
 #matchmaking .fave-btn {
 	width: 30px;
 	height: 30px;
@@ -73,6 +79,7 @@
 	margin-top: 45px;
 }
 
+#msearch .fave-btn .favorite,
 #matchmaking .fave-btn .favorite {
 	font-size: 20px;
 	position: absolute;
@@ -109,6 +116,32 @@
 
 #matchmaking .fa {
 	font-size: 25px;
+}
+
+#modified-search p {
+	display: inline-flex !important;
+	font-size: 12px !important;
+}
+
+#modified-search label {
+	padding-left: 20px;
+	line-height: 15px;
+    font-size: 13px;
+}
+
+#msearch-btn {
+	margin-bottom: 15px;
+}
+
+#modified-search [type="checkbox"].filled-in:not(:checked)+label:after,
+#modified-search [type="checkbox"].filled-in:checked+label:after {
+	height: 15px !important;
+    width: 15px !important;
+}
+
+#modified-search [type="checkbox"].filled-in:checked+label:before {
+	top: -2px !important;
+    left: -1px !important;
 }
 
 .category-col {

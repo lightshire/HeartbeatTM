@@ -3,6 +3,7 @@
 
     var email,
         session,
+        profile,
         categories,
         channel = {},
         no_profile = true,
@@ -19,7 +20,7 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.responseText || 'An unexpected error occured');
+            toastr.error(err.message || 'An unexpected error occured');
         },
 
         /*Matchmaking Functions*/
@@ -206,9 +207,108 @@
                 success: function (data) {
                     categories = data;
                     get_user(channel.id);
+
+                    React.render(
+                        <htbt.lfg.ModifiedSearch data={categories}/>,
+                        $('#msearch .msearch-container')[0]
+                    );
+
+                    bind_modified_search();
                 },
 
                 error: err_cb
+            });
+        },
+
+        bind_modified_search = function () {
+            $('#msearch-btn')
+                .click(function () {
+                    var interests = $('.msearch-interests');
+
+                    if (!interests.is(':checked')) {
+                        return err_cb({message: 'Please select/check interests.'});
+                    }
+
+                    interests = _(interests)
+                        .map(function (e) {
+                            if (e.checked) {
+                                return e.getAttribute('data');
+                            }
+                        })
+                        .filter(function (e) {
+                            if (e) {
+                                return e;
+                            }
+                        })
+                        .value()
+                        .join(',');
+
+                    modified_search(interests, 1);
+
+                    React.render(
+                        <htbt.lfg.Loader/>,
+                        $('#msearch .msearch-container')[0]
+                    );
+                });
+        },
+
+        modified_search = function (interests, page) {
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + '/lfg/search',
+
+                data: {
+                    channel_id: channel.id,
+                    limit: 10,
+                    page: page,
+                    search: interests
+                },
+
+                success: function (data) {
+                    React.render(
+                        <a href="#!" className="view-searchlist">View search list</a>,
+                        $('#msearch .show-msearchlist')[0]
+                    );
+
+                    $('#msearch .view-searchlist')
+                        .unbind('click')
+                        .click(function () {
+                            React.render(
+                                <htbt.lfg.ModifiedSearch data={categories}/>,
+                                $('#msearch .msearch-container')[0]
+                            );
+
+                            bind_modified_search();
+                        });
+
+                    React.render(
+                        <htbt.lfg.Matchmaking data={data}/>,
+                        $('#msearch .msearch-container')[0]
+                    );
+
+                    $('#msearch #matchmaking-pagination')
+                        .bootpag({
+                            total: Math.ceil(data.total / data.limit),
+                            page: page,
+                            maxVisible: 10,
+                            leaps: false,
+                            firstLastUse: true
+                        })
+                        .on('page', function (event, num) {
+                            React.render(
+                                <htbt.lfg.Loader/>,
+                                $('#msearch .msearch-container')[0]
+                            );
+                            modified_search(interests, num);
+                        });
+                },
+
+                error: function () {
+                    React.render(
+                        <htbt.lfg.Error data="No results found."/>,
+                        $('#msearch')[0]
+                    );
+                }
             });
         },
 
@@ -251,7 +351,10 @@
                             $('#profile')[0]
                         );
 
-                        $('#pro-a').trigger('click');
+                        if (profile) {
+                            $('#pro-a').trigger('click');
+                        }
+
                         bind_profile_buttons();
                         return;
                     }
@@ -468,7 +571,7 @@
         },
 
         start = function (data) {
-            var profile = window.location.href.split('#profile?id=')[1];
+            profile = window.location.href.split('#profile?id=')[1];
 
             if (!data.items.length) {
                 return err_cb();

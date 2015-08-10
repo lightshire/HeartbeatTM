@@ -70,6 +70,41 @@
             }
         }),
 
+        ModifiedSearch: React.createClass({
+            render: function () {
+                var sub_categories = [],
+                    categories = _(this.props.data)
+                        .map(function (e) {
+                            sub_categories = sub_categories.concat(e.sub_categories);
+                        })
+                        .value();
+
+                sub_categories = _(sub_categories)
+                    .sortBy('sub_category')
+                    .map(function (k) {
+                        return (
+                            <p className="col s2">
+                                <input
+                                    type="checkbox"
+                                    className="filled-in msearch-interests"
+                                    id={k.sub_id + '_msearch'}
+                                    data={k.sub_category}/>
+                                <label htmlFor={k.sub_id + '_msearch'}>{k.sub_category}</label>
+                            </p>
+                        );
+                    })
+                    .value();
+
+                return (
+                    <div id="modified-search" className="col s12">
+                        <br/>
+                        <a id="msearch-btn" className="col s3 offset-s9 waves-effect waves-light btn">Search</a>
+                        {sub_categories}
+                    </div>
+                );
+            }
+        }),
+
         Search: React.createClass({
             render: function () {
                 return (
@@ -146,8 +181,9 @@
                             <div className="col s12">
                                 <div className="card-panel teal">
                                     <span className="white-text">
-                                        First-time user? Please fill out the form below
-                                        to start using LFG.
+                                        First time user? Please fill out the form below
+                                        to start using Free! Collaborations. Filling up the 
+                                        form will allow you to view profile of other users.
                                     </span>
                                 </div>
                             </div>
