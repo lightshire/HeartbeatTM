@@ -27,3 +27,27 @@
     padding-top: 4px !important;
     padding-bottom: 4px !important;
 }
+
+#lfg-sta-pagination,
+#lfg-pla-pagination,
+#pcat-pagination {
+	display: inline-block;
+}
+
+#pcat-title {
+	font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#lfg-pla label {
+	top: -5px;
+}
+
+#lfg-pla-table .top-level {
+	overflow: visible!important;
+}
+
+.select-wrapper {
+	z-index: 9999999;
+}

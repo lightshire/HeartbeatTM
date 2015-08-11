@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../css/admin.css">
+        <link rel="stylesheet" href="admin.css">
     </head>
 
 
@@ -24,11 +24,18 @@
                 <div id="channel-profile" class="col s12"></div>
             </div>
 
-            <div class="row">
+            <div id="admin-container" class="row">
+                <h6 id="pcat-title"></h6>
+                <div id="pcat-container" class="col s12"></div>
+                <center>
+                    <p id="pcat-pagination"></p>
+                </center>
+
                 <div class="col s12">
                     <ul class="tabs">
-                        <li id="url-tab" class="tab col s3"><a id="mat-a" href="#url-logs">URL Logs Analysis</a></li>
-                        <li id="lfg-tab" class="tab col s3"><a id="mat-a" href="#lfg-categories">LFG Categories</a></li>
+                        <li id="url-tab" class="tab col s4"><a id="mat-a" href="#url-logs">URL Logs Analysis</a></li>
+                        <li id="lfg-tab" class="tab col s4"><a id="mat-b" href="#lfg-categories">LFG Categories</a></li>
+                        <li id="lfg-ana" class="tab col s4"><a id="mat-c" href="#lfg-analytics">LFG Analytics</a></li>
                     </ul>
                 </div>
 
@@ -36,6 +43,36 @@
                     <div class="row match-container"></div>
                 </div>
                 <div id="lfg-categories" class="col s12"></div>
+                <div id="lfg-analytics" class="col s12">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s3"><a href="#lfg-pol">Category Poll</a></li>
+                            <li class="tab col s3"><a href="#lfg-sta">Users Statistic</a></li>
+                            <li class="tab col s3"><a href="#lfg-pla">Platform Statistics</a></li>
+                        </ul>
+                    </div>
+                    <div id="lfg-pol" class="col s12"></div>
+                    <div id="lfg-sta" class="col s12">
+                        <div id="lfg-sta-table"></div>
+                        <center>
+                            <p id="lfg-sta-pagination"></p>
+                        </center>
+                    </div>
+                    <div id="lfg-pla" class="col s12">
+                        <div class="input-field col s5 offset-s7">
+                            <label>Selected Platform</label>
+                            <select id="platform-select">
+                                <option value="youtube">Youtube</option>
+                                <option value="twitch">Twitch</option>
+                                <option value="hitbox">Hitbox</option>
+                            </select>
+                        </div>
+                        <div id="lfg-pla-table"></div>
+                        <center>
+                            <p id="lfg-pla-pagination"></p>
+                        </center>
+                    </div>
+                </div>
             </div>
 
             <div id="modal1" class="modal">
@@ -60,7 +97,7 @@
         <script type="text/javascript" src="../bower_components/react/react.js"></script>
         <script src="../bower_components/react/JSXTransformer.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
-        <script type="text/javascript" src="../js/md5.min.js"></script>
+        <script type="text/javascript" src="../js/bootpag.js"></script>
         <script type="text/javascript" src="../js/init.js"></script>
         <script type="text/javascript" src="../js/config.js"></script>
         <script type="text/javascript"
@@ -71,8 +108,8 @@
                 'packages':['table']
             }]
           }"></script>
-        <script type="text/jsx" src="../js/jsx_tmpl/admin.js"></script>
-        <script type="text/jsx" src="../js/admin.js"></script>
+        <script type="text/jsx" src="admin_tmpl.js"></script>
+        <script type="text/jsx" src="admin.js"></script>
 
     </body>
 
