@@ -17,7 +17,7 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.message || 'An unexpected error occured');
+            toastr.error(err.responseText || 'An unexpected error occured');
         },
 
         /*URL Logs functions*/
