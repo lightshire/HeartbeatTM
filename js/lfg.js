@@ -19,7 +19,7 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.responseText || 'An unexpected error occured');
+            toastr.error(err.message || 'An unexpected error occured');
         },
 
         /*Matchmaking Functions*/
@@ -300,7 +300,7 @@
                             $('#interests-title').removeClass('err-input');
                         })
 
-                        err_cb({responseText: 'Please select/check your interests.'});
+                        err_cb({message: 'Please select/check your interests.'});
 
                         return;
                     }
