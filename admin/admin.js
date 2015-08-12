@@ -173,12 +173,17 @@
                         .map(function (e) {
                             return [
                                 '<a target="_blanl" href="#category?id=' + e.sub_category + '">' + e.sub_category +'</a>', 
-                                {v: e.total, f: e.total.toLocaleString()}
+                                {v: e.total, f: e.total.toLocaleString()},
+                                {v: e.search_count, f: e.search_count.toLocaleString()}
                             ];
                         })
                         .value();
 
-                    data.unshift([('string', 'Category'), ('number', 'No. of Interested Users')]);
+                    data.unshift([
+                        ('string', 'Category'),
+                        ('number', 'No. of Interested Users'),
+                        ('number', 'No. Searches')
+                    ]);
                     data = google.visualization.arrayToDataTable(data);
                     table = new google.visualization.Table($('#lfg-analytics #lfg-pol')[0]);
 
@@ -413,7 +418,7 @@
                 });
             }
 
-            if (window.location.href.indexOf('/admin/#category')) {
+            if (window.location.href.indexOf('/admin/#category') > -1) {
                 return get_per_category_analytics(1);
             }
 
@@ -489,8 +494,6 @@
         },
 
         set_user = function (data) {
-            var profile = window.location.href.split('#profile?id=')[1];
-
             if (!data.items.length) {
                 return err_cb();
             }
