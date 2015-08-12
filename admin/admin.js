@@ -174,8 +174,8 @@
                         .map(function (e) {
                             return [
                                 '<a target="_blanl" href="#category?id=' + e.sub_category + '">' + e.sub_category +'</a>', 
-                                {v: e.total, f: e.total.toLocaleString()},
-                                {v: e.search_count, f: e.search_count.toLocaleString()}
+                                {v: e.total, f: e.total ? e.total.toLocaleString() : '0'},
+                                {v: e.search_count, f: e.search_count ? e.search_count.toLocaleString() : '0'}
                             ];
                         })
                         .value();
