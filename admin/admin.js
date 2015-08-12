@@ -64,6 +64,11 @@
         /*LFG Categories functions*/
 
         get_categories = function () {
+            React.render(
+                <htbt.admin.Loader/>,
+                $('#lfg-categories')[0]
+            );
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/categories',
@@ -99,12 +104,18 @@
                                     sub_category: sub
                                 },
 
-                                success: suc_cb,
-                                error: err_cb
+                                success: function (data) {
+                                    suc_cb(data);
+                                    get_categories();
+                                },
+
+                                error: function () {
+                                    err_cb({responseText: 'Category already exists!'})
+                                }
                             });
                         })
 
-                    $('#delete-categories')
+                    $('.delete-categories')
                         .click(function () {
                             var interests = $('.interests');
 

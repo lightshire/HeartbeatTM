@@ -59,7 +59,7 @@
                                         <a id={e.category_id + '_save'} className="save-category waves-effect waves-light btn" style={{width: '100%'}}>Create</a>
                                     </div>
                                     <div className="col s1 right">
-                                        <a id="delete-categories" className="btn-floating btn-small waves-effect waves-light red" style={{marginTop: '13px'}}>
+                                        <a id="delete-categories" className="delete-categories btn-floating btn-small waves-effect waves-light red" style={{marginTop: '13px'}}>
                                             <i className="material-icons" style={{fontSize: '18px'}}>delete</i>
                                         </a>
                                     </div>
