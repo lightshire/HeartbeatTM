@@ -391,7 +391,12 @@
                     table.draw(data, options);
                 },
 
-                error: err_cb
+                error: function () {
+                    React.render(
+                        <htbt.admin.Error data="No users found." />,
+                        $('#pcat-container')[0]
+                    );
+                }
             });
         },
 
