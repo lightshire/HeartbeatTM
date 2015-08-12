@@ -53,7 +53,7 @@
                                 <div className="col s12" style={{margin: '10px 0 10px 0'}}>
                                     <div className="input-field col s9">
                                         <input placeholder="Add category" id={e.category_id + '_sub'} type="text" className="validate"/>
-                                        <label htmlFor={e.id + '_sub'} className="active">Create new sub category</label>
+                                        <label htmlFor={e.category_id + '_sub'} className="active">Create new sub category</label>
                                     </div>
                                     <div className="input-field col s2">
                                         <a id={e.category_id + '_save'} className="save-category waves-effect waves-light btn" style={{width: '100%'}}>Create</a>

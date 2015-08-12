@@ -81,7 +81,8 @@
 
                     $('.save-category')
                         .click(function () {
-                            var id = get_id(this.id, '_save');
+                            var id = get_id(this.id, '_save'),
+                                sub = $('#' + id + '_sub')[0].value;
 
                             if (!sub || sub === ' ') {
                                 return;
