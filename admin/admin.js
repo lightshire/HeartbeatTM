@@ -367,7 +367,7 @@
                             firstLastUse: true
                         })
                         .on('page', function (event, num) {
-                            get_platform_statistic(num);
+                            get_per_category_analytics(num);
                         });
 
                     data = _(data.users)
