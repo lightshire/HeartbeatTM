@@ -436,7 +436,7 @@
                             $('#interests-title').removeClass('err-input');
                         })
 
-                        err_cb({responseText: 'Please select/check your interests.'});
+                        err_cb({message: 'Please select/check your interests.'});
 
                         return;
                     }
