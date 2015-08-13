@@ -40,19 +40,24 @@
 	display: inline-block;
 }
 
-#matchmaking .collection-item {
+#matchmaking .collection-item,
+#msearch .collection-item {
 	height: 100px !important;
 }
 
+#msearch .collection-item p,
 #matchmaking .collection-item p{
 	font-size: 14px !important;
 }
 
+#msearch .favorite,
 #matchmaking .favorite {
 	transition: 0.3s;
 	color: #bdbdbd !important;
 }
 
+#msearch .favorite.active,
+#msearch .favorite:hover,
 #matchmaking .favorite.active,
 #matchmaking .favorite:hover {
 	color: #fbc02d !important;
@@ -63,6 +68,7 @@
 	height: auto!important;
 }
 
+#msearch .fave-btn,
 #matchmaking .fave-btn {
 	width: 30px;
 	height: 30px;
@@ -73,6 +79,7 @@
 	margin-top: 45px;
 }
 
+#msearch .fave-btn .favorite,
 #matchmaking .fave-btn .favorite {
 	font-size: 20px;
 	position: absolute;
@@ -111,41 +118,30 @@
 	font-size: 25px;
 }
 
-#messages .badge {
-	position: relative;
-	height: 25px;
-	line-height: 25px;
-	float: right;
-	padding: 0px;
-	top: 22px;
+#modified-search p {
+	display: inline-flex !important;
+	font-size: 12px !important;
 }
 
-#messages .card-panel {
-	padding: 10px;
+#modified-search label {
+	padding-left: 20px;
+	line-height: 15px;
+    font-size: 13px;
 }
 
-#messages .user-messages {
-	padding: 0px 10px;
-	height: 300px;
-	overflow-y: scroll;
-	margin: 0px 0px;
+#msearch-btn {
+	margin-bottom: 15px;
 }
 
-#messages .circle {
-	height: 35px;
-	margin-top: 5px;
+#modified-search [type="checkbox"].filled-in:not(:checked)+label:after,
+#modified-search [type="checkbox"].filled-in:checked+label:after {
+	height: 15px !important;
+    width: 15px !important;
 }
 
-#messages .sent-date {
-	font-size: 12px;
-	color: #ddd;
-}
-
-#messages .message-name {
-	display: inline;
-	position: relative;
-	top: -12px;
-	margin-left: 10px;
+#modified-search [type="checkbox"].filled-in:checked+label:before {
+	top: -2px !important;
+    left: -1px !important;
 }
 
 .category-col {
@@ -161,7 +157,23 @@
 	color: #f00 !important;
 }
 
-textarea.materialize-textarea.err-input:focus:not([readonly]) {
-	border-bottom: 1px solid #f00;
-	box-shadow: 0 1px 0 0 #f00;
+.ui-autocomplete {
+    width: 17% !important;
+    background: #eee !important;
+    border: 1px solid #bbb !important;
+    max-height: 300px !important;
+    overflow-y: auto !important;
+}
+
+.ui-menu-item {
+    padding: 2px !important;
+}
+
+.ui-state-focus {
+	color: #fff !important;
+	background: #039be5;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
 }
