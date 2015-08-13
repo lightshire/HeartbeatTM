@@ -3,7 +3,7 @@
 
     var session,
         email,
-        active_platform = 'youtube',
+        active_platform = 'all',
         channel = {},
 
         get_id = function (e, tok) {
@@ -206,82 +206,26 @@
             });
         },
 
-        get_user_statistic = function (page) {
-            React.render(
-                <htbt.admin.Loader />,
-                $('#lfg-analytics #lfg-sta-table')[0]
-            );
-
-            $.ajax({
-                type: 'GET',
-                url: htbt.config.backend + '/lfg/user_analytics',
-
-                data: {
+        get_platform_statistic = function (page) {
+            var data = {
                     page: page,
                     limit: 20
-                },
+                };
 
-                success: function (data) {
-                    var table,
-
-                        options = {
-                            allowHtml: true,
-                            width: '100%',
-                            height: '100%'
-                        };
-
-                    $('#lfg-sta-pagination')
-                        .bootpag({
-                            total: Math.ceil(data.total / data.limit),
-                            page: page,
-                            maxVisible: 20,
-                            leaps: false,
-                            firstLastUse: true
-                        })
-                        .on('page', function (event, num) {
-                            get_user_statistic(num);
-                        });
-
-                    data = _(data.users)
-                        .map(function (e) {
-                            return [
-                                '<img src="' + e.avatar + '" class="circle" style="height:50px;margin-right:10px;" />'
-                                    + '<a target="_blank" href="/lfg.html#profile?id=' + e.youtube_id + '">' 
-                                    + e.name + '</a>', 
-                                {
-                                    v: e.total_subs, 
-                                    f: e.total_subs.toLocaleString()
-                                }
-                            ];
-                        })
-                        .value();
-
-                    data.unshift([('string', 'User'), ('number', 'Combined Subscribers (Youtube|Twitch|Hitbox)')]);
-                    data = google.visualization.arrayToDataTable(data);
-                    table = new google.visualization.Table($('#lfg-analytics #lfg-sta-table')[0]);
-
-                    table.draw(data, options);
-                },
-
-                error: err_cb
-            });
-        },
-
-        get_platform_statistic = function (page) {
             React.render(
                 <htbt.admin.Loader />,
                 $('#lfg-pla #lfg-pla-table')[0]
             );
 
+            if (active_platform !== 'all') {
+                data.platform = active_platform;
+            }
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/user_analytics',
 
-                data: {
-                    page: page,
-                    limit: 20,
-                    platform: active_platform
-                },
+                data: data,
 
                 success: function (data) {
                     var table,
@@ -296,7 +240,7 @@
                         .bootpag({
                             total: Math.ceil(data.total / data.limit),
                             page: page,
-                            maxVisible: 20,
+                            maxVisible: 10,
                             leaps: false,
                             firstLastUse: true
                         })
@@ -318,7 +262,13 @@
                         })
                         .value();
 
-                    data.unshift([('string', 'User'), ('number', 'Subscribers')]);
+                    if (active_platform === 'all') {
+                        data.unshift([('string', 'User'), ('number', 'Combined Subscribers (Youtube|Twitch|Hitbox)')]);
+                    }
+                    else {
+                        data.unshift([('string', 'User'), ('number', 'Subscribers')]);
+                    }
+
                     data = google.visualization.arrayToDataTable(data);
                     table = new google.visualization.Table($('#lfg-analytics #lfg-pla-table')[0]);
 
@@ -456,6 +406,7 @@
             session = window.location.href.split('#access_token=')[1];
 
             if (session) {
+                window.location.href = '#';
                 document.cookie = 'hbeat_access_token=' + session;
             }
 
@@ -493,8 +444,6 @@
                         <htbt.lfg.Login />,
                         $('#login-cont')[0]
                     );
-
-                    $('#matchmaking .center-align')[0].style.display = 'none';
                 }
             });
 
@@ -536,6 +485,7 @@
                         headers: {'ACCESS-TOKEN': session},
 
                         success: function () {
+                            document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                             location.reload();
                         },
 
@@ -563,7 +513,6 @@
                     get_url_logs();
                     get_categories();
                     get_category_poll();
-                    get_user_statistic(1);
                     get_platform_statistic(1);
                 },
 

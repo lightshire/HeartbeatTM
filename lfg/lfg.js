@@ -523,11 +523,8 @@
             session = window.location.href.split('#access_token=')[1];
 
             if (session) {
-                document.cookie = 'hbeat_access_token=' + session;
-            }
-
-            if (!~window.location.href.indexOf('profile')) {
                 window.location.href = '#';
+                document.cookie = 'hbeat_access_token=' + session;
             }
 
             session = document.cookie.split('; ');
@@ -598,6 +595,7 @@
                         headers: {'ACCESS-TOKEN': session},
 
                         success: function () {
+                            document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                             location.reload();
                         },
 
