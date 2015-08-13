@@ -3,6 +3,7 @@
 
     var email,
         session,
+        profile,
         categories,
         channel = {},
         no_profile = true,
@@ -19,103 +20,164 @@
 
         err_cb = function (err) {
             toastr.options.positionClass = 'toast-top-left';
-            toastr.error(err.responseText || 'An unexpected error occured');
+            toastr.error(err.message || 'An unexpected error occured');
         },
 
         /*Matchmaking Functions*/
 
-        get_users = function (page, search, search_by) {
+        get_users = function (page, search, search_by, favorite) {
+            var data, url;
+
             React.render(
                 <htbt.lfg.Loader />,
                 $('#matchmaking .match-container')[0]
             );
 
-            $.ajax({
-                type: 'GET',
-                url: htbt.config.backend + '/lfg/users',
+            url = favorite ? '/lfg/favorite_users' : '/lfg/users';
 
-                data: {
+            if (favorite) {
+                data = {
+                    channel_id: channel.id,
+                    limit: 10,
+                    page: page,
+                };
+            }
+            else {
+                data = {
                     channel_id: channel.id,
                     limit: 10,
                     page: page,
                     search: search,
                     by_name: search_by
-                },
+                };
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + url,
+
+                data: data,
 
                 success: function (data) {
-                    React.render(
-                        <htbt.lfg.Matchmaking data={data}/>,
-                        $('#matchmaking .match-container')[0]
-                    );
-
-                    React.render(
-                        <htbt.lfg.Search data={data}/>,
-                        $('#matchmaking .search-container')[0]
-                    );
-
-                    if (search && search !== ' ') {
-                        React.render(
-                            <a href="#!" className="view-all">View all</a>,
-                            $('.match-view-all')[0]
-                        );
-
-                        $('#matchmaking .view-all')
-                            .click(function () {
-                                get_users(1, null, 0);
-                                $('#search')[0].value = '';
-                                $('.match-view-all')[0].removeChild($('.view-all')[0]);
-                            });
-                    }
-
-                    if (!match_binded) {
-                        $('#matchmaking-pagination')
-                            .bootpag({
-                                total: ~~(data.total / data.limit),
-                                page: page,
-                                maxVisible: 10,
-                                leaps: false,
-                                firstLastUse: true 
-                            })
-                            .on('page', function (event, num) {
-                                get_users(num, search, search_by);
-                            });
-
-                        $('#search-match')
-                            .submit(function (event) {
-                                var search_input = $('#search')[0].value,
-                                    search_by_input = $('#by-name')[0].checked ? 1 : 0;
-
-                                event.preventDefault();
-
-                                get_users(1, search_input, search_by_input);
-                            });
-
-                        bind_favorite_buttons();
-                        match_binded = true;
-                    }
+                    render_users(data, page, search, search_by, favorite);
                 },
 
                 error: function () {
-                    React.render(
-                        <htbt.lfg.Error data="No users found."/>,
-                        $('#matchmaking .match-container')[0]
-                    );
-
-                    if (search && search !== ' ') {
-                        React.render(
-                            <a href="#!" className="view-all">View all</a>,
-                            $('.match-view-all')[0]
-                        );
-
-                        $('#matchmaking .view-all')
-                            .click(function () {
-                                get_users(1, null, 0);
-                                $('#search')[0].value = '';
-                                $('.match-view-all')[0].removeChild($('.view-all')[0]);
-                            });
-                    }
+                    render_error_users(search, favorite);
                 }
             });
+        },
+
+        render_users = function (data, page, search, search_by, favorite) {
+            var autocomplete = [];
+                    
+            _(categories)
+                .forEach(function (e) {
+                    autocomplete = autocomplete.concat(_.pluck(e.sub_categories, 'sub_category'));
+                })
+                .commit();
+
+            React.render(
+                <htbt.lfg.Matchmaking data={data}/>,
+                $('#matchmaking .match-container')[0]
+            );
+
+            React.render(
+                <htbt.lfg.Search data={data}/>,
+                $('#matchmaking .search-container')[0]
+            );
+
+            if (!favorite && !search) {
+                React.render(
+                    <a href="#!" className="view-all">View Favorites</a>,
+                    $('.match-view-all')[0]
+                );
+
+                $('#matchmaking .view-all')
+                    .unbind()
+                    .click(function () {
+                        get_users(1, null, 0, true);
+                        $('.search-input-container')[0].style.display = 'none';
+                    });
+            }
+
+            if ((search && search !== ' ') || favorite) {
+                React.render(
+                    <a href="#!" className="view-all">View all</a>,
+                    $('.match-view-all')[0]
+                );
+
+                $('#matchmaking .view-all')
+                    .unbind()
+                    .click(function () {
+                        get_users(1, null, 0);
+                        $('#search')[0].value = '';
+                        $('.search-input-container')[0].style.display = 'block';
+                    });
+            }
+
+            $('#by-name')
+                .unbind('click')
+                .click(function () {
+                    $('#search').autocomplete({source: []});
+                });
+
+            $('#by-interest')
+                .unbind('click')
+                .click(function () {
+                    $('#search').autocomplete({source: autocomplete});
+                });
+
+            $('#matchmaking-pagination')
+                .bootpag({
+                    total: Math.ceil(data.total / data.limit),
+                    page: page,
+                    maxVisible: 10,
+                    leaps: false,
+                    firstLastUse: true
+                })
+                .on('page', function (event, num) {
+                    get_users(num, search, search_by, favorite);
+                });
+
+            $('#search-match')
+                .unbind()
+                .submit(function (event) {
+                    var search_input = $('#search')[0].value,
+                        search_by_input = $('#by-name')[0].checked ? 1 : 0;
+
+                    event.preventDefault();
+                    get_users(1, search_input, search_by_input);
+                });
+
+            bind_favorite_buttons();
+        },
+
+        render_error_users = function (search, favorite) {
+            React.render(
+                <htbt.lfg.Error data="No users found."/>,
+                $('#matchmaking .match-container')[0]
+            );
+
+            if ((search && search !== ' ')) {
+                React.render(
+                    <a href="#!" className="view-all">View all</a>,
+                    $('.match-view-all')[0]
+                );
+
+                $('#matchmaking .view-all')
+                    .click(function () {
+                        get_users(1, null, 0);
+                        $('#search')[0].value = '';
+
+                        if (favorite) {
+                            $('.search-input-container')[0].style.display = 'none';
+                        }
+                        else {
+                            $('.search-input-container')[0].style.display = 'block';
+                        }
+                    });
+            }
         },
 
         mark_as_favorite = function (id) {
@@ -145,20 +207,124 @@
                 success: function (data) {
                     categories = data;
                     get_user(channel.id);
+
+                    React.render(
+                        <htbt.lfg.ModifiedSearch data={categories}/>,
+                        $('#msearch .msearch-container')[0]
+                    );
+
+                    bind_modified_search();
                 },
 
                 error: err_cb
             });
         },
 
+        bind_modified_search = function () {
+            $('#msearch-btn')
+                .click(function () {
+                    var interests = $('.msearch-interests');
+
+                    if (!interests.is(':checked')) {
+                        return err_cb({message: 'Please select/check interests.'});
+                    }
+
+                    interests = _(interests)
+                        .map(function (e) {
+                            if (e.checked) {
+                                return e.getAttribute('data');
+                            }
+                        })
+                        .filter(function (e) {
+                            if (e) {
+                                return e;
+                            }
+                        })
+                        .value()
+                        .join(',');
+
+                    modified_search(interests, 1);
+
+                    React.render(
+                        <htbt.lfg.Loader/>,
+                        $('#msearch .msearch-container')[0]
+                    );
+                });
+        },
+
+        modified_search = function (interests, page) {
+            $.ajax({
+                type: 'GET',
+                url: htbt.config.backend + '/lfg/search',
+
+                data: {
+                    channel_id: channel.id,
+                    limit: 10,
+                    page: page,
+                    search: interests
+                },
+
+                success: function (data) {
+                    React.render(
+                        <a href="#!" className="view-searchlist">View search list</a>,
+                        $('#msearch .show-msearchlist')[0]
+                    );
+
+                    $('#msearch .view-searchlist')
+                        .unbind('click')
+                        .click(function () {
+                            React.render(
+                                <htbt.lfg.ModifiedSearch data={categories}/>,
+                                $('#msearch .msearch-container')[0]
+                            );
+
+                            bind_modified_search();
+                        });
+
+                    React.render(
+                        <htbt.lfg.Matchmaking data={data}/>,
+                        $('#msearch .msearch-container')[0]
+                    );
+
+                    $('#msearch #matchmaking-pagination')
+                        .bootpag({
+                            total: Math.ceil(data.total / data.limit),
+                            page: page,
+                            maxVisible: 10,
+                            leaps: false,
+                            firstLastUse: true
+                        })
+                        .on('page', function (event, num) {
+                            React.render(
+                                <htbt.lfg.Loader/>,
+                                $('#msearch .msearch-container')[0]
+                            );
+                            modified_search(interests, num);
+                        });
+                },
+
+                error: function () {
+                    React.render(
+                        <htbt.lfg.Error data="No results found."/>,
+                        $('#msearch')[0]
+                    );
+                }
+            });
+        },
+
         get_user = function (youtube_id) {
+            if (!youtube_id) {
+                return;
+            }
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/user',
 
                 data: {
-                    channel_id: channel.id,
-                    youtube_id: youtube_id
+                    own_id: channel.id,
+                    user_id: youtube_id,
+                    type: 'youtube'
                 },
 
                 success: render_details,
@@ -185,12 +351,18 @@
                             $('#profile')[0]
                         );
 
-                        $('#pro-a').trigger('click');
+                        if (profile) {
+                            $('#pro-a').trigger('click');
+                        }
+
                         bind_profile_buttons();
                         return;
                     }
-
-                    err_cb(err);
+                    
+                    React.render(
+                        <htbt.lfg.Error data="User not found"/>,
+                        $('#matchmaking .match-container')[0]
+                    );
                 }
             });
         },
@@ -219,6 +391,11 @@
             $('.view-all')
                 .click(function () {
                     get_users(1);
+                });
+
+            $('.view-email')
+                .click(function () {
+                    this.textContent = this.getAttribute('data-email');
                 });
 
             bind_favorite_buttons();
@@ -259,7 +436,7 @@
                             $('#interests-title').removeClass('err-input');
                         })
 
-                        err_cb({responseText: 'Please select/check your interests.'});
+                        err_cb({message: 'Please select/check your interests.'});
 
                         return;
                     }
@@ -343,6 +520,16 @@
                 $('#matchmaking .match-container')[0]
             );
 
+            session = window.location.href.split('#access_token=')[1];
+
+            if (session) {
+                document.cookie = 'hbeat_access_token=' + session;
+            }
+
+            if (!~window.location.href.indexOf('profile')) {
+                window.location.href = '#';
+            }
+
             session = document.cookie.split('; ');
 
             _(session)
@@ -366,11 +553,11 @@
 
             $.ajax({
                 type: 'GET',
-                url: 'http://api.accounts.freedom.tm/user/google_access_token',
+                url: htbt.config.backend + '/crm/user',
 
-                headers: {'ACCESS-TOKEN': session},
+                data: {session: session},
 
-                success: get_channel,
+                success: start,
 
                 error: function (err) {
                     React.render(
@@ -383,25 +570,8 @@
             });
         },
 
-        get_channel = function (data) {
-            $.ajax({
-                type: 'GET',
-                url: 'https://www.googleapis.com/youtube/v3/channels',
-
-                data: {
-                    part: 'id,snippet',
-                    mine: true
-                },
-
-                headers: {'Authorization': 'Bearer ' + data.google_access_token},
-
-                success: start,
-                error: err_cb
-            });
-        },
-
         start = function (data) {
-            var profile = window.location.href.split('#profile?id=')[1];
+            profile = window.location.href.split('#profile?id=')[1];
 
             if (!data.items.length) {
                 return err_cb();

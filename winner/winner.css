@@ -125,3 +125,8 @@ body {
 #pick-more{
     width: 50px;
 }
+
+#filter_div{
+    margin-top: 12px;
+    font-size: 12px;
+}
