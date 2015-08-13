@@ -406,6 +406,7 @@
             session = window.location.href.split('#access_token=')[1];
 
             if (session) {
+                window.location.href = '#';
                 document.cookie = 'hbeat_access_token=' + session;
             }
 
@@ -443,8 +444,6 @@
                         <htbt.lfg.Login />,
                         $('#login-cont')[0]
                     );
-
-                    $('#matchmaking .center-align')[0].style.display = 'none';
                 }
             });
 
@@ -486,6 +485,7 @@
                         headers: {'ACCESS-TOKEN': session},
 
                         success: function () {
+                            document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                             location.reload();
                         },
 
