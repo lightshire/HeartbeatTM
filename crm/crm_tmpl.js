@@ -133,6 +133,17 @@
                                     type="text" />
                                 <label htmlFor="icon_search">Search</label>
                             </div>
+                            <div className="col s5 view-container">
+                                <b>View: &nbsp;&nbsp;</b>
+                                <input type="checkbox" className="filled-in view-type" id="view-all" data="All" defaultChecked="checked" />
+                                <label htmlFor="view-all">All</label>
+
+                                <input type="checkbox" className="filled-in view-type" id="view-favorite" data="Favorite" />
+                                <label htmlFor="view-favorite">Favorite</label>
+
+                                <input type="checkbox" className="filled-in view-type" id="view-blocked" data="Blocked" />
+                                <label htmlFor="view-blocked">Blocked</label>
+                            </div>
                         </div>
                     </form>
                 );
@@ -258,6 +269,17 @@
                                             className="validate"
                                             type="text" />
                                         <label htmlFor="icon_search">Search</label>
+                                    </div>
+                                    <div className="col s5 view-container">
+                                        <b>View: &nbsp;&nbsp;</b>
+                                        <input type="checkbox" className="filled-in view-type" id="view-all-video" data="All" defaultChecked="checked" />
+                                        <label htmlFor="view-all-video">All</label>
+
+                                        <input type="checkbox" className="filled-in view-type" id="view-favorite-video" data="Favorite" />
+                                        <label htmlFor="view-favorite-video">Favorite</label>
+
+                                        <input type="checkbox" className="filled-in view-type" id="view-blocked-video" data="Blocked" />
+                                        <label htmlFor="view-blocked-video">Blocked</label>
                                     </div>
                                 </div>
                             </form>

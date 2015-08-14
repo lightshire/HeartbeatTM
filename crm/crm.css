@@ -20,12 +20,22 @@
   	margin-left: 10px;
 }
 
-#commenters .pagination {
+#commenters-pagination {
 	display: inline-block
 }
 
-#commenters .pagination li:hover {
+#commenters-pagination li,
+#commenters-pagination li a {
+	transition: 0.5s;
+	cursor: pointer;
+}
+
+#commenters-pagination li:hover{
 	background-color: #ee6e73;
+}
+
+#commenters-pagination li:hover a {
+	color: #fff !important;
 }
 
 #commenters .preloader-wrapper.big,
@@ -187,6 +197,32 @@ textarea.materialize-textarea {
 #back-to-videos:hover {
 	cursor: pointer;
 	color: #dd2c00;
+}
+
+#search_commenter .view-container {
+	margin-top: 5px;
+}
+
+.view-container [type="checkbox"].filled-in:not(:checked)+label:after,
+.view-container [type="checkbox"].filled-in:checked+label:after {
+	top: 5px !important;
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.view-container [type="checkbox"].filled-in:checked+label:before {
+	top: 3px !important;
+    left: -1px !important;
+    width: 7px !important;
+    height: 13px !important;
+}
+
+.view-container [type="checkbox"]+label {
+	padding-left: 20px !important;
+	padding-right: 10px !important;
+	height: 20px !important;
+    line-height: 26px !important;
+    font-size: 15px !important;
 }
 
 .timespan-label {
