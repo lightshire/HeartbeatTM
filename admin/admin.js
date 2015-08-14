@@ -460,6 +460,11 @@
         },
 
         set_user = function (data) {
+            function session_destroy () {
+                document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                location.reload();
+            }
+
             if (!data.items.length) {
                 return err_cb();
             }
@@ -484,12 +489,8 @@
 
                         headers: {'ACCESS-TOKEN': session},
 
-                        success: function () {
-                            document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            location.reload();
-                        },
-
-                        error: err_cb
+                        success: session_destroy,
+                        error: session_destroy
                     });
                 });
         },
