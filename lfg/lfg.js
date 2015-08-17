@@ -523,11 +523,8 @@
             session = window.location.href.split('#access_token=')[1];
 
             if (session) {
-                document.cookie = 'hbeat_access_token=' + session;
-            }
-
-            if (!~window.location.href.indexOf('profile')) {
                 window.location.href = '#';
+                document.cookie = 'hbeat_access_token=' + session;
             }
 
             session = document.cookie.split('; ');
@@ -571,6 +568,11 @@
         },
 
         start = function (data) {
+            function session_destroy () {
+                document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                location.reload();
+            }
+
             profile = window.location.href.split('#profile?id=')[1];
 
             if (!data.items.length) {
@@ -597,11 +599,8 @@
 
                         headers: {'ACCESS-TOKEN': session},
 
-                        success: function () {
-                            location.reload();
-                        },
-
-                        error: err_cb
+                        success: session_destroy,
+                        error: session_destroy
                     });
                 });
 

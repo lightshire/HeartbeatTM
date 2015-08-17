@@ -3,11 +3,12 @@
 
     var session,
         channel = {},
-        active_video = null,
+        view = null,
         ret_total = 0,
         ret_current = 0,
         all_videos = [],
         on_video = false,
+        active_video = null,
         already_checked = false,
 
         get_id = function (e, type) {
@@ -46,12 +47,13 @@
                     channel_id: channel.id,
                     video_id: video_id,
                     page: page,
+                    status: view === 'All' ? null : view,
                     search: search || '',
                     limit: 20
                 },
                 
                 success: function (data) {
-                    if (video_id && !already_checked && !data.commenters.length) {
+                    if (video_id && !already_checked && !data.commenters.length && !view) {
                         already_checked = true;
 
                         if (search) {
@@ -65,6 +67,7 @@
                             $('#videos .search-container #all-commenters')[0].style.display = search ? '' : 'none';
 
                             $('#videos #all-commenters')
+                                .unbind('click')
                                 .click(function () {
                                     $('#videos #icon_search')[0].value = '';
                                     get_commenters(1, null, video_id);
@@ -86,11 +89,22 @@
                             );
 
                             $('#commenters #all-commenters')
+                                .unbind('click')
                                 .click(function () {
                                     $('#commenters #icon_search')[0].value = '';
                                     get_commenters(1);
                                 });
 
+                            return;
+                        }
+
+                        if (view === 'Favorite' || view === 'Blocked') {
+                            React.render(
+                                <div className="center-align">
+                                    <htbt.crm.Error data={'No results found.'} />
+                                </div>,
+                                container
+                            );
                             return;
                         }
 
@@ -291,6 +305,7 @@
                 });
 
             $(container + ' .status')
+                .unbind('click')
                 .click(function () {
                     var type = this.className.indexOf('block') === -1 
                             ? 'favorite' 
@@ -324,6 +339,7 @@
                 });
 
             $(container + ' .save')
+                .unbind('click')
                 .click(function () {
                     var container = on_video ? '#videos' : '#commenters',
                         id = get_id(this, 'save'),
@@ -338,8 +354,20 @@
                     $('.' + id + '_notes').val(notes);
                 });
 
+            $(container + ' .view-type')
+                .unbind('click')
+                .click(function () {
+                    var video_id = active_video ? active_video.id : null;
+                    
+                    $(container + ' .view-type').prop('checked', false);
+                    this.checked = true;
+                    view = this.getAttribute('data');
+                    get_commenters(page, null, video_id);
+                });
+
             if (data.search) {
                 $(container + ' #all-commenters')
+                    .unbind('click')
                     .click(function () {
                         if (on_video) {
                             return get_commenters(1, null, data.video_id);
@@ -358,7 +386,7 @@
 
                 data: data,
 
-                success: suc_cb,
+                success: function () {},
                 error: err_cb
             });
         },
@@ -674,6 +702,7 @@
             session = window.location.href.split('#access_token=')[1];
 
             if (session) {
+                window.location.href = '#';
                 document.cookie = 'hbeat_access_token=' + session;
             }
 
@@ -710,13 +739,16 @@
                         <htbt.crm.Login />,
                         $('#login-cont')[0]
                     );
-
-                    $('#matchmaking .center-align')[0].style.display = 'none';
                 }
             });
         },
 
         start = function (data) {
+            function session_destroy () {
+                document.cookie = 'hbeat_access_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                location.reload();
+            }
+
             if (!data.items.length) {
                 return err_cb();
             }
@@ -748,13 +780,8 @@
                             'ACCESS-TOKEN': session
                         },
 
-                        success: function () {
-                            location.reload();
-                        },
-
-                        error: function () {
-                            location.reload();
-                        }
+                        success: session_destroy,
+                        error: session_destroy
                     });
                 });
 
