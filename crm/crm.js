@@ -494,9 +494,8 @@
 
                 $('#videos #retrieve-all-vids')[0].style.display = 'block';
                 $('#retrieve-all-vids .btn-small')
-                    .unbind('click')
+                    .unbind()
                     .click(function () {
-                        console.log('click');
                         get_videos(null, true);
                     });
             }
