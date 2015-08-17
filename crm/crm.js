@@ -42,6 +42,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_commenters',
+
+                headers: {'ACCESS-TOKEN': session},
                 
                 data: {
                     channel_id: channel.id,
@@ -174,6 +176,8 @@
             $.ajax({
                 type: 'POST',
                 url: htbt.config.backend + '/crm/cache_comments',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -424,6 +428,8 @@
                                 type: 'POST',
                                 url: htbt.config.backend + '/crm/cache_comments',
 
+                                headers: {'ACCESS-TOKEN': session},
+
                                 data: {
                                     channel_id: channel.id,
                                     video_id: id
@@ -466,6 +472,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_videos',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -533,6 +541,8 @@
                         type: 'POST',
                         url: htbt.config.backend + '/crm/cache_comments',
 
+                        headers: {'ACCESS-TOKEN': session},
+
                         data: {
                             channel_id: channel.id,
                             video_id: id
@@ -581,6 +591,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_stats',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: {
                     channel_id: channel.id,
                 },
@@ -618,6 +630,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/comments',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
