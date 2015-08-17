@@ -491,7 +491,14 @@
                     <htbt.crm.RetrieveAll />,
                     $('#videos .active-container')[0]
                 );
+
                 $('#videos #retrieve-all-vids')[0].style.display = 'block';
+                $('#retrieve-all-vids .btn-small')
+                    .unbind('click')
+                    .click(function () {
+                        console.log('click');
+                        get_videos(null, true);
+                    });
             }
 
             React.render(
@@ -783,11 +790,6 @@
                         success: session_destroy,
                         error: session_destroy
                     });
-                });
-
-            $('#retrieve-all-vids .btn-small')
-                .click(function () {
-                    get_videos(null, true);
                 });
 
             get_commenters(1, null, null);
