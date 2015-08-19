@@ -42,6 +42,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_commenters',
+
+                headers: {'ACCESS-TOKEN': session},
                 
                 data: {
                     channel_id: channel.id,
@@ -174,6 +176,8 @@
             $.ajax({
                 type: 'POST',
                 url: htbt.config.backend + '/crm/cache_comments',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -424,6 +428,8 @@
                                 type: 'POST',
                                 url: htbt.config.backend + '/crm/cache_comments',
 
+                                headers: {'ACCESS-TOKEN': session},
+
                                 data: {
                                     channel_id: channel.id,
                                     video_id: id
@@ -467,6 +473,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_videos',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: {
                     channel_id: channel.id,
                     next_page: page
@@ -491,7 +499,13 @@
                     <htbt.crm.RetrieveAll />,
                     $('#videos .active-container')[0]
                 );
+
                 $('#videos #retrieve-all-vids')[0].style.display = 'block';
+                $('#retrieve-all-vids .btn-small')
+                    .unbind()
+                    .click(function () {
+                        get_videos(null, true);
+                    });
             }
 
             React.render(
@@ -526,6 +540,8 @@
                     $.ajax({
                         type: 'POST',
                         url: htbt.config.backend + '/crm/cache_comments',
+
+                        headers: {'ACCESS-TOKEN': session},
 
                         data: {
                             channel_id: channel.id,
@@ -575,6 +591,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_stats',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: {
                     channel_id: channel.id,
                 },
@@ -612,6 +630,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/comments',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -783,11 +803,6 @@
                         success: session_destroy,
                         error: session_destroy
                     });
-                });
-
-            $('#retrieve-all-vids .btn-small')
-                .click(function () {
-                    get_videos(null, true);
                 });
 
             get_commenters(1, null, null);
