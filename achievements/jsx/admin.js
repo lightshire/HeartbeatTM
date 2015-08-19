@@ -305,6 +305,19 @@
 	        }
 		}),
 
+		Log_out = React.createClass({
+			render: function () {
+				return (
+					<a onClick={this.on_log_out}>Log out</a>
+				);
+			},
+
+			on_log_out: function () {
+				document.cookie = 'heartbeat_access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
+				location.reload();
+			}
+		}),
+
 		User_Achivements = React.createClass({
 			render: function () {
 				return (
@@ -355,6 +368,11 @@
     	React.render(
 	        <User_Achivements />,
 	        $('#main_container')[0]
+	    );
+
+	    React.render(
+	        <Log_out />,
+	        $('#log_out_container')[0]
 	    );
     }
 

@@ -93,3 +93,7 @@ select.browser-default:focus {
 	margin-bottom: 20px;
 	border-bottom: 1px solid #f6b2b5;
 }
+
+#log_out_container {
+	float: right;
+}
