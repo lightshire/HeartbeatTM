@@ -73,6 +73,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/categories',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 success: function (data) {
                     var d = {categories: data};
 
@@ -98,6 +100,8 @@
                             $.ajax({
                                 type: 'POST',
                                 url: htbt.config.backend + '/lfg/sub_category',
+
+                                headers: {'ACCESS-TOKEN': session},
 
                                 data: {
                                     category_id: id,
@@ -142,6 +146,8 @@
                                 type: 'DELETE',
                                 url: htbt.config.backend + '/lfg/category',
 
+                                headers: {'ACCESS-TOKEN': session},
+
                                 data: {
                                     category_id: interests,
                                     sub: true
@@ -170,6 +176,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/interest_analytics',
+
+                headers: {'ACCESS-TOKEN': session},
                 
                 success: function (data) {
                     var table,
@@ -224,6 +232,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/user_analytics',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: data,
 
@@ -292,6 +302,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/category_analytics',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     page: page,
