@@ -35,7 +35,7 @@
                                                 <div className='row'>
                                                     <div className='col s12 m12 l12 status'> {onstreamer.status} </div>
                                                     <div className='col s12 m12 l12 info'>
-                                                        {onstreamer.game ? <small>Playing: {onstreamer.game}<br/></small> : <small>Playing unknown game<br/></small>}
+                                                        {onstreamer.game ? <small className='game'>Playing: {onstreamer.game}<br/></small> : <small>Playing unknown game<br/></small>}
                                                         <small>{onstreamer.dname}</small>
                                                         <br/><br/>
                                                         <small><span className='viewers'><i className='fa fa-eye'></i> {onstreamer.viewers.toLocaleString()}</span></small>

@@ -16,7 +16,7 @@ p {
 .streamers #inner_streamers .row .col .online_streamer a .card {
     cursor: pointer;
     background: #19191F;
-    height: 337px;
+    height: 343px;
 }
 
 .streamers #inner_streamers .row .col .online_streamer a .card .user_thumb {
@@ -38,6 +38,12 @@ p {
 .streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .status {
     color: #E8E8E8;
     font-size: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.streamers #inner_streamers .row .col .online_streamer a .card .user_info .row .info .game {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -82,7 +88,7 @@ p {
 .streamers #inner_streamers .row .col .offline_streamer a .card {
     cursor: pointer;
     background: #19191F;
-    height: 337px;
+    height: 344px;
 }
 
 .streamers #inner_streamers .row .col .offline_streamer a .card .user_thumb {
