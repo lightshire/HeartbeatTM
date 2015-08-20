@@ -16,14 +16,58 @@
             this.getStreamers();
         },
         render: function() {
-            var streamers = this.state.streamers;
+            var streamers = this.state.streamers,
+                temp_streamers = [],
+                id,
+                filter_cards = function (e) {
+                    id = e.target.id;
+
+                    $.each($('#inner_streamers')[0].children[0].children, function (key, value) {
+                        value.style.display = 'block';
+
+                        if (!~value.id.indexOf(id) && key) {
+                            value.style.display = 'none';
+                        }
+
+                        if (id === 'all') {
+                            value.style.display = 'block';
+                        }
+                    });
+
+                    $.each($('#inner_streamers')[0].children[2].children, function (key, value) {
+                        value.style.display = 'block';
+
+                        if (!~value.id.indexOf(id) && key) {
+                            value.style.display = 'none';
+                        }
+
+                        if (id === 'all') {
+                            value.style.display = 'block';
+                        }
+                    });
+
+                    $.each($('button'), function (key, value) {
+                        value.disabled = false;
+
+                        if (value.id === id) {
+                            value.disabled = true;
+                        }
+                    });
+                };
+
             if (typeof streamers.online === 'undefined') {
                 return null;
             }
             return (<div id='inner_streamers'>
                 <div className='row'>
-                    { streamers.online.map(function(onstreamer) {
-                        return (<div className='col s12 m6 l4'>
+                    <div className='filter'>
+                        <button id='all' className='waves-effect waves-light waves-light white black-text btn' onClick={filter_cards}>All</button>
+                        <button id='twitch' className='waves-effect waves-light waves-light deep-purple lighten-2 btn' onClick={filter_cards}>Twitch</button>
+                        <button id='hitbox' className='waves-effect waves-light waves-light light-green btn' onClick={filter_cards}>Hitbox</button>
+                        <button id='dailymotion' className='waves-effect waves-light waves-light blue lighten-2 btn' onClick={filter_cards}>Dailymotion</button>
+                    </div>
+                    { streamers.online.map(function (onstreamer) {
+                        return (<div id={onstreamer.url} className='col s12 m6 l4'>
                                 <div className='online_streamer'>
                                     <a href={onstreamer.url}>
                                         <div className='card' alt={onstreamer.status} title={onstreamer.status}>
@@ -60,7 +104,7 @@
                 <hr/>
                 <div className='row'>
                     {streamers.offline.map(function(offstreamer) {
-                        return offstreamer.dname ? (<div className='col s12 m6 l4'>
+                        return offstreamer.dname ? (<div id={offstreamer.url} className='col s12 m6 l4'>
                             <div className='offline_streamer'>
                                 <a href={offstreamer.url}>
                                     <div className='card' alt={offstreamer.status} title={offstreamer.status}>
