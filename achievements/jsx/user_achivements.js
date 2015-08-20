@@ -162,7 +162,7 @@
     function start () {
         if (!heartbeat_access_token) {
             React.render(
-                <Login_Section />,
+                <htbt.Login_Section />,
                 $('#main_container')[0]
             );
             return;
