@@ -56,6 +56,8 @@
                 type: 'GET',
                 url: htbt.config.backend + url,
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: data,
 
                 success: function (data) {
@@ -204,6 +206,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/categories',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 success: function (data) {
                     categories = data;
                     get_user(channel.id);
@@ -256,6 +260,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/search',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -492,6 +498,7 @@
             $.ajax({
                 type: 'PUT',
                 url: htbt.config.backend + '/lfg/user',
+                headers: {'ACCESS-TOKEN': session},
                 data: data,
                 success: suc_cb,
                 error: err_cb
@@ -596,9 +603,6 @@
                     $.ajax({
                         type: 'POST',
                         url: 'http://api.accounts.freedom.tm/auth/logout',
-
-                        headers: {'ACCESS-TOKEN': session},
-
                         success: session_destroy,
                         error: session_destroy
                     });

@@ -73,6 +73,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/categories',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 success: function (data) {
                     var d = {categories: data};
 
@@ -98,6 +100,8 @@
                             $.ajax({
                                 type: 'POST',
                                 url: htbt.config.backend + '/lfg/sub_category',
+
+                                headers: {'ACCESS-TOKEN': session},
 
                                 data: {
                                     category_id: id,
@@ -142,6 +146,8 @@
                                 type: 'DELETE',
                                 url: htbt.config.backend + '/lfg/category',
 
+                                headers: {'ACCESS-TOKEN': session},
+
                                 data: {
                                     category_id: interests,
                                     sub: true
@@ -170,6 +176,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/interest_analytics',
+
+                headers: {'ACCESS-TOKEN': session},
                 
                 success: function (data) {
                     var table,
@@ -224,6 +232,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/user_analytics',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: data,
 
@@ -293,6 +303,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/lfg/category_analytics',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: {
                     page: page,
                     limit: 20,
@@ -354,47 +366,6 @@
 
         /*Login functions*/
 
-        start = function () {
-            function get_access (e) {
-                var key = $('#access_code')[0].value;
-                
-                if (!key || key === ' ') {
-                    return;
-                }
-
-                if (e) {
-                    e.preventDefault();
-                }
-
-                $('#modal1').closeModal();
-
-                $.ajax({
-                    type: 'GET',
-                    url: htbt.config.backend + '/admin/get_access',
-
-                    data: {key: key},
-
-                    success: is_signed_in,
-
-                    error: function () {
-                        React.render(
-                            <htbt.admin.Error data='Access Denied' />,
-                            $('#url-logs .match-container')[0]
-                        );
-                    }
-                });
-            }
-
-            if (window.location.href.indexOf('/admin/#category') > -1) {
-                return get_per_category_analytics(1);
-            }
-
-            $('#modal1').openModal();
-
-            $('#submit_access').click(get_access);
-            $('#access-form').submit(get_access);
-        },
-
         is_signed_in = function () {
             $('.tabs').show();
             
@@ -441,7 +412,7 @@
 
                 error: function (err) {
                     React.render(
-                        <htbt.lfg.Login />,
+                        <htbt.admin.Login />,
                         $('#login-cont')[0]
                     );
                 }
@@ -496,26 +467,15 @@
         },
 
         is_admin = function (e) {
+            email = e.email;
+
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/admin',
 
                 data: {email: e.email},
 
-                success: function () {
-                    $('#platform-select').material_select();
-
-                    $('#platform-select')
-                        .change(function () {
-                            active_platform = this.value;
-                            get_platform_statistic(1);
-                        });
-
-                    get_url_logs();
-                    get_categories();
-                    get_category_poll();
-                    get_platform_statistic(1);
-                },
+                success:get_passkey,
 
                 error: function () {
                     React.render(
@@ -524,9 +484,66 @@
                     );
                 }
             });
+        },
+
+        get_passkey = function () {
+            function get_access (e) {
+                var key = $('#access_code')[0].value;
+                
+                if (!key || key === ' ') {
+                    return;
+                }
+
+                if (e) {
+                    e.preventDefault();
+                }
+
+                $('#modal1').closeModal();
+
+                $.ajax({
+                    type: 'GET',
+                    url: htbt.config.backend + '/admin/get_access',
+
+                    data: {
+                        email: email,
+                        key: key
+                    },
+
+                    success: function () {
+                        $('#platform-select').material_select();
+
+                        $('#platform-select')
+                            .change(function () {
+                                active_platform = this.value;
+                                get_platform_statistic(1);
+                            });
+
+                        get_url_logs();
+                        get_categories();
+                        get_category_poll();
+                        get_platform_statistic(1);
+                    },
+
+                    error: function () {
+                        React.render(
+                            <htbt.admin.Error data='Access Denied' />,
+                            $('#url-logs .match-container')[0]
+                        );
+                    }
+                });
+            }
+
+            if (window.location.href.indexOf('/admin/#category') > -1) {
+                return get_per_category_analytics(1);
+            }
+
+            $('#modal1').openModal();
+
+            $('#submit_access').click(get_access);
+            $('#access-form').submit(get_access);
         };
 
         /*End of login functions*/
 
-    start();
+    is_signed_in();
 })(window.htbt = window.htbt || {});

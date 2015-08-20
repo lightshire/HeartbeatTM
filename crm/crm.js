@@ -3,11 +3,12 @@
 
     var session,
         channel = {},
-        active_video = null,
+        view = null,
         ret_total = 0,
         ret_current = 0,
         all_videos = [],
         on_video = false,
+        active_video = null,
         already_checked = false,
 
         get_id = function (e, type) {
@@ -41,17 +42,20 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_commenters',
+
+                headers: {'ACCESS-TOKEN': session},
                 
                 data: {
                     channel_id: channel.id,
                     video_id: video_id,
                     page: page,
+                    status: view === 'All' ? null : view,
                     search: search || '',
                     limit: 20
                 },
                 
                 success: function (data) {
-                    if (video_id && !already_checked && !data.commenters.length) {
+                    if (video_id && !already_checked && !data.commenters.length && !view) {
                         already_checked = true;
 
                         if (search) {
@@ -65,6 +69,7 @@
                             $('#videos .search-container #all-commenters')[0].style.display = search ? '' : 'none';
 
                             $('#videos #all-commenters')
+                                .unbind('click')
                                 .click(function () {
                                     $('#videos #icon_search')[0].value = '';
                                     get_commenters(1, null, video_id);
@@ -86,11 +91,22 @@
                             );
 
                             $('#commenters #all-commenters')
+                                .unbind('click')
                                 .click(function () {
                                     $('#commenters #icon_search')[0].value = '';
                                     get_commenters(1);
                                 });
 
+                            return;
+                        }
+
+                        if (view === 'Favorite' || view === 'Blocked') {
+                            React.render(
+                                <div className="center-align">
+                                    <htbt.crm.Error data={'No results found.'} />
+                                </div>,
+                                container
+                            );
                             return;
                         }
 
@@ -160,6 +176,8 @@
             $.ajax({
                 type: 'POST',
                 url: htbt.config.backend + '/crm/cache_comments',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -291,6 +309,7 @@
                 });
 
             $(container + ' .status')
+                .unbind('click')
                 .click(function () {
                     var type = this.className.indexOf('block') === -1 
                             ? 'favorite' 
@@ -324,6 +343,7 @@
                 });
 
             $(container + ' .save')
+                .unbind('click')
                 .click(function () {
                     var container = on_video ? '#videos' : '#commenters',
                         id = get_id(this, 'save'),
@@ -338,8 +358,20 @@
                     $('.' + id + '_notes').val(notes);
                 });
 
+            $(container + ' .view-type')
+                .unbind('click')
+                .click(function () {
+                    var video_id = active_video ? active_video.id : null;
+                    
+                    $(container + ' .view-type').prop('checked', false);
+                    this.checked = true;
+                    view = this.getAttribute('data');
+                    get_commenters(page, null, video_id);
+                });
+
             if (data.search) {
                 $(container + ' #all-commenters')
+                    .unbind('click')
                     .click(function () {
                         if (on_video) {
                             return get_commenters(1, null, data.video_id);
@@ -358,7 +390,7 @@
 
                 data: data,
 
-                success: suc_cb,
+                success: function () {},
                 error: err_cb
             });
         },
@@ -395,6 +427,8 @@
                             $.ajax({
                                 type: 'POST',
                                 url: htbt.config.backend + '/crm/cache_comments',
+
+                                headers: {'ACCESS-TOKEN': session},
 
                                 data: {
                                     channel_id: channel.id,
@@ -439,6 +473,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_videos',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: {
                     channel_id: channel.id,
                     next_page: page
@@ -463,7 +499,13 @@
                     <htbt.crm.RetrieveAll />,
                     $('#videos .active-container')[0]
                 );
+
                 $('#videos #retrieve-all-vids')[0].style.display = 'block';
+                $('#retrieve-all-vids .btn-small')
+                    .unbind()
+                    .click(function () {
+                        get_videos(null, true);
+                    });
             }
 
             React.render(
@@ -498,6 +540,8 @@
                     $.ajax({
                         type: 'POST',
                         url: htbt.config.backend + '/crm/cache_comments',
+
+                        headers: {'ACCESS-TOKEN': session},
 
                         data: {
                             channel_id: channel.id,
@@ -547,6 +591,8 @@
                 type: 'GET',
                 url: htbt.config.backend + '/crm/get_stats',
 
+                headers: {'ACCESS-TOKEN': session},
+
                 data: {
                     channel_id: channel.id,
                 },
@@ -584,6 +630,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/comments',
+
+                headers: {'ACCESS-TOKEN': session},
 
                 data: {
                     channel_id: channel.id,
@@ -755,11 +803,6 @@
                         success: session_destroy,
                         error: session_destroy
                     });
-                });
-
-            $('#retrieve-all-vids .btn-small')
-                .click(function () {
-                    get_videos(null, true);
                 });
 
             get_commenters(1, null, null);
