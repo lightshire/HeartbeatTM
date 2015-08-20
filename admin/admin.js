@@ -412,7 +412,7 @@
 
                 error: function (err) {
                     React.render(
-                        <htbt.lfg.Login />,
+                        <htbt.admin.Login />,
                         $('#login-cont')[0]
                     );
                 }
