@@ -4,12 +4,14 @@
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="../bower_components/sweetalert/lib/sweet-alert.css">
+    <link rel="stylesheet" href="../css/auth.css">
 </head>
 
 <body>
+<script src="facebook_auth.js"></script>
     <div class="jumbotron">
         <div class="container">
-            <p id="taunt">We need permission to your google account to enable some heartbeat features.</p>
+            <p id="taunt">We need permission to your social account to enable some heartbeat features.</p>
             <p>
                 <span id="signinButton">
 				  <span
@@ -25,13 +27,31 @@
 				  </span>
                 </span>
             </p>
+            <p>
+                <div class="login-button" onclick="fb_login()"><img src="../images/login-facebook.png" /></div>
+                <div id="fb-status"></div>
+                <div class="login-button" onclick="twitter_login()"><img src="../images/login-twitter.png" /></div>
+                <div class="login-button" onclick="dailymotion_login()"><img src="../images/login-dailymotion.png" /></div>
+                <div class="login-button" onclick="twitch_login()"><img src="../images/login-twitch.png" /></div>
+                <div class="login-button" onclick="instagram_login()"><img src="../images/login-instagram.png" /></div> 
+            </p>
         </div>
+        <script id="digits-sdk" src="https://cdn.digits.com/1/sdk.js" async></script>
     </div>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/sweetalert/lib/sweet-alert.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
     <script src="../js/config.js"></script>
     <script src="auth.js"></script>
     <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script src="http://api.dmcdn.net/all.js"></script>
+    <script src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
+    <script src="twitter_auth.js"></script>
+    <script src="dailymotion_auth.js"></script>
+    <script src="twitch_auth.js"></script>
+    <script src="oauth.js"></script>
+    <script src="instagram_auth.js"></script>
 </body>
 
 </html>
