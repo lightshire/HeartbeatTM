@@ -196,7 +196,10 @@
                 $('#loading').show();
                 $.get(
                         htbt.config.backend + '/reward/user_points', 
-                        {access_token: heartbeat_access_token}
+                        {
+                            access_token: heartbeat_access_token,
+                            username: username
+                        }
                     )
                     .done(function (data) {
                         var user = {
