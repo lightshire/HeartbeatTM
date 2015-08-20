@@ -603,9 +603,6 @@
                     $.ajax({
                         type: 'POST',
                         url: 'http://api.accounts.freedom.tm/auth/logout',
-
-                        headers: {'ACCESS-TOKEN': session},
-
                         success: session_destroy,
                         error: session_destroy
                     });
