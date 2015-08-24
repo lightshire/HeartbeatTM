@@ -148,14 +148,65 @@
             }
         })),
 
+        Rewarded_Actions_Stats = React.createClass($.extend(htbt.common_grid, {
+            data_endpoint: htbt.config.backend + '/user_actions_stats',
+
+            render: function () {
+                var that = this,
+                    filter = $.extend({
+                            action_name: ''
+                        }, this.state.filter)
+
+                return (
+                    React.createElement("div", {id: "rewarded_actions"}, 
+                        React.createElement("table", {className: "striped"}, 
+                            React.createElement("thead", null, 
+                                React.createElement("tr", null, 
+                                    React.createElement("th", null, "Action"), 
+                                    React.createElement("th", null, "Rewarded Points")
+                                )
+                            ), 
+                            React.createElement("tbody", null, 
+                                
+                                    _(this.state.data)
+                                        .map(function (action) {
+                                            return React.createElement("tr", {key: action._id}, 
+                                                React.createElement("td", null, action.action_title), 
+                                                React.createElement("td", null, action.rewarded_points)
+                                            );
+                                        })
+                                        .value()
+                                
+                            )
+                        )
+                    )
+                );
+            }
+        })),
+
         User_Achivements = React.createClass({displayName: "User_Achivements",
             render: function () {
                 return (
                     React.createElement("div", null, 
                         React.createElement(User_Points, null), 
-                        React.createElement(User_Rewarded_Actions, null)
+                        React.createElement("div", {className: "row"}, 
+                            React.createElement("ul", {id: "tab_user_achievement", className: "tabs"}, 
+                                React.createElement("li", {className: "tab col s3"}, React.createElement("a", {href: "#tab_users"}, "Rewarded Actions")), 
+                                React.createElement("li", {className: "tab col s3"}, React.createElement("a", {href: "#tab_actions"}, "Summary"))
+                            ), 
+                            React.createElement("div", {id: "tab_users"}, 
+                                React.createElement(User_Rewarded_Actions, null)
+                            ), 
+                            React.createElement("div", {id: "tab_actions"}, 
+                                React.createElement(Rewarded_Actions_Stats, null)
+                            )
+                        )
                     )
                 );
+            },
+
+            componentDidMount: function() {
+                $('#tab_user_achievement').tabs();
             }
         });
 
