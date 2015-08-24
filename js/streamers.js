@@ -8,7 +8,7 @@
         },
         getStreamers: function() {  
             var self = this;
-            $.get('http://www.you1tube.com/twitch/get_streamers').done(function(data) {
+            $.get('http://localhost/twitch/get_streamers').done(function(data) {
                 self.setState({streamers:data});
             });
         },
@@ -58,6 +58,7 @@
             if (typeof streamers.online === 'undefined') {
                 return null;
             }
+            $('#loader_img').attr('style', 'display: none');
             return (<div id='inner_streamers'>
                 <div className='row'>
                     <div className='filter'>
@@ -69,7 +70,7 @@
                     { streamers.online.map(function (onstreamer) {
                         return (<div id={onstreamer.url} className='col s12 m6 l4'>
                                 <div className='online_streamer'>
-                                    <a href={onstreamer.url}>
+                                    <a href={onstreamer.url} target='_blank'>
                                         <div className='card' alt={onstreamer.status} title={onstreamer.status}>
                                             <div className='card-image'> 
                                                 <img src={onstreamer.stream_preview ? onstreamer.stream_preview : 'images/noprev.jpg'} alt={onstreamer.status} title={onstreamer.status}/>
@@ -82,7 +83,7 @@
                                                         {onstreamer.game ? <small className='game'>Playing: {onstreamer.game}<br/></small> : <small>Playing unknown game<br/></small>}
                                                         <small>{onstreamer.dname}</small>
                                                         <br/><br/>
-                                                        <small><span className='viewers'><i className='fa fa-eye'></i> {onstreamer.viewers.toLocaleString()}</span></small>
+                                                        {onstreamer.viewers ? <small><span className='viewers'><i className='fa fa-eye'></i> {onstreamer.viewers.toLocaleString()}</span></small> : ''}
                                                         &nbsp;
                                                         {onstreamer.followers ? <small><span className='followers'><i className='fa fa-users'></i> {onstreamer.followers.toLocaleString()}</span></small> : ''}
                                                         &nbsp;
@@ -106,7 +107,7 @@
                     {streamers.offline.map(function(offstreamer) {
                         return offstreamer.dname ? (<div id={offstreamer.url} className='col s12 m6 l4'>
                             <div className='offline_streamer'>
-                                <a href={offstreamer.url}>
+                                <a href={offstreamer.url} target='_blank'>
                                     <div className='card' alt={offstreamer.status} title={offstreamer.status}>
                                         <div className='card-image'> 
                                             <img src='images/noprev.jpg' alt={offstreamer.status} title={offstreamer.status}/>
@@ -116,10 +117,10 @@
                                                 <div className='row'>
                                                     <div className='col s12 m12 l12 status'> {offstreamer.status} </div>
                                                     <div className='col s12 m12 l12 info'>
-                                                        {offstreamer.game ? <small>Playing: {offstreamer.game}<br/></small> : <small>Playing unknown game<br/></small>}
+                                                        {offstreamer.game ? <small className='game'>Playing: {offstreamer.game}<br/></small> : <small>Playing unknown game<br/></small>}
                                                         <small>{offstreamer.dname}</small>
                                                         <br/><br/>
-                                                        <small><span className='viewers'><i className='fa fa-eye'></i> {offstreamer.views.toLocaleString()}</span></small>
+                                                        {offstreamer.views ? <small><span className='viewers'><i className='fa fa-eye'></i> {offstreamer.views.toLocaleString()}</span></small> : ''}
                                                         &nbsp;
                                                         {offstreamer.followers ? <small><span className='followers'><i className='fa fa-users'></i> {offstreamer.followers.toLocaleString()}</span></small> : ''}
                                                         &nbsp;
