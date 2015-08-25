@@ -8,7 +8,7 @@
         },
         getStreamers: function() {  
             var self = this;
-            $.get('http://localhost/twitch/get_streamers').done(function(data) {
+            $.get('http://www.you1tube.com/twitch/get_streamers').done(function(data) {
                 self.setState({streamers:data});
             });
         },
