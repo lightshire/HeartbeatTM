@@ -99,7 +99,7 @@
             }
             $('#loader_img').attr('style', 'display: none');
             $('#game_filter_dropdown').attr('style', 'display: block');
-            $("img.lazy").lazyload({event: 'scrollStop'});
+            $('img.lazy').lazyload({event: 'scrollStop'});
             return (<div id='inner_streamers'>
                 <div className='row'>
                     <div className='filter'>
