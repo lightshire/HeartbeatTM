@@ -148,14 +148,65 @@
             }
         })),
 
+        Rewarded_Actions_Stats = React.createClass($.extend(htbt.common_grid, {
+            data_endpoint: htbt.config.backend + '/user_actions_stats',
+
+            render: function () {
+                var that = this,
+                    filter = $.extend({
+                            action_name: ''
+                        }, this.state.filter)
+
+                return (
+                    <div id='rewarded_actions'>
+                        <table className='striped'>
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Rewarded Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    _(this.state.data)
+                                        .map(function (action) {
+                                            return <tr key={action._id}>
+                                                <td>{action.action_title}</td>
+                                                <td>{action.rewarded_points}</td>
+                                            </tr>;
+                                        })
+                                        .value()
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            }
+        })),
+
         User_Achivements = React.createClass({
             render: function () {
                 return (
                     <div>
                         <User_Points />
-                        <User_Rewarded_Actions />
+                        <div className='row'>
+                            <ul id='tab_user_achievement' className='tabs'>
+                                <li className='tab col s3'><a href='#tab_users'>Rewarded Actions</a></li>
+                                <li className='tab col s3'><a href='#tab_actions'>Summary</a></li>
+                            </ul>
+                            <div id='tab_users'>
+                                <User_Rewarded_Actions />
+                            </div>
+                            <div id='tab_actions'>
+                                <Rewarded_Actions_Stats />
+                            </div>
+                        </div>
                     </div>
                 );
+            },
+
+            componentDidMount: function() {
+                $('#tab_user_achievement').tabs();
             }
         });
 

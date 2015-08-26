@@ -296,7 +296,7 @@
     htbt.Login_Section = React.createClass({
         render: function () {
             return (
-                <div className="row center">
+                <div className='row center'>
                     <br/>
                     <br/>
                     <a
@@ -314,10 +314,21 @@
         }
     });
 
+    htbt.Error = React.createClass({
+        render: function () {
+            return (
+                <div className='error_message'>
+                    {this.props.message}
+                 </div>
+            );
+        }
+    });
+
     htbt.common_grid = {
         min_page: 1,
         max_page: 1,
         page_size: 10,
+        allow_paging: true,
 
         getInitialState: function() {
             return {
@@ -408,7 +419,7 @@
 
         load_data: function (current_page) {
             var that = this,
-                skip = (current_page || 0) * this.page_size,
+                skip = this.allow_paging ? (current_page || 0) * this.page_size: undefined,
                 counter = this.loading || 0,
                 filter = $.extend({
                         access_token: heartbeat_access_token,
@@ -430,6 +441,11 @@
                         }
 
                         that.on_load_data && that.on_load_data(result);
+
+                        if (!that.allow_paging) {
+                            that.setState({data: result.items});
+                            return;
+                        }
 
                         total_pages = Math.floor(result.total / that.page_size) +
                             (result.total % that.page_size ? 1 : 0);

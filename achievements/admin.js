@@ -17,8 +17,7 @@
                 return  (
                     React.createElement("div", {className: "row"}, 
                         React.createElement("div", {className: "input-field col s3"}, 
-                            React.createElement("input", {placeholder: "type username...", 
-                                id: "username", type: "text", onKeyUp: this.on_username_change}), 
+                            React.createElement("input", {id: "username", type: "text", onKeyUp: this.on_username_change}), 
                             React.createElement("label", {for: "username"}, "Search")
                         )
                     )
@@ -44,7 +43,7 @@
             }
         }),
 
-        Rewarded_Actions_Filter = React.createClass({displayName: "Rewarded_Actions_Filter",
+        User_Rewarded_Actions_Filter = React.createClass({displayName: "User_Rewarded_Actions_Filter",
             getInitialState: function() {
                 return {
                     search: '',
@@ -64,12 +63,11 @@
                 return  (
                     React.createElement("div", {className: "row"}, 
                         React.createElement("div", {className: "input-field col s3"}, 
-                            React.createElement("input", {ref: "txt_username", placeholder: "type username...", id: "username", 
-                                type: "text", onKeyUp: this.on_username_change}), 
+                            React.createElement("input", {ref: "txt_username", id: "username", type: "text", onKeyUp: this.on_username_change}), 
                             React.createElement("label", {for: "username"}, "Search")
                         ), 
                         React.createElement("div", {className: "input-field col s5"}, 
-                            React.createElement("select", {className: "browser-default", value: selected, onChange: this.on_action_change}, 
+                            React.createElement("select", {ref: "ddl_action", className: "browser-default", value: selected, onChange: this.on_action_change}, 
                                 React.createElement("option", {value: ""}, "All"), 
                                 
                                     _(this.state.actions)
@@ -122,13 +120,83 @@
                     });
             },
 
-            update_username: function (username) {
-                this.refs.txt_username.getDOMNode().value = username;
-                this.setState({search: username}, this.trigger_change);
+            update_filter: function (filter) {
+                var search = (filter && filter.username) || '',
+                    action_name = (filter && filter.action_name) || '';
+
+                this.refs.txt_username.getDOMNode().value = search;
+                this.refs.ddl_action.getDOMNode().value = action_name;
+                this.setState({
+                    search: search,
+                    selected_action: action_name,
+                }, this.trigger_change);
             }
         }),
 
-        User_Rewarded_Actions = React.createClass($.extend(htbt.common_grid, {
+        Rewarded_Actions_Filter = React.createClass({displayName: "Rewarded_Actions_Filter",
+            getInitialState: function() {
+                return {
+                    selected_action: null,
+                    actions: []
+                };
+            },
+
+            componentDidMount: function() {
+                this.load_rewards();
+            },
+
+            render: function () {
+                var that = this,
+                    selected = this.state.selected_action || '';
+
+                return  (
+                    React.createElement("div", {className: "row"}, 
+                        React.createElement("div", {className: "input-field col s5"}, 
+                            React.createElement("select", {className: "browser-default", value: selected, onChange: this.on_action_change}, 
+                                React.createElement("option", {value: ""}, "All"), 
+                                
+                                    _(this.state.actions)
+                                        .map(function (action) {
+                                            return React.createElement("option", {value: action.action_name}, 
+                                                    action.action_title
+                                                );
+                                        })
+                                        .value()
+                                
+                            ), 
+                            React.createElement("label", {className: "active"}, "Action")
+                        )
+                    )
+                );
+            },
+
+            on_action_change: function (evt) {
+                this.setState({selected_action: evt.target.value}, this.trigger_change);
+            },
+
+            trigger_change: function () {
+                if (this.props.on_change) {
+                    this.props.on_change({
+                        username: this.state.search,
+                        action_name: this.state.selected_action
+                    });
+                }
+            },
+
+            load_rewards: function () {
+                var that = this;
+
+                $.get(htbt.config.backend + '/rewards')
+                    .done(function (result) {
+                        that.setState({
+                            actions: result,
+                            selected_action: ''
+                        });
+                    });
+            }
+        }),
+
+        User_Rewarded_Actions = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/rewarded_actions',
 
             render: function () {
@@ -230,7 +298,7 @@
             }
         })),
 
-        Rewarded_Users = React.createClass($.extend(htbt.common_grid, {
+        Rewarded_Users = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/rewarded_users',
 
             render: function () {
@@ -281,6 +349,58 @@
             }
         })),
 
+        Rewarded_Actions = React.createClass($.extend({}, htbt.common_grid, {
+            data_endpoint: htbt.config.backend + '/rewarded_actions_stats',
+            allow_paging: false,
+
+            render: function () {
+                var that = this,
+                    filter = $.extend({action_name: ''}, this.state.filter);
+
+                return (
+                    React.createElement("div", {id: "rewarded_actions"}, 
+                        React.createElement("table", {className: "striped"}, 
+                            React.createElement("thead", null, 
+                                React.createElement("tr", null, 
+                                    React.createElement("th", null, "Action"), 
+                                    React.createElement("th", null, "Rewarded Points")
+                                )
+                            ), 
+                            React.createElement("tbody", null, 
+                                
+                                    _(this.state.data)
+                                        .map(function (action) {
+                                            if (filter.action_name && action._id !== filter.action_name) {
+                                                return null;
+                                            }
+
+                                            return React.createElement("tr", {key: action._id}, 
+                                                React.createElement("td", null, 
+                                                    React.createElement("div", {className: "action_title"}, 
+                                                        React.createElement("a", {"data-action": action._id, onClick: that.on_view_action_details}, 
+                                                            action.action_title
+                                                        )
+                                                    )
+                                                ), 
+                                                React.createElement("td", null, action.rewarded_points)
+                                            );
+                                        })
+                                        .value()
+                                
+                            )
+                        )
+                    )
+                );
+            },
+
+            on_view_action_details: function () {
+                var a = event.target,
+                    action_name = a.getAttribute('data-action');
+
+                this.props.goto_action && this.props.goto_action(action_name);
+            }
+        })),
+
         User_Details = React.createClass({displayName: "User_Details",
             on_card_click: function (event) {
                 event.stopPropagation();
@@ -327,15 +447,20 @@
                     React.createElement("div", {className: "row"}, 
                         React.createElement("ul", {id: "tab_user_achievement", className: "tabs"}, 
                             React.createElement("li", {className: "tab col s3"}, React.createElement("a", {href: "#tab_users"}, "Rewarded Users")), 
-                            React.createElement("li", {className: "tab col s3"}, React.createElement("a", {href: "#tab_actions"}, "Rewarded Actions"))
+                            React.createElement("li", {className: "tab col s3"}, React.createElement("a", {href: "#tab_actions"}, "Rewarded Actions")), 
+                            React.createElement("li", {className: "tab col s3"}, React.createElement("a", {href: "#tab_user_actions"}, "Rewarded Actions Details"))
                         ), 
                         React.createElement("div", {id: "tab_users"}, 
                             React.createElement(User_Actions_Filter, {on_change: this.search_user}), 
                             React.createElement(Rewarded_Users, {ref: 'grid_user', goto_user: this.goto_user})
                         ), 
                         React.createElement("div", {id: "tab_actions"}, 
-                            React.createElement(Rewarded_Actions_Filter, {ref: 'filter_action', on_change: this.search_action}), 
-                            React.createElement(User_Rewarded_Actions, {ref: 'grid_action'})
+                            React.createElement(Rewarded_Actions_Filter, {on_change: this.search_action}), 
+                            React.createElement(Rewarded_Actions, {ref: 'grid_action', goto_action: this.goto_action})
+                        ), 
+                        React.createElement("div", {id: "tab_user_actions"}, 
+                            React.createElement(User_Rewarded_Actions_Filter, {ref: 'filter_action', on_change: this.search_user_action}), 
+                            React.createElement(User_Rewarded_Actions, {ref: 'grid_user_action'})
                         )
                     )
                 );
@@ -349,13 +474,22 @@
                 this.refs.grid_action.search(filter);
             },
 
+            search_user_action: function (filter) {
+                this.refs.grid_user_action.search(filter);
+            },
+
             goto_user: function (username) {
-                this.refs.filter_action.update_username(username);
-                $('ul.tabs').tabs('select_tab', 'tab_actions');
+                this.refs.filter_action.update_filter({username: username});
+                $('ul.tabs').tabs('select_tab', 'tab_user_actions');
+            },
+
+            goto_action: function (action_name) {
+                this.refs.filter_action.update_filter({action_name: action_name});
+                $('ul.tabs').tabs('select_tab', 'tab_user_actions');
             },
 
             componentDidMount: function() {
-                $('ul.tabs').tabs('select_tab', 'tab_users');
+                $('#tab_user_achievement').tabs();
             }
         });
 
@@ -368,15 +502,32 @@
             return;
         }
 
-        React.render(
-            React.createElement(User_Achivements, null),
-            $('#main_container')[0]
-        );
+        $('#loading').show();
+        $.get(htbt.config.backend + '/is_admin', {access_token: heartbeat_access_token})
+            .done(function (result) {
+                if (result.is_admin) {
 
-        React.render(
-            React.createElement(Log_out, null),
-            $('#log_out_container')[0]
-        );
+                    React.render(
+                        React.createElement(User_Achivements, null),
+                        $('#main_container')[0]
+                    );
+
+                    React.render(
+                        React.createElement(Log_out, null),
+                        $('#log_out_container')[0]
+                    );
+
+                    return;
+                }
+
+                React.render(
+                    React.createElement(htbt.Error, {message: 'Unauthorized access'}),
+                    $('#main_container')[0]
+                );
+            })
+            .always(function () {
+                $('#loading').hide();
+            });
     }
 
     start();

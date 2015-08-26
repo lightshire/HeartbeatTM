@@ -10,7 +10,7 @@
     htbt.config.dailymotion_data = {};
 
     if (htbt.env === 'dev') {
-        htbt.config.backend = 'https://www.you1tube.com';
+        htbt.config.backend = 'https://localhost';
         htbt.config.twitch_api_key = 'ejhmzlu5zwlldjajydsc6ijmoiqq1pw';
 
         htbt.config.twitch_gamestats_client_id = 'j0sczt79255jt72i5jfdvjl7brqz0j2';

@@ -17,8 +17,7 @@
                 return  (
                     <div className='row'>
                         <div className='input-field col s3'>
-                            <input placeholder='type username...' 
-                                id='username' type='text' onKeyUp={this.on_username_change} />
+                            <input id='username' type='text' onKeyUp={this.on_username_change} />
                             <label for='username'>Search</label>
                         </div>
                     </div>
@@ -44,7 +43,7 @@
             }
         }),
 
-        Rewarded_Actions_Filter = React.createClass({
+        User_Rewarded_Actions_Filter = React.createClass({
             getInitialState: function() {
                 return {
                     search: '',
@@ -64,12 +63,11 @@
                 return  (
                     <div className='row'>
                         <div className='input-field col s3'>
-                            <input ref='txt_username' placeholder='type username...' id='username'
-                                type='text' onKeyUp={this.on_username_change} />
+                            <input ref='txt_username' id='username' type='text' onKeyUp={this.on_username_change} />
                             <label for='username'>Search</label>
                         </div>
                         <div className='input-field col s5'>
-                            <select className='browser-default' value={selected} onChange={this.on_action_change}>
+                            <select ref='ddl_action' className='browser-default' value={selected} onChange={this.on_action_change}>
                                 <option value=''>All</option>
                                 {
                                     _(this.state.actions)
@@ -122,13 +120,83 @@
                     });
             },
 
-            update_username: function (username) {
-                this.refs.txt_username.getDOMNode().value = username;
-                this.setState({search: username}, this.trigger_change);
+            update_filter: function (filter) {
+                var search = (filter && filter.username) || '',
+                    action_name = (filter && filter.action_name) || '';
+
+                this.refs.txt_username.getDOMNode().value = search;
+                this.refs.ddl_action.getDOMNode().value = action_name;
+                this.setState({
+                    search: search,
+                    selected_action: action_name,
+                }, this.trigger_change);
             }
         }),
 
-        User_Rewarded_Actions = React.createClass($.extend(htbt.common_grid, {
+        Rewarded_Actions_Filter = React.createClass({
+            getInitialState: function() {
+                return {
+                    selected_action: null,
+                    actions: []
+                };
+            },
+
+            componentDidMount: function() {
+                this.load_rewards();
+            },
+
+            render: function () {
+                var that = this,
+                    selected = this.state.selected_action || '';
+
+                return  (
+                    <div className='row'>
+                        <div className='input-field col s5'>
+                            <select className='browser-default' value={selected} onChange={this.on_action_change}>
+                                <option value=''>All</option>
+                                {
+                                    _(this.state.actions)
+                                        .map(function (action) {
+                                            return <option value={action.action_name}>
+                                                    {action.action_title}
+                                                </option>;
+                                        })
+                                        .value()
+                                }
+                            </select>
+                            <label className='active'>Action</label>
+                        </div>
+                    </div>
+                );
+            },
+
+            on_action_change: function (evt) {
+                this.setState({selected_action: evt.target.value}, this.trigger_change);
+            },
+
+            trigger_change: function () {
+                if (this.props.on_change) {
+                    this.props.on_change({
+                        username: this.state.search,
+                        action_name: this.state.selected_action
+                    });
+                }
+            },
+
+            load_rewards: function () {
+                var that = this;
+
+                $.get(htbt.config.backend + '/rewards')
+                    .done(function (result) {
+                        that.setState({
+                            actions: result,
+                            selected_action: ''
+                        });
+                    });
+            }
+        }),
+
+        User_Rewarded_Actions = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/rewarded_actions',
 
             render: function () {
@@ -230,7 +298,7 @@
             }
         })),
 
-        Rewarded_Users = React.createClass($.extend(htbt.common_grid, {
+        Rewarded_Users = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/rewarded_users',
 
             render: function () {
@@ -281,6 +349,58 @@
             }
         })),
 
+        Rewarded_Actions = React.createClass($.extend({}, htbt.common_grid, {
+            data_endpoint: htbt.config.backend + '/rewarded_actions_stats',
+            allow_paging: false,
+
+            render: function () {
+                var that = this,
+                    filter = $.extend({action_name: ''}, this.state.filter);
+
+                return (
+                    <div id='rewarded_actions'>
+                        <table className='striped'>
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Rewarded Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    _(this.state.data)
+                                        .map(function (action) {
+                                            if (filter.action_name && action._id !== filter.action_name) {
+                                                return null;
+                                            }
+
+                                            return <tr key={action._id}>
+                                                <td>
+                                                    <div className='action_title'>
+                                                        <a data-action={action._id} onClick={that.on_view_action_details}>
+                                                            {action.action_title}
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td>{action.rewarded_points}</td>
+                                            </tr>;
+                                        })
+                                        .value()
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            },
+
+            on_view_action_details: function () {
+                var a = event.target,
+                    action_name = a.getAttribute('data-action');
+
+                this.props.goto_action && this.props.goto_action(action_name);
+            }
+        })),
+
         User_Details = React.createClass({
             on_card_click: function (event) {
                 event.stopPropagation();
@@ -328,14 +448,19 @@
                         <ul id='tab_user_achievement' className='tabs'>
                             <li className='tab col s3'><a href='#tab_users'>Rewarded Users</a></li>
                             <li className='tab col s3'><a href='#tab_actions'>Rewarded Actions</a></li>
+                            <li className='tab col s3'><a href='#tab_user_actions'>Rewarded Actions Details</a></li>
                         </ul>
                         <div id='tab_users'>
                             <User_Actions_Filter on_change={this.search_user} />
                             <Rewarded_Users ref={'grid_user'} goto_user={this.goto_user}  />
                         </div>
                         <div id='tab_actions'>
-                            <Rewarded_Actions_Filter ref={'filter_action'} on_change={this.search_action} />
-                            <User_Rewarded_Actions ref={'grid_action'} />
+                            <Rewarded_Actions_Filter on_change={this.search_action} />
+                            <Rewarded_Actions ref={'grid_action'} goto_action={this.goto_action} />
+                        </div>
+                        <div id='tab_user_actions'>
+                            <User_Rewarded_Actions_Filter ref={'filter_action'} on_change={this.search_user_action} />
+                            <User_Rewarded_Actions ref={'grid_user_action'} />
                         </div>
                     </div>
                 );
@@ -349,13 +474,22 @@
                 this.refs.grid_action.search(filter);
             },
 
+            search_user_action: function (filter) {
+                this.refs.grid_user_action.search(filter);
+            },
+
             goto_user: function (username) {
-                this.refs.filter_action.update_username(username);
-                $('ul.tabs').tabs('select_tab', 'tab_actions');
+                this.refs.filter_action.update_filter({username: username});
+                $('ul.tabs').tabs('select_tab', 'tab_user_actions');
+            },
+
+            goto_action: function (action_name) {
+                this.refs.filter_action.update_filter({action_name: action_name});
+                $('ul.tabs').tabs('select_tab', 'tab_user_actions');
             },
 
             componentDidMount: function() {
-                $('ul.tabs').tabs('select_tab', 'tab_users');
+                $('#tab_user_achievement').tabs();
             }
         });
 
@@ -368,15 +502,32 @@
             return;
         }
 
-        React.render(
-            <User_Achivements />,
-            $('#main_container')[0]
-        );
+        $('#loading').show();
+        $.get(htbt.config.backend + '/is_admin', {access_token: heartbeat_access_token})
+            .done(function (result) {
+                if (result.is_admin) {
 
-        React.render(
-            <Log_out />,
-            $('#log_out_container')[0]
-        );
+                    React.render(
+                        <User_Achivements />,
+                        $('#main_container')[0]
+                    );
+
+                    React.render(
+                        <Log_out />,
+                        $('#log_out_container')[0]
+                    );
+
+                    return;
+                }
+
+                React.render(
+                    <htbt.Error message={'Unauthorized access'} />,
+                    $('#main_container')[0]
+                );
+            })
+            .always(function () {
+                $('#loading').hide();
+            });
     }
 
     start();
