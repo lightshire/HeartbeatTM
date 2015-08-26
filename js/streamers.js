@@ -97,7 +97,7 @@
             if (typeof streamers.online === 'undefined') {
                 return null;
             }
-            $('#loader_img').attr('style', 'display: none');
+            $('#loader_img').hide();
             $('#game_filter_dropdown').attr('style', 'display: block');
             $('img.lazy').lazyload({event: 'scrollStop'});
             return (<div id='inner_streamers'>
