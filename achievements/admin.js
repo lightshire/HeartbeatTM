@@ -17,8 +17,7 @@
                 return  (
                     React.createElement("div", {className: "row"}, 
                         React.createElement("div", {className: "input-field col s3"}, 
-                            React.createElement("input", {placeholder: "type username...", 
-                                id: "username", type: "text", onKeyUp: this.on_username_change}), 
+                            React.createElement("input", {id: "username", type: "text", onKeyUp: this.on_username_change}), 
                             React.createElement("label", {for: "username"}, "Search")
                         )
                     )
@@ -64,8 +63,7 @@
                 return  (
                     React.createElement("div", {className: "row"}, 
                         React.createElement("div", {className: "input-field col s3"}, 
-                            React.createElement("input", {ref: "txt_username", placeholder: "type username...", id: "username", 
-                                type: "text", onKeyUp: this.on_username_change}), 
+                            React.createElement("input", {ref: "txt_username", id: "username", type: "text", onKeyUp: this.on_username_change}), 
                             React.createElement("label", {for: "username"}, "Search")
                         ), 
                         React.createElement("div", {className: "input-field col s5"}, 
@@ -357,9 +355,7 @@
 
             render: function () {
                 var that = this,
-                    filter = $.extend({
-                            action_name: ''
-                        }, this.state.filter)
+                    filter = $.extend({action_name: ''}, this.state.filter);
 
                 return (
                     React.createElement("div", {id: "rewarded_actions"}, 

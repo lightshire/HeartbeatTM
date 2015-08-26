@@ -17,8 +17,7 @@
                 return  (
                     <div className='row'>
                         <div className='input-field col s3'>
-                            <input placeholder='type username...' 
-                                id='username' type='text' onKeyUp={this.on_username_change} />
+                            <input id='username' type='text' onKeyUp={this.on_username_change} />
                             <label for='username'>Search</label>
                         </div>
                     </div>
@@ -64,8 +63,7 @@
                 return  (
                     <div className='row'>
                         <div className='input-field col s3'>
-                            <input ref='txt_username' placeholder='type username...' id='username'
-                                type='text' onKeyUp={this.on_username_change} />
+                            <input ref='txt_username' id='username' type='text' onKeyUp={this.on_username_change} />
                             <label for='username'>Search</label>
                         </div>
                         <div className='input-field col s5'>
@@ -357,9 +355,7 @@
 
             render: function () {
                 var that = this,
-                    filter = $.extend({
-                            action_name: ''
-                        }, this.state.filter)
+                    filter = $.extend({action_name: ''}, this.state.filter);
 
                 return (
                     <div id='rewarded_actions'>
