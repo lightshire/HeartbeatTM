@@ -97,3 +97,8 @@ select.browser-default:focus {
 #log_out_container {
 	float: right;
 }
+
+.error_message {
+	color: #F44336;
+}
+
