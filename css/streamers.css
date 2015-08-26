@@ -41,7 +41,7 @@ p {
 .streamers #inner_streamers .row .col .online_streamer a .card {
     cursor: pointer;
     background: #19191F;
-    height: 369px;
+    height: 346px;
 }
 
 .streamers #inner_streamers .row .col .online_streamer a .card .user_thumb {
@@ -119,7 +119,7 @@ p {
 .streamers #inner_streamers .row .col .offline_streamer a .card {
     cursor: pointer;
     background: #19191F;
-    height: 369px;
+    height: 346px;
 }
 
 .streamers #inner_streamers .row .col .offline_streamer a .card .user_thumb {
