@@ -3,18 +3,12 @@ function statusChangeCallback(response) {
         check_login();
     }
     else if (response.status === 'not_authorized') {
-        document.getElementById('fb-status')
-            .innerHTML = 'Please log ' +
-            'into this app.';
+        document.getElementById('fb-status').innerHTML = 'Please log into this app.';
     }
     else {
-
-        document.getElementById('fb-status')
-            .innerHTML = 'Please log ' +
-            'into Facebook.';
+        document.getElementById('fb-status').innerHTML = 'Please log into Facebook.';
     }
 }
-
 
 function checkLoginState() {
     FB.getLoginStatus(function (response) {
@@ -24,7 +18,7 @@ function checkLoginState() {
 
 window.fbAsyncInit = function () {
     FB.init({
-        appId: '789564111159166',
+        appId: htbt.config.facebook_app_id,
         cookie: true, // enable cookies to allow the server to access the session
         xfbml: true, // parse social plugins on this page
         version: 'v2.3' // use version 2.3
@@ -54,7 +48,7 @@ function fb_login() {
             FB.api('/me', function (response) {
                 user_email = response.email; //get user email  
                 $.ajax({
-                    url: 'https://localhost:4433/social_account',
+                    url: htbt.config.backend + '/social_account',
                     type: 'POST',
                     data: {
                         email: response.email,
@@ -68,20 +62,14 @@ function fb_login() {
                 });
             });
         }
-        else {
-            console.log('User cancelled login or did not fully authorize.');
-        }
     }, {
         scope: 'public_profile,email'
     });
 }
 
 function check_login() {
-
     FB.api('/me', function (response) {
-        document.getElementById('fb-status')
-            .innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
+        document.getElementById('fb-status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
     });
 }
 

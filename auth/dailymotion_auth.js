@@ -22,7 +22,8 @@ function dailymotion_login() {
             }, function (user) {
                 if (user) {
                     $.ajax({
-                        url: 'https://localhost:4433/social_account',
+                        //url: 'https://localhost:4433/social_account',
+                        url: htbt.config.backend + '/social_account',
                         type: 'POST',
                         data: {
                             email: user.email,
@@ -39,9 +40,6 @@ function dailymotion_login() {
                     swal('Login Error');
                 }
             });
-        }
-        else {
-            return;
         }
     }, {
         scope: 'userinfo, email'

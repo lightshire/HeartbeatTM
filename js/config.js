@@ -10,7 +10,8 @@
     htbt.config.facebook_app_id = '789564111159166';
     htbt.config.twitter_api_key = 'bgAVUSdm5CQJOVBwXBHZoPIsb';
     htbt.config.dailymotion_data = {};
-    htbt.config.backend = 'https://localhost:4433';
+    htbt.config.twitch_dev_api_key = 'pg40jcdu6to0tk17gs4az88bq8m3q7';
+    //htbt.config.backend = 'https://localhost:4433';
     htbt.config.instagram_api_key = 'bf4496692aa246c08c9b0991659b2d23';
 
     if (htbt.env === 'dev') {

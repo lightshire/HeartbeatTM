@@ -1,17 +1,6 @@
 Twitch.init({
-    clientId: 'pg40jcdu6to0tk17gs4az88bq8m3q7'
-}, function (error, status) {
-
-    //console.log('twitch_login loaded ' + JSON.stringify(status));
-    if (error) {
-        // error encountered while loading
-        console.log(error);
-    }
-    // the sdk is now loaded
-    if (status.authenticated) {
-
-    }
-});
+    clientId: htbt.config.twitch_dev_api_key
+}, function (error, status) {});
 
 function twitch_login() {
     Twitch.login({
@@ -27,7 +16,7 @@ Twitch.getStatus(function (err, status) {
         }, function (error, user) {
             if (user) {
                 $.ajax({
-                    url: 'https://localhost:4433/social_account',
+                    url: htbt.config.backend + '/social_account',
                     type: 'POST',
                     data: {
                         email: user.email,
