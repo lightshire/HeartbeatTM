@@ -62,7 +62,7 @@
                     id = e.target.id;
 
                     $.each($('#inner_streamers')[0].children[0].children, function (key, value) {
-
+                        value.style.display = 'block';
                         if (!~value.id.indexOf(id) && key) {
                             value.style.display = 'none';
                         }
@@ -73,7 +73,7 @@
                     });
 
                     $.each($('#inner_streamers')[0].children[2].children, function (key, value) {
-
+                        value.style.display = 'block';
                         if (!~value.id.indexOf(id) && key) {
                             value.style.display = 'none';
                         }
