@@ -84,8 +84,6 @@
                 return ~e.indexOf('hbeat_access_token=');
             });
 
-            access_token = access_token.split('hbeat_access_token=')[1];
-
             if (!access_token) {
                 React.render(
                     <htbt.admin.Login />,
@@ -95,6 +93,8 @@
                 $('#url-logs .center-align:eq(0)').hide();
                 return;
             }
+
+            access_token = access_token.split('hbeat_access_token=')[1];
 
             $.ajax({
                 type: 'GET',
@@ -144,7 +144,7 @@
                     $.ajax({
                         type: 'POST',
                         url: 'http://api.accounts.freedom.tm/auth/logout',
-                        headers: {'ACCESS-TOKEN': session},
+                        headers: {'ACCESS-TOKEN': access_token},
                         success: session_destroy,
                         error: session_destroy
                     });
