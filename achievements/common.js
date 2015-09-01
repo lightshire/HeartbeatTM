@@ -439,8 +439,7 @@
                 col_name = target.getAttribute('data-sort-col'),
                 column = _(this.state.columns).find({name: col_name}),
                 default_dir = (column && column.default_sort_direction) || 'desc',
-                sort_dir = this.state.sort_direction,
-                that = this;
+                sort_dir = this.state.sort_direction;
 
             if (col_name !== this.state.sort_column) {
                 sort_dir = default_dir;
@@ -457,7 +456,7 @@
             this.setState({
                 sort_direction: sort_dir,
                 sort_column: col_name
-            }, that.on_sort);
+            }, this.on_sort);
         },
 
         render_columns: function () {
