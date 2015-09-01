@@ -102,3 +102,30 @@ select.browser-default:focus {
 	color: #F44336;
 }
 
+.sort_icons .fa-sort-asc,
+.sort_icons .fa-sort-desc {
+	color: #aaa;
+}
+
+.sorted_column.desc .sort_icons .fa-sort-desc,
+.sorted_column.asc .sort_icons .fa-sort-asc {
+	color: #000;
+}
+
+.sort_icons {
+	position: relative;
+	margin-left: 5px;
+	display: inline-block;
+}
+
+.sort_icons .fa-sort-asc {
+	position: absolute;
+}
+
+.sort_trigger {
+	cursor: pointer;
+}
+
+td.sorting {
+	background: rgba(227, 227, 227, 0.75);
+}
