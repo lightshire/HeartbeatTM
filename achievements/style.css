@@ -102,3 +102,19 @@ select.browser-default:focus {
 	color: #F44336;
 }
 
+#nav-links {
+	list-style: none;
+}
+
+#nav-links li {
+	display: inline-block;
+}
+
+.admin-links {
+	font-size: 12px;
+	text-align: right;
+}
+
+#logo-container {
+	font-size: 22px;
+}
