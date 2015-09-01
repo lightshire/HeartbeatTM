@@ -1,7 +1,7 @@
 (function (htbt) {
     'use strict';
 
-    var session,
+    var access_token,
         email,
         active_platform = 'all',
         channel = {},
@@ -71,25 +71,22 @@
                 $('#url-logs .match-container')[0]
             );
 
-            session = window.location.href.split('#access_token=')[1];
+            access_token = window.location.href.split('#access_token=')[1];
 
-            if (session) {
+            if (access_token) {
                 window.location.href = '#';
-                document.cookie = 'hbeat_access_token=' + session;
+                document.cookie = 'hbeat_access_token=' + access_token;
             }
 
-            session = document.cookie.split('; ');
+            access_token = document.cookie.split('; ');
 
-            _(session)
-                .forEach(function (e) {
-                    if (e.indexOf('hbeat_access_token=') > -1) {
-                        session = e.split('hbeat_access_token=')[1];
-                        return;
-                    }
-                })
-                .commit();
+            access_token = _.find(access_token, function (e) {
+                return ~e.indexOf('hbeat_access_token=');
+            });
 
-            if (typeof(session) !== 'string') {
+            access_token = access_token.split('hbeat_access_token=')[1];
+
+            if (typeof(access_token) !== 'string') {
                 React.render(
                     <htbt.admin.Login />,
                     $('#login-cont')[0]
@@ -102,11 +99,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/crm/user',
-
-                data: {session: session},
-
+                data: {session: access_token},
                 success: set_user,
-
                 error: function (err) {
                     React.render(
                         <htbt.admin.Login />,
@@ -118,12 +112,9 @@
             $.ajax({
                 type: 'GET',
                 url: 'http://api.accounts.freedom.tm/user',
-
-                headers: {'ACCESS-TOKEN': session},
-
+                headers: {'ACCESS-TOKEN': access_token},
                 success: is_admin,
-
-                error: function () {}
+                error: _.noop()
             });
         },
 
@@ -154,9 +145,7 @@
                     $.ajax({
                         type: 'POST',
                         url: 'http://api.accounts.freedom.tm/auth/logout',
-
                         headers: {'ACCESS-TOKEN': session},
-
                         success: session_destroy,
                         error: session_destroy
                     });
@@ -169,11 +158,8 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/admin',
-
                 data: {email: e.email},
-
-                success:get_passkey,
-
+                success: get_passkey,
                 error: function () {
                     React.render(
                         <htbt.admin.Error data='User has no access to admin panel' />,
@@ -187,25 +173,21 @@
             function get_access (e) {
                 var key = $('#access_code')[0].value;
                 
-                if (!key || key === ' ') {
+                if (!key || !key.trim()) {
                     return;
                 }
 
-                if (e) {
-                    e.preventDefault();
-                }
+                e && e.preventDefault();
 
                 $('#modal1').closeModal();
 
                 $.ajax({
                     type: 'GET',
                     url: htbt.config.backend + '/admin/get_access',
-
                     data: {
                         email: email,
                         key: key
                     },
-
                     success: function () {
                         $('#platform-select').material_select();
 
@@ -217,7 +199,6 @@
 
                         get_url_logs();
                     },
-
                     error: function () {
                         React.render(
                             <htbt.admin.Error data='Access Denied' />,
