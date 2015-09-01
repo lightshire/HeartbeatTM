@@ -8,6 +8,7 @@
         '/get_comment_authors?video_id=' + videoId,
         pickButton,
         winnerCount,
+        commenters = [],
         elements = [],
         highlighted;
 
@@ -33,7 +34,20 @@
             type: 'GET',
             data: options,
             success: function (data) {
-                console.log(data);
+                var replies,
+                    comments = _(data.items)
+                        .map(function (e) {
+                            var obj = {
+                                    title: e.snippet.topLevelComment.snippet.authorDisplayName,
+                                    comment: e.snippet.topLevelComment.snippet.textDisplay,
+                                    comment_id: e.id
+                                };
+
+                            return obj;
+                        })
+                        .value();
+
+                console.log(comments);
             }
         });
     }
@@ -43,8 +57,7 @@
     }
 
     function handleCommentators(response) {
-        $('.loader')
-            .hide();
+        $('.loader').hide();
 
         displayCommentators(response.authors);
     }
