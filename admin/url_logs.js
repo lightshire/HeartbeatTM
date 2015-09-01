@@ -92,7 +92,7 @@
                     $('#login-cont')[0]
                 );
 
-                $('#url-logs .center-align')[0].style.display = 'none';
+                $('#url-logs .center-align:eq(0)').hide();
                 return;
             }
 
@@ -114,7 +114,7 @@
                 url: 'http://api.accounts.freedom.tm/user',
                 headers: {'ACCESS-TOKEN': access_token},
                 success: is_admin,
-                error: _.noop()
+                error: _.noop
             });
         },
 
@@ -171,9 +171,9 @@
 
         get_passkey = function () {
             function get_access (e) {
-                var key = $('#access_code')[0].value;
+                var key = $('#access_code')[0].value.trim();
                 
-                if (!key || !key.trim()) {
+                if (!key) {
                     return;
                 }
 
