@@ -14,7 +14,7 @@
 
     collectComments();
 
-    function collectComments(options) {
+    function collectComments (options) {
         options = options || {
             part: 'id,replies,snippet',
             videoId: videoId,
@@ -65,7 +65,17 @@
 
                 comments = comments.concat(replies);
                 commenters = commenters.concat(comments);
-                console.log(commenters);
+
+                if (data.nextPageToken) {
+                    options.pageToken = data.nextPageToken;
+                    return collectComments(options);
+                }
+
+                commenters = _.uniq(commenters, function (e) {
+                    return e.title;
+                });
+
+                handleCommentators({authors: commenters});
             }
         });
     }
@@ -159,7 +169,7 @@
                         );
                 }
 
-                highlighted.forEach(function (a) {
+                highlighted && highlighted.forEach(function (a) {
                     a.removeClass('highlight');
                 });
 
