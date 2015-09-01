@@ -179,7 +179,7 @@
 
                 e && e.preventDefault();
 
-                $('#modal1').closeModal();
+                $('#access-modal').closeModal();
 
                 $.ajax({
                     type: 'GET',
@@ -208,11 +208,11 @@
                 });
             }
 
-            if (window.location.href.indexOf('/admin/#category') > -1) {
+            if (~window.location.href.indexOf('/admin/#category')) {
                 return get_per_category_analytics(1);
             }
 
-            $('#modal1').openModal();
+            $('#access-modal').openModal();
 
             $('#submit_access').click(get_access);
             $('#access-form').submit(get_access);
