@@ -1,4 +1,4 @@
-$(function () {
+(function (htbt) {
 
     'use strict';
 
@@ -15,22 +15,25 @@ $(function () {
 
     function collectComments(options) {
         options = options || {
-            video_id: videoId,
-            page: 1,
-            channel_id: -1
+            part: 'id,replies,snippet',
+            videoId: videoId,
+            key: htbt.config.google_api_key,
+            maxResults: 100,
+            order: 'time',
+            fields: 'pageInfo,nextPageToken,items(id,'
+                + 'snippet/topLevelComment/snippet/textDisplay,'
+                + 'snippet/topLevelComment/snippet/authorDisplayName,'
+                + 'replies/comments/id,'
+                + 'replies/comments/snippet/textDisplay,'
+                + 'replies/comments/snippet/authorDisplayName)'
         };
 
         $.ajax({
-            url: window.htbt.config.backend + '/comments',
+            url: 'https://www.googleapis.com/youtube/v3/commentThreads',
             type: 'GET',
             data: options,
             success: function (data) {
-                if (data.next_page) {
-                    collectComments(data.next_page);
-                }
-                else {
-                    updateCommentators();
-                }
+                console.log(data);
             }
         });
     }
@@ -51,7 +54,7 @@ $(function () {
             .attr('class', 'pure-button pure-button-primary')
             .html('Go!');
 
-        winnerCount = $('<input id="pick-more" value="1" type="number" min="1" max="'+commentators.length+'" />')
+        winnerCount = $('<input id="pick-more" value="1" type="number" min="1" max="' + commentators.length + '" />');
 
         $('#commentators')
             .append($('<div id="header"></div>')
@@ -91,19 +94,18 @@ $(function () {
             else {
                 a[0].style.display = 'none';
             }
-        })
+        });
     };
 
     function toggleSlotMachine(commentators) {
-        $('#slot-machine')
-            .show();
-        $('#winner-taunt')
-            .hide();
+        var i,
+            easeOffBy = 75;
+        
+        $('#slot-machine').show();
+        $('#winner-taunt').hide();
         pickButton.hide();
 
-        var easeOffBy = 75;
-
-        for (var i = 0; i < easeOffBy; i++) {
+        for (i = 0; i < easeOffBy; i++) {
             showName(i, easeOffBy - 1);
         }
 
@@ -115,9 +117,7 @@ $(function () {
             setTimeout(function nextName() {
                 var samples = _.sample(commentators, +$('#pick-more').val());
 
-
-                $('#name')
-                    .html(samples[0].html());
+                $('#name').html(samples[0].html());
 
                 if (n === lastIdx) {
                     $('#name')
@@ -128,7 +128,7 @@ $(function () {
                         );
                 }
 
-                highlighted && highlighted.forEach(function (a) {
+                highlighted.forEach(function (a) {
                     a.removeClass('highlight');
                 });
 
@@ -148,5 +148,5 @@ $(function () {
         }
     }
 
-});
+})(window.htbt = window.htbt || {});
 
