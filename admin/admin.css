@@ -11,6 +11,15 @@
   	margin-left: 10px;
 }
 
+#admin-index .card-panel {
+	text-align: center;
+	transition: 0.5s;
+}
+
+#admin-index .card-panel:hover {
+	background: #00796b !important;
+}
+
 .tabs {
 	display: none;
 }
@@ -50,4 +59,11 @@
 
 .select-wrapper {
 	z-index: 9999999;
+}
+
+.heartbeat_navbar #logo-container img {
+	height: 48px;
+	margin-top: 6px;
+	float: left;
+	margin-right: 20px;
 }

@@ -20,47 +20,6 @@
             toastr.error(err.responseText || 'An unexpected error occured');
         },
 
-        /*URL Logs functions*/
-
-        get_url_logs = function () {
-            $.ajax({
-                type: 'GET',
-                url: htbt.config.backend + '/url_logs',
-
-                success: function (data) {
-                    var table,
-
-                        options = {
-                            showRowNumber: true,
-                            allowHtml: true,
-                            width: '100%',
-                            height: '100%'
-                        };
-
-                    data = _(data)
-                        .map(function (e) {
-                            return [e.url, {v: e.count, f: e.count.toLocaleString()}];
-                        })
-                        .value();
-
-                    data.unshift([('string', 'URL'), ('number', 'Visits')]);
-                    data = google.visualization.arrayToDataTable(data);
-                    table = new google.visualization.Table($('#url-logs .match-container')[0]);
-
-                    table.draw(data, options);
-                },
-
-                error: function () {
-                    React.render(
-                        <htbt.admin.Error data='Unable to retrieve url logs' />,
-                        $('#url-logs .match-container')[0]
-                    );
-                }
-            });
-        },
-
-        /*End of url logs*/
-
         /*LFG Categories functions*/
 
         get_categories = function () {
@@ -371,7 +330,7 @@
             
             React.render(
                 <htbt.admin.Loader />,
-                $('#url-logs .match-container')[0]
+                $('#lfg-categories')[0]
             );
 
             session = window.location.href.split('#access_token=')[1];
@@ -398,7 +357,7 @@
                     $('#login-cont')[0]
                 );
 
-                $('#url-logs .center-align')[0].style.display = 'none';
+                $('#lfg-categories')[0].style.display = 'none';
                 return;
             }
 
@@ -480,7 +439,7 @@
                 error: function () {
                     React.render(
                         <htbt.admin.Error data='User has no access to admin panel' />,
-                        $('#url-logs .match-container')[0]
+                        $('#lfg-categories')[0]
                     );
                 }
             });
@@ -517,8 +476,7 @@
                                 active_platform = this.value;
                                 get_platform_statistic(1);
                             });
-
-                        get_url_logs();
+                            
                         get_categories();
                         get_category_poll();
                         get_platform_statistic(1);
@@ -527,7 +485,7 @@
                     error: function () {
                         React.render(
                             <htbt.admin.Error data='Access Denied' />,
-                            $('#url-logs .match-container')[0]
+                            $('#lfg-categories')[0]
                         );
                     }
                 });
