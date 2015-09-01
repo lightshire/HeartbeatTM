@@ -457,9 +457,7 @@
             this.setState({
                 sort_direction: sort_dir,
                 sort_column: col_name
-            }, function () {
-                that.on_sort && that.on_sort();
-            });
+            }, that.on_sort);
         },
 
         render_columns: function () {

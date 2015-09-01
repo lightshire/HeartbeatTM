@@ -21,13 +21,27 @@ p {
     font-size: 10px;
 }
 
+#game_filter {
+    position: relative;
+    bottom: 10px;
+}
+
+#game_filter_dropdown {
+    float: right;
+    font-size: 10px;
+}
+
+#game_dropdown {
+    width: 400px !important;
+}
+
 
 
 
 .streamers #inner_streamers .row .col .online_streamer a .card {
     cursor: pointer;
     background: #19191F;
-    height: 343px;
+    height: 346px;
 }
 
 .streamers #inner_streamers .row .col .online_streamer a .card .user_thumb {
@@ -105,7 +119,7 @@ p {
 .streamers #inner_streamers .row .col .offline_streamer a .card {
     cursor: pointer;
     background: #19191F;
-    height: 344px;
+    height: 346px;
 }
 
 .streamers #inner_streamers .row .col .offline_streamer a .card .user_thumb {
@@ -165,5 +179,14 @@ p {
 
 .offline_streamer {
     opacity: 0.4;
+}
+
+#loader {
+    text-align: center;
+}
+
+#loader img {
+    position: relative;
+    top: 150px;
 }
 
