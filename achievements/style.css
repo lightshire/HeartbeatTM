@@ -118,3 +118,7 @@ select.browser-default:focus {
 #logo-container {
 	font-size: 22px;
 }
+
+.admin-links.active {
+	background-color: rgba(0,0,0,0.1);
+}

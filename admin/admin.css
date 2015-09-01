@@ -84,3 +84,7 @@
 	font-size: 14px;
 	text-align: right;
 }
+
+.admin-links.active {
+	background-color: rgba(0,0,0,0.1);
+}
