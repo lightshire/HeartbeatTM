@@ -34,20 +34,38 @@
             type: 'GET',
             data: options,
             success: function (data) {
-                var replies,
+                var replies = [],
                     comments = _(data.items)
                         .map(function (e) {
                             var obj = {
-                                    title: e.snippet.topLevelComment.snippet.authorDisplayName,
-                                    comment: e.snippet.topLevelComment.snippet.textDisplay,
-                                    comment_id: e.id
-                                };
+                                title: e.snippet.topLevelComment.snippet.authorDisplayName,
+                                comment: e.snippet.topLevelComment.snippet.textDisplay,
+                                comment_id: e.id
+                            };
+
+                            if (e.replies) {
+                                replies = replies.concat(
+                                    _(e.replies.comments)
+                                        .map(function (j) {
+                                            var object = {
+                                                title: j.snippet.authorDisplayName,
+                                                comment: j.snippet.textDisplay,
+                                                comment_id: j.id
+                                            };
+
+                                            return object;
+                                        })
+                                        .value()
+                                );
+                            }
 
                             return obj;
                         })
                         .value();
 
-                console.log(comments);
+                comments = comments.concat(replies);
+                commenters = commenters.concat(comments);
+                console.log(commenters);
             }
         });
     }
