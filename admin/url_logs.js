@@ -86,7 +86,7 @@
 
             access_token = access_token.split('hbeat_access_token=')[1];
 
-            if (typeof(access_token) !== 'string') {
+            if (!access_token) {
                 React.render(
                     <htbt.admin.Login />,
                     $('#login-cont')[0]
@@ -113,8 +113,7 @@
                 type: 'GET',
                 url: 'http://api.accounts.freedom.tm/user',
                 headers: {'ACCESS-TOKEN': access_token},
-                success: is_admin,
-                error: _.noop
+                success: is_admin
             });
         },
 

@@ -357,7 +357,7 @@
                     $('#login-cont')[0]
                 );
 
-                $('#lfg-categories')[0].style.display = 'none';
+                $('#lfg-categories').hide();
                 return;
             }
 
