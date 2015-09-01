@@ -3,7 +3,7 @@
 <html>
 
     <head>
-        <title>Heartbeat | Administrator Panel</title>
+        <title>Heartbeat | URL Logs Analysis</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -27,13 +27,13 @@
                     </li>
 
                     <li>
-                        <a class="admin-links" href="url_logs.html">
+                        <a class="admin-links active" href="../admin/url_logs.html">
                             <span class="white-text">URL Logs</span>
                         </a>
                     </li>
 
                     <li>
-                        <a class="admin-links" href="fc_manager.html">
+                        <a class="admin-links" href="../admin/fc_manager.html">
                             <span class="white-text">F!C Manager</span>
                         </a>
                     </li>
@@ -41,7 +41,7 @@
             </div>
         </nav>
 
-        <div id="admin-index" class="container">
+        <div class="container">
             <div class="title">
                 <br>             
                 <div id="login-cont"></div>
@@ -50,18 +50,60 @@
             <div id="crm_container" class="row">
                 <div id="channel-profile" class="col s12"></div>
             </div>
-            <div id="admin-menu"></div>
+
+            <div id="admin-container" class="row">
+                <h6 id="pcat-title"></h6>
+                <div id="pcat-container" class="col s12"></div>
+                <center>
+                    <p id="pcat-pagination"></p>
+                </center>
+
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li id="url-tab" class="tab col s4"><a id="mat-a" href="#url-logs">URL Logs Analysis</a></li>
+                    </ul>
+                </div>
+
+                <div id="url-logs" class="col s12">
+                    <div class="row match-container"></div>
+                </div>
+            </div>
+
+            <div id="access-modal" class="modal">
+                <div class="modal-content">
+                    <h5>Administration Panel Security Access</h5>
+                    <div class="input-field col s12">
+                        <form id="access-form">
+                            <input id="access_code" type="password" class="validate">
+                            <label for="access_code">Access Code</label>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" id="submit_access" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+                </div>
+            </div>
         </div>
 
         <script type="text/javascript" src="../bower_components/lodash/lodash.min.js"></script>
         <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="../bower_components/toastr/toastr.min.js"></script>
         <script type="text/javascript" src="../bower_components/react/react.js"></script>
         <script src="../bower_components/react/JSXTransformer.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
         <script type="text/javascript" src="../js/init.js"></script>
         <script type="text/javascript" src="../js/config.js"></script>
+        <script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+                'name':'visualization',
+                'version':'1',
+                'packages':['table']
+            }]
+          }"></script>
         <script type="text/jsx" src="admin_tmpl.js"></script>
-        <script type="text/jsx" src="admin_menu.js"></script>
+        <script type="text/jsx" src="url_logs.js"></script>
+
     </body>
 
 </html>
