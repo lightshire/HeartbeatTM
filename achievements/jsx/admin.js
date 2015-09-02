@@ -198,6 +198,13 @@
 
         User_Rewarded_Actions = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/rewarded_actions',
+            allow_sorting: true,
+            columns: [
+                {name: 'username', title: 'Username', default_sort_direction: 'asc'},
+                {name: 'action_title', title: 'Action', default_sort_direction: 'asc'},
+                {name: 'rewarded_points', title: 'Rewarded Points'},
+                {name: 'timestamp', title: 'Date'},
+            ],
 
             render: function () {
                 var that = this;
@@ -206,20 +213,17 @@
                     <div id='rewarded_actions'>
                         <table className='striped'>
                             <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Action</th>
-                                    <th>Rewarded Points</th>
-                                    <th>Date</th>
-                                </tr>
+                                {this.render_columns()}
                             </thead>
                             <tbody>
                                 {
                                     _(this.state.data)
                                         .map(function (action) {
                                             return <tr key={action._id}>
-                                                <td><a onClick={that.on_show_user_details}>{action.username}</a><div></div></td>
-                                                <td>
+                                                <td className={that.state.sort_column === 'username' ? 'sorting' : ''}>
+                                                    <a onClick={that.on_show_user_details}>{action.username}</a><div></div>
+                                                </td>
+                                                <td className={that.state.sort_column === 'action_title' ? 'sorting' : ''}>
                                                     <div className='action_title'>
                                                         <a onClick={that.on_show_action_details}>
                                                             {action.action_title}
@@ -227,8 +231,12 @@
                                                         <htbt.Action_Details action={action} data={action.data} />
                                                     </div>
                                                 </td>
-                                                <td>{action.rewarded_points}</td>
-                                                <td>{action.timestamp}</td>
+                                                <td className={that.state.sort_column === 'rewarded_points' ? 'sorting' : ''}>
+                                                    {action.rewarded_points}
+                                                </td>
+                                                <td className={that.state.sort_column === 'timestamp' ? 'sorting' : ''}>
+                                                    {action.timestamp}
+                                                </td>
                                             </tr>;
                                         })
                                         .value()
@@ -295,11 +303,21 @@
                         item.timestamp = moment(item.timestamp).format('DD MMM YYYY HH:mm');
                     })
                     .commit();
+            },
+
+            on_sort: function () {
+                this.load_data();
             }
         })),
 
         Rewarded_Users = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/rewarded_users',
+            allow_sorting: true,
+            columns: [
+                {name: 'username', title: 'Username', default_sort_direction: 'asc'},
+                {name: 'earned_points', title: 'Rewarded Points'},
+                {name: 'last_updated', title: 'Date'}
+            ],
 
             render: function () {
                 var that = this;
@@ -308,20 +326,23 @@
                     <div id='rewarded_actions'>
                         <table className='striped'>
                             <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Rewarded Points</th>
-                                    <th>Last Update</th>
-                                </tr>
+                                {this.render_columns()}
                             </thead>
                             <tbody>
                                 {
                                     _(this.state.data)
                                         .map(function (action) {
                                             return <tr key={action._id}>
-                                                <td><a onClick={that.on_show_user_details}>{action.username}</a><div></div></td>
-                                                <td>{action.earned_points}</td>
-                                                <td>{action.last_updated}</td>
+                                                <td className={that.state.sort_column === 'username' ? 'sorting' : ''}>
+                                                    <a onClick={that.on_show_user_details}>{action.username}</a>
+                                                    <div></div>
+                                                </td>
+                                                <td className={that.state.sort_column === 'earned_points' ? 'sorting' : ''}>
+                                                    {action.earned_points}
+                                                </td>
+                                                <td className={that.state.sort_column === 'last_updated' ? 'sorting' : ''}>
+                                                    {action.last_updated}
+                                                </td>
                                             </tr>;
                                         })
                                         .value()
@@ -346,12 +367,21 @@
                         item.last_updated = moment(item.last_updated).format('DD MMM YYYY HH:mm');
                     })
                     .commit();
+            },
+
+            on_sort: function () {
+                this.load_data();
             }
         })),
 
         Rewarded_Actions = React.createClass($.extend({}, htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/rewarded_actions_stats',
             allow_paging: false,
+            allow_sorting: true,
+            columns: [
+                {name: 'action_title', title: 'Action', default_sort_direction: 'asc'},
+                {name: 'rewarded_points', title: 'Rewarded Points'}
+            ],
 
             render: function () {
                 var that = this,
@@ -361,10 +391,7 @@
                     <div id='rewarded_actions'>
                         <table className='striped'>
                             <thead>
-                                <tr>
-                                    <th>Action</th>
-                                    <th>Rewarded Points</th>
-                                </tr>
+                                {this.render_columns()}
                             </thead>
                             <tbody>
                                 {
@@ -375,14 +402,16 @@
                                             }
 
                                             return <tr key={action._id}>
-                                                <td>
+                                                <td className={that.state.sort_column === 'action_title' ? 'sorting' : ''}>
                                                     <div className='action_title'>
                                                         <a data-action={action._id} onClick={that.on_view_action_details}>
                                                             {action.action_title}
                                                         </a>
                                                     </div>
                                                 </td>
-                                                <td>{action.rewarded_points}</td>
+                                                <td className={that.state.sort_column === 'rewarded_points' ? 'sorting' : ''}>
+                                                    {action.rewarded_points}
+                                                </td>
                                             </tr>;
                                         })
                                         .value()
@@ -398,6 +427,15 @@
                     action_name = a.getAttribute('data-action');
 
                 this.props.goto_action && this.props.goto_action(action_name);
+            },
+
+            on_sort: function () {
+                var data = _(this.state.data).sortByOrder(
+                    [this.state.sort_column], 
+                    [this.state.sort_direction === 'asc']
+                );
+
+                this.setState({data: data});
             }
         })),
 
