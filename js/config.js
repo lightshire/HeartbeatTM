@@ -11,15 +11,14 @@
     htbt.config.twitter_api_key = 'bgAVUSdm5CQJOVBwXBHZoPIsb';
     htbt.config.dailymotion_data = {};
     htbt.config.twitch_dev_api_key = 'pg40jcdu6to0tk17gs4az88bq8m3q7';
-    //htbt.config.backend = 'https://localhost:4433';
     htbt.config.instagram_api_key = 'bf4496692aa246c08c9b0991659b2d23';
 
     if (htbt.env === 'dev') {
-        //htbt.config.backend = 'https://www.you1tube.dev';
+        htbt.config.backend = 'https://www.you1tube.dev';
         htbt.config.twitch_api_key = 'iwbv72elcu5o8zog635dvppt905xxkq';
     }
     else {
-        //htbt.config.backend = 'https://www.you1tube.com';
+        htbt.config.backend = 'https://www.you1tube.com';
         htbt.config.twitch_api_key = 'iwbv72elcu5o8zog635dvppt905xxkq';
     }
     
@@ -42,4 +41,7 @@
         htbt.config.login_url = 'http://api.accounts.freedom.tm/auth';
     }
 
+    // for dev local - remove it when use live server
+    htbt.config.backend = 'https://localhost:4433';
+    htbt.config.auth_page = 'http://localhost:7676/auth/';
 })(window.htbt = window.htbt || {});
