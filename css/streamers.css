@@ -21,6 +21,10 @@ p {
     font-size: 10px;
 }
 
+.filter p label {
+    margin-right: 20px;
+}
+
 #game_filter {
     position: relative;
     bottom: 10px;
@@ -35,6 +39,11 @@ p {
     width: 400px !important;
 }
 
+.platform_icon {
+    width: 22px;
+    border-radius: 2px 2px 2px 2px;
+    float: right;
+}
 
 
 
