@@ -84,6 +84,12 @@
 
         User_Rewarded_Actions = React.createClass($.extend(htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/reward/user_actions',
+            allow_sorting: true,
+            columns: [
+                {name: 'action_title', title: 'Action', default_sort_direction: 'asc'},
+                {name: 'rewarded_points', title: 'Rewarded Points'},
+                {name: 'timestamp', title: 'Date'},
+            ],
 
             render: function () {
                 var that = this;
@@ -92,18 +98,14 @@
                     React.createElement("div", {id: "rewarded_actions"}, 
                         React.createElement("table", {className: "striped"}, 
                             React.createElement("thead", null, 
-                                React.createElement("tr", null, 
-                                    React.createElement("th", null, "Action"), 
-                                    React.createElement("th", null, "Rewarded Points"), 
-                                    React.createElement("th", null, "Date")
-                                )
+                                this.render_columns()
                             ), 
                             React.createElement("tbody", null, 
                                 
                                     _(this.state.data)
                                         .map(function (action) {
                                             return React.createElement("tr", {key: action._id}, 
-                                                React.createElement("td", null, 
+                                                React.createElement("td", {className: that.state.sort_column === 'action_title' ? 'sorting' : ''}, 
                                                     React.createElement("div", {className: "action_title"}, 
                                                         React.createElement("a", {onClick: that.on_show_action_details}, 
                                                             action.action_title
@@ -111,8 +113,12 @@
                                                         React.createElement(htbt.Action_Details, {action: action, data: action.data})
                                                     )
                                                 ), 
-                                                React.createElement("td", null, action.rewarded_points), 
-                                                React.createElement("td", null, action.timestamp)
+                                                React.createElement("td", {className: that.state.sort_column === 'rewarded_points' ? 'sorting' : ''}, 
+                                                    action.rewarded_points
+                                                ), 
+                                                React.createElement("td", {className: that.state.sort_column === 'rewarded_points' ? 'sorting' : ''}, 
+                                                    action.timestamp
+                                                )
                                             );
                                         })
                                         .value()
@@ -145,11 +151,20 @@
                         item.timestamp = moment(item.timestamp).format('DD MMM YYYY HH:mm');
                     })
                     .commit();
+            },
+
+            on_sort: function () {
+                this.load_data();
             }
         })),
 
         Rewarded_Actions_Stats = React.createClass($.extend(htbt.common_grid, {
             data_endpoint: htbt.config.backend + '/user_actions_stats',
+            allow_sorting: true,
+            columns: [
+                {name: 'action_title', title: 'Action', default_sort_direction: 'asc'},
+                {name: 'rewarded_points', title: 'Rewarded Points'}
+            ],
 
             render: function () {
                 var that = this,
@@ -161,18 +176,19 @@
                     React.createElement("div", {id: "rewarded_actions"}, 
                         React.createElement("table", {className: "striped"}, 
                             React.createElement("thead", null, 
-                                React.createElement("tr", null, 
-                                    React.createElement("th", null, "Action"), 
-                                    React.createElement("th", null, "Rewarded Points")
-                                )
+                                this.render_columns()
                             ), 
                             React.createElement("tbody", null, 
                                 
                                     _(this.state.data)
                                         .map(function (action) {
                                             return React.createElement("tr", {key: action._id}, 
-                                                React.createElement("td", null, action.action_title), 
-                                                React.createElement("td", null, action.rewarded_points)
+                                                React.createElement("td", {className: that.state.sort_column === 'action_title' ? 'sorting' : ''}, 
+                                                    action.action_title
+                                                ), 
+                                                React.createElement("td", {className: that.state.sort_column === 'rewarded_points' ? 'sorting' : ''}, 
+                                                    action.rewarded_points
+                                                )
                                             );
                                         })
                                         .value()
@@ -181,6 +197,15 @@
                         )
                     )
                 );
+            },
+
+            on_sort: function () {
+                var data = _(this.state.data).sortByOrder(
+                    [this.state.sort_column], 
+                    [this.state.sort_direction === 'asc']
+                );
+
+                this.setState({data: data});
             }
         })),
 

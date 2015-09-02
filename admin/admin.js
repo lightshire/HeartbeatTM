@@ -357,7 +357,7 @@
                     $('#login-cont')[0]
                 );
 
-                $('#lfg-categories')[0].style.display = 'none';
+                $('#lfg-categories').hide();
                 return;
             }
 
@@ -431,11 +431,20 @@
             $.ajax({
                 type: 'GET',
                 url: htbt.config.backend + '/admin',
-
                 data: {email: e.email},
+                success: function () {
+                    $('#platform-select').material_select();
 
-                success:get_passkey,
-
+                    $('#platform-select')
+                        .change(function () {
+                            active_platform = this.value;
+                            get_platform_statistic(1);
+                        });
+                        
+                    get_categories();
+                    get_category_poll();
+                    get_platform_statistic(1);
+                },
                 error: function () {
                     React.render(
                         <htbt.admin.Error data='User has no access to admin panel' />,
@@ -443,62 +452,6 @@
                     );
                 }
             });
-        },
-
-        get_passkey = function () {
-            function get_access (e) {
-                var key = $('#access_code')[0].value;
-                
-                if (!key || key === ' ') {
-                    return;
-                }
-
-                if (e) {
-                    e.preventDefault();
-                }
-
-                $('#modal1').closeModal();
-
-                $.ajax({
-                    type: 'GET',
-                    url: htbt.config.backend + '/admin/get_access',
-
-                    data: {
-                        email: email,
-                        key: key
-                    },
-
-                    success: function () {
-                        $('#platform-select').material_select();
-
-                        $('#platform-select')
-                            .change(function () {
-                                active_platform = this.value;
-                                get_platform_statistic(1);
-                            });
-                            
-                        get_categories();
-                        get_category_poll();
-                        get_platform_statistic(1);
-                    },
-
-                    error: function () {
-                        React.render(
-                            <htbt.admin.Error data='Access Denied' />,
-                            $('#lfg-categories')[0]
-                        );
-                    }
-                });
-            }
-
-            if (window.location.href.indexOf('/admin/#category') > -1) {
-                return get_per_category_analytics(1);
-            }
-
-            $('#modal1').openModal();
-
-            $('#submit_access').click(get_access);
-            $('#access-form').submit(get_access);
         };
 
         /*End of login functions*/

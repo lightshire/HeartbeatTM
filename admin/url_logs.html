@@ -3,7 +3,8 @@
 <html>
 
     <head>
-        <title>Heartbeat | Administrator Panel</title>
+        <title>Heartbeat | URL Logs Analysis</title>
+        <link rel="icon" type="image/png" href="../images/favicon-hb-16x16.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -12,11 +13,38 @@
 
 
     <body>
+        <nav class='heartbeat_navbar red darken-2' role='navigation'>
+            <div class='nav-wrapper container row'>
+                <a id='logo-container' href='../admin' class='brand-logo col s5'>
+                    <img src='../images/beating-heart-shadownew.png' />
+                    Heartbeat Admin Panel
+                </a>
+
+                <ul id="nav-links" class="right">
+                    <li>
+                        <a class="admin-links" href="../achievements/admin.html">
+                            <span class="white-text">Achievements Admin</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="admin-links active" href="../admin/url_logs.html">
+                            <span class="white-text">URL Logs</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="admin-links" href="../admin/fc_manager.html">
+                            <span class="white-text">F!C Manager</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container">
-            <br><br>
             <div class="title">
-                <h5>Administrator Panel</h5>
-                
+                <br>             
                 <div id="login-cont"></div>
             </div>
             <br>
@@ -42,7 +70,7 @@
                 </div>
             </div>
 
-            <div id="modal1" class="modal">
+            <div id="access-modal" class="modal">
                 <div class="modal-content">
                     <h5>Administration Panel Security Access</h5>
                     <div class="input-field col s12">

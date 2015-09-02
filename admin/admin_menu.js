@@ -3,7 +3,6 @@
 
     var access_token,
         email,
-        active_platform = 'all',
         channel = {},
 
         get_id = function (e, tok) {
@@ -20,55 +19,12 @@
             toastr.error(err.responseText || 'An unexpected error occured');
         },
 
-        /*URL Logs functions*/
-
-        get_url_logs = function () {
-            $.ajax({
-                type: 'GET',
-                url: htbt.config.backend + '/url_logs',
-
-                success: function (data) {
-                    var table,
-
-                        options = {
-                            showRowNumber: true,
-                            allowHtml: true,
-                            width: '100%',
-                            height: '100%'
-                        };
-
-                    data = _(data)
-                        .map(function (e) {
-                            return [e.url, {v: e.count, f: e.count.toLocaleString()}];
-                        })
-                        .value();
-
-                    data.unshift([('string', 'URL'), ('number', 'Visits')]);
-                    data = google.visualization.arrayToDataTable(data);
-                    table = new google.visualization.Table($('#url-logs .match-container')[0]);
-
-                    table.draw(data, options);
-                },
-
-                error: function () {
-                    React.render(
-                        <htbt.admin.Error data='Unable to retrieve url logs' />,
-                        $('#url-logs .match-container')[0]
-                    );
-                }
-            });
-        },
-
-        /*End of url logs*/
-
         /*Login functions*/
 
         is_signed_in = function () {
-            $('.tabs').show();
-            
             React.render(
                 <htbt.admin.Loader />,
-                $('#url-logs .match-container')[0]
+                $('#admin-menu')[0]
             );
 
             access_token = window.location.href.split('#access_token=')[1];
@@ -90,7 +46,8 @@
                     $('#login-cont')[0]
                 );
 
-                $('#url-logs .center-align:eq(0)').hide();
+                $('#nav-links').hide();
+                $('#admin-menu').hide();
                 return;
             }
 
@@ -159,12 +116,15 @@
                 url: htbt.config.backend + '/admin',
                 data: {email: e.email},
                 success: function () {
-                    get_url_logs();
-                },
+                    React.render(
+                        <htbt.admin.Error data='Welcome to Heartbeat Administrator Panel!' />,
+                        $('#admin-menu')[0]
+                    );                },
                 error: function () {
+                    $('#nav-links').hide();
                     React.render(
                         <htbt.admin.Error data='User has no access to admin panel' />,
-                        $('#url-logs .match-container')[0]
+                        $('#admin-menu')[0]
                     );
                 }
             });

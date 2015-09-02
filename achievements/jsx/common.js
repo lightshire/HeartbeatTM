@@ -324,18 +324,35 @@
         }
     });
 
+    htbt.Sort_Icons = React.createClass({
+        render: function () {
+            return (
+                <span className='sort_icons'>
+                    <i className='fa fa-sort-asc'></i>
+                    <i className='fa fa-sort-desc'></i>
+                </span>
+            );
+        }
+    });
+
     htbt.common_grid = {
         min_page: 1,
         max_page: 1,
         page_size: 10,
         allow_paging: true,
+        allow_sorting: false,
 
         getInitialState: function() {
             return {
                 data: [],
                 current_page: 0,
                 total_pages: 0,
-                filter: {}
+                filter: {},
+                sort_column: null,
+                sort_direction: null,
+                columns: this.columns || [],
+                allow_sorting: this.allow_sorting,
+                allow_paging: this.allow_paging
             };
         },
 
@@ -417,6 +434,58 @@
             </div>;
         },
 
+        trigger_sort_column: function (evt) {
+            var target = evt.currentTarget,
+                col_name = target.getAttribute('data-sort-col'),
+                column = _(this.state.columns).find({name: col_name}),
+                default_dir = (column && column.default_sort_direction) || 'desc',
+                sort_dir = this.state.sort_direction;
+
+            if (col_name !== this.state.sort_column) {
+                sort_dir = default_dir;
+            } 
+            else {
+                if (sort_dir === 'asc') {
+                    sort_dir = 'desc';
+                }
+                else if (sort_dir === 'desc') {
+                    sort_dir = 'asc';
+                }
+            }
+
+            this.setState({
+                sort_direction: sort_dir,
+                sort_column: col_name
+            }, this.on_sort);
+        },
+
+        render_columns: function () {
+            var that = this,
+                sort_direction = this.state.sort_direction || '',
+                sort_icons;
+
+            if (this.state.allow_sorting) {
+                sort_icons = <htbt.Sort_Icons />;
+            }
+
+            return <tr>
+                {
+                    _(this.state.columns)
+                        .map(function (column) {
+                            return <th className={column.name === that.state.sort_column ? 'sorted_column ' + sort_direction : ''}>
+                                <div data-sort-col={column.name} 
+                                    className={that.state.allow_sorting ? 'sort_trigger' : ''} 
+                                    onClick={that.trigger_sort_column}>
+                                    {column.title}
+                                    {sort_icons}
+                                </div>
+                            </th>
+                        })
+                        .value()
+                }
+            </tr>;
+        },
+
         load_data: function (current_page) {
             var that = this,
                 skip = this.allow_paging ? (current_page || 0) * this.page_size: undefined,
@@ -429,7 +498,12 @@
 
                 this.loading = ++counter;
 
-                that.on_filter && that.on_filter(filter);
+                this.on_filter && this.on_filter(filter);
+
+                if (this.state.allow_sorting) {
+                    filter.sort = this.state.sort_column || '';
+                    filter.sort_dir = this.state.sort_direction || '';
+                }
 
                 $('#loading').show();
                 $.get(this.data_endpoint, filter)
