@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Heartbeat | F!C Manager</title>
+        <link rel="icon" type="image/png" href="../images/favicon-hb-16x16.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="admin.css">
+    </head>
+
+    <body>
+        <nav class='heartbeat_navbar red darken-2' role='navigation'>
+            <div class='nav-wrapper container row'>
+                <a id='logo-container' href='../admin' class='brand-logo col s5'>
+                    <img src='../images/beating-heart-shadownew.png' />
+                    Heartbeat Admin Panel
+                </a>
+
+                <ul id="nav-links" class="right">
+                    <li>
+                        <a class="admin-links" href="../achievements/admin.html">
+                            <span class="white-text">Achievements Admin</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="admin-links" href="../admin/url_logs.html">
+                            <span class="white-text">URL Logs</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="admin-links active" href="../admin/fc_manager.html">
+                            <span class="white-text">F!C Manager</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="title">
+                <br>
+                <div id="login-cont"></div>
+            </div>
+            <br>
+            <div id="crm_container" class="row">
+                <div id="channel-profile" class="col s12"></div>
+            </div>
+
+            <div id="admin-container" class="row">
+                <h6 id="pcat-title"></h6>
+                <div id="pcat-container" class="col s12"></div>
+                <center>
+                    <p id="pcat-pagination"></p>
+                </center>
+
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li id="lfg-tab" class="tab col s4"><a id="mat-b" href="#lfg-categories">F!C Categories</a></li>
+                        <li id="lfg-ana" class="tab col s4"><a id="mat-c" href="#lfg-analytics">F!C Analytics</a></li>
+                    </ul>
+                </div>
+
+                <div id="lfg-categories" class="col s12"></div>
+                <div id="lfg-analytics" class="col s12">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s3"><a href="#lfg-pol">Category Poll</a></li>
+                            <li class="tab col s3"><a href="#lfg-pla">Platform Statistics</a></li>
+                        </ul>
+                    </div>
+                    <div id="lfg-pol" class="col s12"></div>
+                    <div id="lfg-pla" class="col s12">
+                        <div class="input-field col s5 offset-s7">
+                            <label>Selected Platform</label>
+                            <select id="platform-select">
+                                <option value="all">All</option>
+                                <option value="youtube">Youtube</option>
+                                <option value="twitch">Twitch</option>
+                                <option value="hitbox">Hitbox</option>
+                            </select>
+                        </div>
+                        <div id="lfg-pla-table"></div>
+                        <center>
+                            <p id="lfg-pla-pagination"></p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h5>Administration Panel Security Access</h5>
+                    <div class="input-field col s12">
+                        <form id="access-form">
+                            <input id="access_code" type="password" class="validate">
+                            <label for="access_code">Access Code</label>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" id="submit_access" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="../bower_components/lodash/lodash.min.js"></script>
+        <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="../bower_components/toastr/toastr.min.js"></script>
+        <script type="text/javascript" src="../bower_components/react/react.js"></script>
+        <script src="../bower_components/react/JSXTransformer.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+        <script type="text/javascript" src="../js/bootpag.js"></script>
+        <script type="text/javascript" src="../js/init.js"></script>
+        <script type="text/javascript" src="../js/config.js"></script>
+        <script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+                'name':'visualization',
+                'version':'1',
+                'packages':['table']
+            }]
+          }"></script>
+        <script type="text/jsx" src="admin_tmpl.js"></script>
+        <script type="text/jsx" src="admin.js"></script>
+
+    </body>
+
+</html>

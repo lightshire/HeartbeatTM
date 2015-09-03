@@ -35,5 +35,4 @@
 
     window.signinCallback = signinCallback; // so that signing button can see
 
-
 })(window.document, window.htbt = window.htbt || {}, window.chrome, window, window.swal);

@@ -11,6 +11,19 @@
   	margin-left: 10px;
 }
 
+#logo-container {
+	font-size: 22px;
+}
+
+#admin-index .card-panel {
+	text-align: center;
+	transition: 0.5s;
+}
+
+#admin-index .card-panel:hover {
+	background: #00796b !important;
+}
+
 .tabs {
 	display: none;
 }
@@ -50,4 +63,28 @@
 
 .select-wrapper {
 	z-index: 9999999;
+}
+
+.heartbeat_navbar #logo-container img {
+	height: 48px;
+	margin-top: 6px;
+	float: left;
+	margin-right: 20px;
+}
+
+#nav-links {
+	list-style: none;
+}
+
+#nav-links li {
+	display: inline-block;
+}
+
+.admin-links {
+	font-size: 14px;
+	text-align: right;
+}
+
+.admin-links.active {
+	background-color: rgba(0,0,0,0.1);
 }
