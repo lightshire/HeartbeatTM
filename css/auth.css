@@ -1,0 +1,35 @@
+
+body {
+	background: #eeeeee
+}
+
+.jumbotron p {
+	text-align: center;
+}
+
+#container {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.login-button {
+	width: 280px !important;
+	height: 44px !important;
+	border: none !important;
+	padding: 0 !important;
+	margin: 25px auto !important;
+	cursor: pointer;
+}
+
+.login-button:hover {
+	opacity: 0.9;
+}
+
+#facebook-login-button img {
+	width: 100%;
+	height: 100%;
+}
+
+#fb-status {
+	text-align: center;
+}

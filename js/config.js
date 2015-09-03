@@ -7,7 +7,12 @@
     htbt.config.google_api_key = 'AIzaSyBFAShlZr9tBGQBjtyN_IY9-SbVVn-fMcc';
     htbt.config.extension_id = 'aailiojlhjbichheofhdpcongebcgcgm';
     htbt.config.dailymotion_api_key = 'fb0e94b9cd1d6ca3c69f';
+    htbt.config.facebook_app_id = '789564111159166';
+    htbt.config.twitter_api_key = 'bgAVUSdm5CQJOVBwXBHZoPIsb';
     htbt.config.dailymotion_data = {};
+    htbt.config.twitch_dev_api_key = 'pg40jcdu6to0tk17gs4az88bq8m3q7';
+    htbt.config.instagram_api_key = 'bf4496692aa246c08c9b0991659b2d23';
+    htbt.config.auth_page = 'http://www.heartbeat.tm/auth/';
 
     if (htbt.env === 'dev') {
         htbt.config.backend = 'https://localhost';
