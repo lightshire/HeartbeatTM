@@ -1,47 +1,82 @@
-$(function () {
+(function (htbt) {
 
     'use strict';
 
     var videoId = window.htbt.util.getVideoId(window.location.href),
-        // getCommentatorsUrl = window.htbt.config.backend +
-        getCommentatorsUrl = 'http://localhost' +
-        '/get_comment_authors?video_id=' + videoId,
         pickButton,
         winnerCount,
+        commenters = [],
         elements = [],
         highlighted;
 
     collectComments();
 
-    function collectComments(options) {
+    function collectComments (options) {
         options = options || {
-            video_id: videoId,
-            page: 1,
-            channel_id: -1
+            part: 'id,replies,snippet',
+            videoId: videoId,
+            key: htbt.config.google_api_key,
+            maxResults: 100,
+            order: 'time',
+            fields: 'pageInfo,nextPageToken,items(id,'
+                + 'snippet/topLevelComment/snippet/textDisplay,'
+                + 'snippet/topLevelComment/snippet/authorDisplayName,'
+                + 'replies/comments/id,'
+                + 'replies/comments/snippet/textDisplay,'
+                + 'replies/comments/snippet/authorDisplayName)'
         };
 
         $.ajax({
-            url: window.htbt.config.backend + '/comments',
+            url: 'https://www.googleapis.com/youtube/v3/commentThreads',
             type: 'GET',
             data: options,
             success: function (data) {
-                if (data.next_page) {
-                    collectComments(data.next_page);
+                var replies = [],
+                    comments = _(data.items)
+                        .map(function (e) {
+                            var obj = {
+                                title: e.snippet.topLevelComment.snippet.authorDisplayName,
+                                comment: e.snippet.topLevelComment.snippet.textDisplay,
+                                comment_id: e.id
+                            };
+
+                            if (e.replies) {
+                                replies = replies.concat(
+                                    _(e.replies.comments)
+                                        .map(function (j) {
+                                            return {
+                                                title: j.snippet.authorDisplayName,
+                                                comment: j.snippet.textDisplay,
+                                                comment_id: j.id
+                                            };
+                                        })
+                                        .value()
+                                );
+                            }
+
+                            return obj;
+                        })
+                        .value();
+
+                comments = comments.concat(replies);
+                commenters = commenters.concat(comments);
+
+                if (data.nextPageToken) {
+                    options.pageToken = data.nextPageToken;
+                    return collectComments(options);
                 }
-                else {
-                    updateCommentators();
-                }
+
+                commenters = _.uniq(commenters, function (e) {
+                    return e.title;
+                });
+
+                handleCommentators({authors: commenters});
             }
         });
     }
 
-    function updateCommentators() {
-        $.getJSON(getCommentatorsUrl, handleCommentators);
-    }
-
     function handleCommentators(response) {
-        $('.loader')
-            .hide();
+        $('.loader').hide();
 
         displayCommentators(response.authors);
     }
@@ -51,7 +86,7 @@ $(function () {
             .attr('class', 'pure-button pure-button-primary')
             .html('Go!');
 
-        winnerCount = $('<input id="pick-more" value="1" type="number" min="1" max="'+commentators.length+'" />')
+        winnerCount = $('<input id="pick-more" value="1" type="number" min="1" max="' + commentators.length + '" />');
 
         $('#commentators')
             .append($('<div id="header"></div>')
@@ -91,19 +126,18 @@ $(function () {
             else {
                 a[0].style.display = 'none';
             }
-        })
+        });
     };
 
     function toggleSlotMachine(commentators) {
-        $('#slot-machine')
-            .show();
-        $('#winner-taunt')
-            .hide();
+        var i,
+            easeOffBy = 75;
+        
+        $('#slot-machine').show();
+        $('#winner-taunt').hide();
         pickButton.hide();
 
-        var easeOffBy = 75;
-
-        for (var i = 0; i < easeOffBy; i++) {
+        for (i = 0; i < easeOffBy; i++) {
             showName(i, easeOffBy - 1);
         }
 
@@ -115,9 +149,7 @@ $(function () {
             setTimeout(function nextName() {
                 var samples = _.sample(commentators, +$('#pick-more').val());
 
-
-                $('#name')
-                    .html(samples[0].html());
+                $('#name').html(samples[0].html());
 
                 if (n === lastIdx) {
                     $('#name')
@@ -148,5 +180,5 @@ $(function () {
         }
     }
 
-});
+})(window.htbt = window.htbt || {});
 

@@ -3,7 +3,8 @@
 <html>
 
     <head>
-        <title>Heartbeat | Online Twitch Streamers with Heartbeat Game Stats</title>
+        <title>Heartbeat Streamers</title>
+        <link rel="icon" type="image/png" href="images/favicon-hb-16x16.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
         <link rel="stylesheet" type="text/css" href="css/streamers.css">
@@ -14,11 +15,19 @@
 
         <div class="container">
             <div class="title">
-                <h5>Heartbeat / Twitch Streamers</h5> </div>
+                <h5><img class="heartbeat_logo" src="https://s3.amazonaws.com/heartbeat.asset/logo.png?2"/> Heartbeat Streamers</h5>
+            </div>
+            <div id="loader">
+                <img id="loader_img" src="/images/282.GIF"/>
+            </div>
+            <div id="game_filter_dropdown" style="display: none;">
+                <a id="trigger_dropdown" class='dropdown-button btn' href='#' data-activates='game_dropdown'>All games</a>
+                <ul id='game_dropdown' class='dropdown-content'></ul>
+            </div>
             <div id="streamers" class="streamers">
             </div>
         </div>
-
+ 
         <!-- <script type="text/javascript" src="node_modules/riot/riot.min.js"></script>
         <script type="text/javascript" src="js/riot_components/streamers.js"></script>
         <script type="text/javascript">
@@ -29,13 +38,15 @@
         <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/react/react.js"></script>
+        <script type="text/javascript" src="bower_components/jquery.lazyload/jquery.lazyload.js"></script>
+        <script type="text/javascript" src="bower_components/jquery.lazyload/jquery.scrollstop.js"></script>
         <script src="bower_components/react/JSXTransformer.js"></script>
         <script type="text/javascript" src="bower_components/toastr/toastr.min.js"></script>
         <script type="text/javascript" src="js/init.js"></script>
         <script type="text/javascript" src="js/config.js"></script>
         <script type="text/javascript" src="js/util.js"></script>
         <script type="text/jsx" src="js/streamers.js"></script>
-
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
     </body>
 
 </html>

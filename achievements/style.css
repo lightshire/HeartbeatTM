@@ -2,6 +2,10 @@
 	margin-top: 30px;
 }
 
+a {
+	cursor: pointer;
+}
+
 .heartbeat_navbar #logo-container img {
 	height: 48px;
 	margin-top: 6px;
@@ -69,3 +73,81 @@
 	right: 0;
 	z-index: 100;
 }
+
+.select-wrapper {
+	margin-top: 0;
+}
+
+select.browser-default {
+	border: none;
+	border-bottom: 1px solid #9e9e9e;
+}
+
+select.browser-default:focus {
+    border-bottom: 1px solid #26a69a;
+    box-shadow: 0 1px 0 0 #26a69a;
+    outline: none;
+}
+
+#tab_user_achievement {
+	margin-bottom: 20px;
+	border-bottom: 1px solid #f6b2b5;
+}
+
+#log_out_container {
+	float: right;
+}
+
+.error_message {
+	color: #F44336;
+}
+
+.sort_icons .fa-sort-asc,
+.sort_icons .fa-sort-desc {
+	color: #aaa;
+}
+
+.sorted_column.desc .sort_icons .fa-sort-desc,
+.sorted_column.asc .sort_icons .fa-sort-asc {
+	color: #000;
+}
+
+.sort_icons {
+	position: relative;
+	margin-left: 5px;
+	display: inline-block;
+}
+
+.sort_icons .fa-sort-asc {
+	position: absolute;
+}
+
+.sort_trigger {
+	cursor: pointer;
+}
+
+td.sorting {
+	background: rgba(227, 227, 227, 0.75);
+}
+
+#nav-links {
+	list-style: none;
+}
+
+#nav-links li {
+	display: inline-block;
+}
+
+.admin-links {
+	font-size: 14px;
+	text-align: right;
+}
+
+#logo-container {
+	font-size: 22px;
+}
+
+.admin-links.active {
+	background-color: rgba(0,0,0,0.1);
+}
+
