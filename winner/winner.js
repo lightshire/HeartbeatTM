@@ -3,9 +3,6 @@
     'use strict';
 
     var videoId = window.htbt.util.getVideoId(window.location.href),
-        // getCommentatorsUrl = window.htbt.config.backend +
-        getCommentatorsUrl = 'http://localhost' +
-        '/get_comment_authors?video_id=' + videoId,
         pickButton,
         winnerCount,
         commenters = [],
@@ -76,10 +73,6 @@
                 handleCommentators({authors: commenters});
             }
         });
-    }
-
-    function updateCommentators() {
-        $.getJSON(getCommentatorsUrl, handleCommentators);
     }
 
     function handleCommentators(response) {
