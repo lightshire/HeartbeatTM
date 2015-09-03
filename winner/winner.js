@@ -47,13 +47,11 @@
                                 replies = replies.concat(
                                     _(e.replies.comments)
                                         .map(function (j) {
-                                            var object = {
+                                            return {
                                                 title: j.snippet.authorDisplayName,
                                                 comment: j.snippet.textDisplay,
                                                 comment_id: j.id
                                             };
-
-                                            return object;
                                         })
                                         .value()
                                 );
