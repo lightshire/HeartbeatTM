@@ -95,11 +95,8 @@
                 },
                 process_stream_preview = function (platform, preview, status) {
                     var bg,
-                        img = false;
-                    if (preview) {
-                        img = preview;
-                    }
-                    
+                        img = preview || false;
+                        
                     if (!img) {
                         switch(platform) {
                             case 'Hitbox':
