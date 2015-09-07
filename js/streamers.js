@@ -95,23 +95,28 @@
                 },
                 process_stream_preview = function (platform, preview, status) {
                     var bg,
-                        img = '';
+                        img = false;
                     if (preview) {
                         img = preview;
-                    } else {
-                        if (!platform) {
-                            img = 'images/noprevtw.jpg';
-                        }
-                        if (platform === 'Hitbox') {
-                            img = 'images/noprevhb.jpg';
-                        }
-                        if (platform === 'Dailymotion') {
-                            img = 'images/noprevdm.jpg';
-                        }
-                        if (!platform === 'YouTube Gaming') {
-                            img = 'images/noprevgy.jpg';
+                    }
+                    
+                    if (!img) {
+                        switch(platform) {
+                            case 'Hitbox':
+                                img = 'images/noprevhb.jpg';
+                                break;
+                            case 'Dailymotion':
+                                img = 'images/noprevdm.jpg';
+                                break;
+                            case 'Youtube Gaming':
+                                img = 'images/noprevgy.jpg';
+                                break;
+                            default:
+                                img = 'images/noprevtw.jpg';
+                                break;
                         }
                     }
+                    
                     bg = <img className='lazy stream_preview' src={img} alt={status} title={status}/>
                     return bg;
                 },
