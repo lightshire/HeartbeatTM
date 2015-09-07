@@ -7,9 +7,9 @@
                 return (<div id="modal1" className="modal modal-fixed-footer">
                             <div className="modal-content">
                                 <h4>User Guide</h4>
-                                <p>This feature allows users of Heartbeat to be able to see your game statistics from 
+                                <p>This feature allows users of Heartbeat to be able to see your game statistics from
                                 different streaming platforms. Let us start.</p>
-                                <p>First you need to have an account on at least one of these platforms: Twitch, Dailymotion, and Hitbox. 
+                                <p>First you need to have an account on at least one of these platforms: Twitch, Dailymotion, and Hitbox.
                                 Then log-in to them via these links. You can enter all accounts if you want.</p>
                                 <img width="100%" src="assets/step1.png" />
                                 <p>Enter your game information on the fields corresponding to the games you want your stats to be shown.</p>
@@ -296,7 +296,7 @@
             componentDidMount: function () {
                 var hitbox_username = this.get_cookie('hitbox'),
                     data = {};
-                
+
                 /*---Hitbox Auth---*/
                 if (hitbox_username) {
                     $('#fields').show();
@@ -441,7 +441,7 @@
                 });
             }
         }),
-    
+
         Loader = React.createClass({
             render: function () {
                 return (<div id="preloader" className="center-align">
