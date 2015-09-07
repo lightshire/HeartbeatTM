@@ -96,19 +96,19 @@
                 process_stream_preview = function (platform, preview, status) {
                     var bg;
                     if (preview) {
-                        bg = <img className='lazy' src={preview} alt={status} title={status}/>
+                        bg = <img className='lazy stream_preview' src={preview} alt={status} title={status}/>
                     }
                     if (!preview && !platform) {
-                        bg = <img className='lazy' src='images/noprevtw.jpg' alt={status} title={status}/>
+                        bg = <img className='lazy stream_preview' src='images/noprevtw.jpg' alt={status} title={status}/>
                     }
                     if (!preview && platform === 'Hitbox') {
-                        bg = <img className='lazy' src='images/noprevhb.jpg' alt={status} title={status}/>
+                        bg = <img className='lazy stream_preview' src='images/noprevhb.jpg' alt={status} title={status}/>
                     }
                     if (!preview && platform === 'Dailymotion') {
-                        bg = <img className='lazy' src='images/noprevdm.jpg' alt={status} title={status}/>
+                        bg = <img className='lazy stream_preview' src='images/noprevdm.jpg' alt={status} title={status}/>
                     }
                     if (!preview && platform === 'YouTube Gaming') {
-                        bg = <img className='lazy' src='images/noprevgy.jpg' alt={status} title={status}/>
+                        bg = <img className='lazy stream_preview' src='images/noprevgy.jpg' alt={status} title={status}/>
                     }
                     return bg;
                 },

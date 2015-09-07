@@ -45,6 +45,11 @@ p {
     float: right;
 }
 
+.stream_preview {
+    width: 260.25px;
+    height: 146px;
+}
+
 
 
 .streamers #inner_streamers .row .col .online_streamer a .card {
