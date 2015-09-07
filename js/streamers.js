@@ -94,22 +94,25 @@
                     return img;
                 },
                 process_stream_preview = function (platform, preview, status) {
-                    var bg;
+                    var bg,
+                        img = '';
                     if (preview) {
-                        bg = <img className='lazy stream_preview' src={preview} alt={status} title={status}/>
+                        img = preview;
+                    } else {
+                        if (!platform) {
+                            img = 'images/noprevtw.jpg';
+                        }
+                        if (platform === 'Hitbox') {
+                            img = 'images/noprevhb.jpg';
+                        }
+                        if (platform === 'Dailymotion') {
+                            img = 'images/noprevdm.jpg';
+                        }
+                        if (!platform === 'YouTube Gaming') {
+                            img = 'images/noprevgy.jpg';
+                        }
                     }
-                    if (!preview && !platform) {
-                        bg = <img className='lazy stream_preview' src='images/noprevtw.jpg' alt={status} title={status}/>
-                    }
-                    if (!preview && platform === 'Hitbox') {
-                        bg = <img className='lazy stream_preview' src='images/noprevhb.jpg' alt={status} title={status}/>
-                    }
-                    if (!preview && platform === 'Dailymotion') {
-                        bg = <img className='lazy stream_preview' src='images/noprevdm.jpg' alt={status} title={status}/>
-                    }
-                    if (!preview && platform === 'YouTube Gaming') {
-                        bg = <img className='lazy stream_preview' src='images/noprevgy.jpg' alt={status} title={status}/>
-                    }
+                    bg = <img className='lazy stream_preview' src={img} alt={status} title={status}/>
                     return bg;
                 },
                 hide_all = function () {
